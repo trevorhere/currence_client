@@ -5,8 +5,8 @@ import { RouteComponentProps } from 'react-router-dom';
 const Signup: React.FC<RouteComponentProps> = (props) => {
 
 
-  const [email, setEmail] = useState<String>('');
-  const [password, setPassword] = useState<String>('');  
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');  
 
 
   return ( getCurrentUser?  props.history.push("/") : 

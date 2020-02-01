@@ -11,8 +11,8 @@ const reRoute = (props):void =>{
 
 const Signin: React.FC<RouteComponentProps>  = (props) => {
 
-  const [email, setEmail] = useState<String>('');
-  const [password, setPassword] = useState<String>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [user, setUser] = useState<User| null>(null);
   
   useEffect(() => {
