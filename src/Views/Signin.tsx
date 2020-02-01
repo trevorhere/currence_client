@@ -6,7 +6,7 @@ import { RouteComponentProps } from 'react-router-dom';
 
 
 const reRoute = (props):void =>{
-  props.history.push("/")
+  props.history.push("/home")
 }
 
 const Signin: React.FC<RouteComponentProps>  = (props) => {
