@@ -1,12 +1,11 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import logo from '../Assets/logo.svg';
 import { BrowserRouter as Router, Route, Link, RouteComponentProps} from 'react-router-dom';
 import Feed from './Feed';
 import Story from './Story';
 import Followers from './Followers';
 import Following from './Following';
-import Signup from './Signup';
-import Signin from './Signin';
+import { User } from '../Models/User';
 
 import { signout, getCurrentUser } from '../Services/User';
 
@@ -16,6 +15,15 @@ import { signout, getCurrentUser } from '../Services/User';
 // }
 
 const Home: React.FC<RouteComponentProps> = (props) => {
+
+  const [user, setUser] = useState<User| null>(null);
+  
+  useEffect(() => {
+    setUser(getCurrentUser());
+    console.log('current user: ', user);
+  }, [user])
+
+
   return ( 
     <div className="m-auto antialiased font-sans font-serif font-mono text-center">
 
