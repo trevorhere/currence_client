@@ -32,8 +32,8 @@ const Index: React.FC<RouteComponentProps> = (props) => {
 
 
       <header className="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white  text-2xl">
-        <p className="py-10 text-4xl">
-          Twitter Clone HomePage
+        <p className="py-20 text-4xl">
+          Welcome To TwitterClone
         </p>
 
       <div className="container flex justify-between mx-auto">
@@ -47,11 +47,26 @@ const Index: React.FC<RouteComponentProps> = (props) => {
           </div> 
         : 
           <div className="container flex justify-between mx-auto">
-              <Link to="/Signup">Signup</Link>
-              <Link to="/Signin">Signin</Link>
-              <button onClick={() => {
-                console.log(getCurrentUser());
-                }}>getCurrentUser</button>
+              <button 
+                className="hover:bg-blue-700 border text-blue-500 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+                onClick={() => {
+                  props.history.push("/Signup")
+                }}>
+                  Signup
+              </button>
+              <button 
+                className="hover:bg-blue-700 border text-blue-500 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+                onClick={() => {
+                  props.history.push("/Signin")
+                }}>
+                  Signin
+              </button>
+              <button 
+                className="hover:bg-blue-700 border text-blue-500 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+                onClick={() => {
+                  console.log(getCurrentUser());
+                }}>getCurrentUser
+              </button>
           </div>
         }
 
@@ -62,3 +77,4 @@ const Index: React.FC<RouteComponentProps> = (props) => {
 }
 
 export default Index;
+

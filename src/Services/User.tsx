@@ -1,15 +1,24 @@
 
 import { User } from '../Models/User'
+import { Status } from '../Models/Status'
+
 import { DB_Users } from '../DB/User'
+import { DB_Statuses } from '../DB/Status'
 
 
 let currentUser: User | null;
 
 
 export const signup = (email:string, password:string): void => {
-    const newUser = new User(email,password);
+    const newUser = new User(email, email,password);
     DB_Users.push(newUser);
     currentUser= newUser;
+
+    const StatusX1 = new Status(email,`this is status 1 for ${email}`);
+    const StatusX2 = new Status(email,`this is status 2 for ${email}`);
+    const StatusX3 = new Status(email,`this is status 3 for ${email}`);
+
+    DB_Statuses.push(StatusX1, StatusX2, StatusX3);
 }
 
 export const signin = (email:string, password:string): void => {
