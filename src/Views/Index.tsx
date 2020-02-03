@@ -50,14 +50,14 @@ const Index: React.FC<RouteComponentProps> = (props) => {
               <button 
                 className="hover:bg-blue-700 border text-blue-500 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
                 onClick={() => {
-                  props.history.push("/Signup")
+                  props.history.push("/signup")
                 }}>
                   Signup
               </button>
               <button 
                 className="hover:bg-blue-700 border text-blue-500 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
                 onClick={() => {
-                  props.history.push("/Signin")
+                  props.history.push("/signin")
                 }}>
                   Signin
               </button>

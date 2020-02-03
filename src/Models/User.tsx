@@ -1,10 +1,13 @@
 
+import { Status } from './Status';
+
 export class User {
     id: string;
     email:string;
     password: string;
     followers: User[];
     followees: User[];
+    statuses: Status[];
 
     constructor(id: string, email:string, password:string){
         this.id = id;
@@ -12,6 +15,7 @@ export class User {
         this.password = password;
         this.followers = [];
         this.followees = [];
+        this.statuses = []
     }
     
     getID():string{
@@ -34,7 +38,7 @@ export class User {
     }
     getFollower(user_id: string): User | null{
         let follower  = this.followers.filter(follower => {
-             return follower.getID() == user_id;
+            return follower.getID() == user_id;
         })
 
         if(follower.length > 0){
@@ -62,5 +66,13 @@ export class User {
     }
     getFollowees(): User[]{
        return this.followees;
+    }
+    addStatus(status: Status): void {
+       this.statuses.push(status);
+    }
+    getStatuses(): Status[] {
+        console.log(this.statuses);
+        
+        return this.statuses;
     }
 }
