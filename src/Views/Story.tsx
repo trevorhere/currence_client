@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {withRouter, RouteComponentProps} from "react-router";
-import { Status } from '../Models/Status';
+import { Status, User } from '../Models';
 import { getUser } from '../DB'
+import { loadStatuses } from '../Services/Story';
 
 
 // interface StoryProps extends RouteComponentProps {
@@ -10,21 +11,22 @@ import { getUser } from '../DB'
 
 const Story: React.FC<RouteComponentProps> = (props) => {
 
+  // const [user, setUser] = useState<User>('');
+
   const [user_id, setUser_id] = useState<string>('');
   const [userStatuses, setUserStatuses] = useState<Status[]>([]);
 
 
   useEffect(() => {
-    const fetchUserStatuses = async () => {
-      const fetchUserId = await setUser_id(props?.match?.params.user_id);
-      console.log('working', getUser(user_id)?.getStatuses());
-      setUserStatuses(getUser(user_id)?.getStatuses())
-    };
-    fetchUserStatuses();
-    console.log('user_id: ', user_id);
-    console.log('user_statuses: ', userStatuses);
+    setUser_id(props?.match?.params.user_id);
 
-  }, [props,user_id]);
+    const loadUserStatuses = async () => {
+      await loadStatuses(user_id, setUserStatuses);
+    };
+
+    loadUserStatuses();
+
+  },[props,user_id, userStatuses]);
 
 
   return (
