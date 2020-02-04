@@ -26,12 +26,10 @@ const App: React.FC = () => {
           <Route path="/" exact component={Index}/>
           <Route path="/signup" 
             setUserIDCallback={setUserID}
-            exact 
             render={(setUserIDCallback={setUserID}) => <Signup {...setUserIDCallback={setUserID}}/>}
           />
           <Route path="/signin" 
             setUserIDCallback={setUserID}
-            exact 
             render={(setUserIDCallback={setUserID}) => <Signin {...setUserIDCallback={setUserID}}/>}
           />
           <Route path="/home/:user_id" component={auth(Home)} />
