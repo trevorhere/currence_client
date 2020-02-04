@@ -15,8 +15,9 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   const addStatus = (status: Status): void   => {
     console.log('status', status);
     userStatuses!.push(status);
-    console.log([...userStatuses]);
-    setUserStatuses([...userStatuses])
+    if(userStatuses){
+      setUserStatuses([...userStatuses])
+    }
   }
 
   useEffect(() => {
