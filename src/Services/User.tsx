@@ -45,7 +45,7 @@ export const signout = () => {
     currentUserID = null;
     console.log('signing out');
     console.log('current user ID: ', currentUserID);
-    window.location.reload();
+    // window.location.reload();
 }
 
 export const getCurrentUserID = (): string | null => {
