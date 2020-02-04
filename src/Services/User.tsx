@@ -9,7 +9,7 @@ import { DB_Statuses } from '../DB/Status'
 let currentUserID: string | null;
 
 
-export const signup = (email:string, password:string): void => {
+export const signup = (email:string, password:string): string => {
     const newUser = new User(email, email,password);
     DB_Users.push(newUser);
     currentUserID= newUser.getID();
@@ -19,6 +19,8 @@ export const signup = (email:string, password:string): void => {
     const StatusX3 = new Status(email,`this is status 3 for ${email}`);
 
     DB_Statuses.push(StatusX1, StatusX2, StatusX3);
+
+    return newUser.getID();
 }
 
 export const signin = (email:string, password:string): string | null => {

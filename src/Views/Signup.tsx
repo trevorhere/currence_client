@@ -1,29 +1,31 @@
-import React, {useState, useEffect} from 'react';
-import { signup, getCurrentUserID } from '../Services/User';
-import { RouteComponentProps } from 'react-router-dom';
-import { User } from '../Models/User'
+import React, {useState} from 'react';
+import { signup } from '../Services/User';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
+interface ISignupProps extends RouteComponentProps {
+  setUserID: (userID: string) => void;
+  history: any
+}
 
+const reRoute = (props:ISignupProps, userID: string):void =>{
+  props.history.push(`/home/${userID}`)
+}
 
-const Signup: React.FC<RouteComponentProps> = (props) => {
+const handleSignup = (email, password, setUserID, setUserIDCallback) => {
+  let userID = signup(email, password);
+  setUserID(userID);
+  setUserIDCallback(userID);
+}
 
-  const reRoute = (props):void =>{
-    props.history.push("/home")
-  }
+const Signup: React.FC<ISignupProps> = (props:ISignupProps) => {
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');  
-  const [userID, setUserID] = useState<User| null>(null);
-
-  useEffect(() => {
-    setUserID(getCurrentUserID());
-    console.log('current user: ID ', userID);
-  }, [userID])
-
+  const [userID, setUserID] = useState< string | null>(null);
 
   return ( 
     <div>
-       {userID? reRoute(props) : <></> }   
+        {userID? reRoute(props, userID) : <></> } 
       <div className="bg-gray-900 min-h-screen  flex flex-col items-center justify-center text-white text-2xl">
         <form className="bg-white shadow-md w-1/4 rounded px-8 pt-6 pb-8 mb-4">
           <h2 className="text-black py-6 font-bold"> Twitter Clone</h2>
@@ -56,8 +58,7 @@ const Signup: React.FC<RouteComponentProps> = (props) => {
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
               type="button"
               onClick={() => {
-                signup(email, password)
-                setUserID(getCurrentUserID())
+                handleSignup(email, password, setUserID, props.setUserID)
               }}
               >
                 Sign Up
@@ -76,4 +77,4 @@ const Signup: React.FC<RouteComponentProps> = (props) => {
   );
 }
 
-export default Signup;
+export default withRouter(Signup);

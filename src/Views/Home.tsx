@@ -28,20 +28,6 @@ const Home: React.FC<RouteComponentProps> = (props) => {
     <div>
       {(!userID)? reRoute(props) : <></> }
       <div className="m-auto antialiased font-sans font-serif font-mono text-center">
-
-      <div className="container flex justify-between mx-auto">
-          <Feed/>
-          <Link to={`/story/${userID}`}>Story</Link>
-          <Followers/>
-          <Following/>
-          <Link to="/Signup">Signup</Link>
-          <Link to="/Signin">Signin</Link>
-          <button onClick={signout}>signout</button>
-          <button onClick={() => {
-            console.log(getCurrentUserID());
-          }}>getCurrentUser</button>
-      </div>
-
         <header className="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white text-2xl">
           <img src={logo} className="App-logo" alt="logo" />
           <p>

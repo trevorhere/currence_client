@@ -1,9 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import { signin, getCurrentUserID } from '../Services/User';
-import { User } from '../Models/User'
+import React, {useState} from 'react';
+import { signin } from '../Services/User';
 
 import {  RouteComponentProps, withRouter} from 'react-router-dom';
-
 
 interface ISigninProps extends RouteComponentProps {
   setUserID: (userID: string) => void;
@@ -25,14 +23,6 @@ const Signin: React.FC<ISigninProps> = (props: ISigninProps) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [userID, setUserID] = useState<string | null>(null);
-  
-  // useEffect(() => {
-  //   // setUserID(getCurrentUserID());
-  //   // props.setUserIDCallback(userID)
-  //   // console.log('props', props.setUserID);
-  //   console.log('current user ID: ', userID);
-  // }, [userID])
-
   return ( 
     <div>
       {userID? reRoute(props, userID) : <></> }
@@ -69,8 +59,6 @@ const Signin: React.FC<ISigninProps> = (props: ISigninProps) => {
               type="button"
               onClick={() => {
                 handleSignin(email, password, setUserID, props.setUserID)
-                // signin(email, password)
-                // setUserID(getCurrentUserID())
               }}
             >
               Sign In

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Index from './Views/Index'
 import Signin from './Views/Signin'
 import Signup from './Views/Signup'
@@ -20,17 +20,23 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <Nav props={userID}/>
       <Router>
-        <Route path="/" exact component={Index}/>
-        <Route path="/signup" exact component={Signup}/>
-        <Route path="/signin" 
-          setUserIDCallback={setUserID}
-          exact 
-          render={(setUserIDCallback={setUserID}) => <Signin {...setUserIDCallback={setUserID}}/>}
-        />
-        <Route path="/home/:user_id" component={auth(Home)} />
-        <Route path="/story/:user_id" component={auth(Story)} />
+        <Nav userID={userID}/>
+        <Switch>
+          <Route path="/" exact component={Index}/>
+          <Route path="/signup" 
+            setUserIDCallback={setUserID}
+            exact 
+            render={(setUserIDCallback={setUserID}) => <Signup {...setUserIDCallback={setUserID}}/>}
+          />
+          <Route path="/signin" 
+            setUserIDCallback={setUserID}
+            exact 
+            render={(setUserIDCallback={setUserID}) => <Signin {...setUserIDCallback={setUserID}}/>}
+          />
+          <Route path="/home/:user_id" component={auth(Home)} />
+          <Route path="/story/:user_id" component={auth(Story)} />
+        </Switch>
       </Router>
     </div>
   );

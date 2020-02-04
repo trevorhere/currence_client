@@ -1,54 +1,43 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 // import logo from '../Assets/logo.svg';
-import {  RouteComponentProps} from 'react-router-dom';
+import {  RouteComponentProps, withRouter } from 'react-router-dom';
 // import Feed from './Feed';
 // import Story from './Story';
 // import Followers from './Followers';
 // import Following from './Following';
-import { User } from '../Models/User';
 
-import { signout, getCurrentUserID } from '../Services/User';
+import { signout } from '../Services/User';
 
-
-const reRoute = (props):void =>{
-    props?.history?.push("/signin")
+interface INavProps extends RouteComponentProps {
+    userID: string;
+    history: any;
 }
 
-interface NavProps {
-    userID: string
-}
-
-const Nav: React.FC<NavProps> = (props: NavProps) => {
-  
-  const [userID, setUserID] = useState< string | null>(null);
-  
-  useEffect(() => {
-    setUserID(props.userID);
-    console.log('current user: ', userID);
-  }, [userID])
-
-
+const Nav: React.FC<INavProps> = (props: INavProps) => {
   return ( 
     <div>
-      {(!userID)? <>{userID}</> : <>null</> }
-      <div className="m-auto antialiased font-sans font-serif font-mono text-center">
+      {(props.userID)? 
+        <div className="m-auto antialiased font-sans font-serif font-mono text-center">
+            <div className="container flex justify-between mx-auto">
+                <button onClick={() => props.history.push(`/feed/${props.userID}`)}>Feed</button>
+                <button onClick={() => props.history.push(`/story/${props.userID}`)}>Story</button>
+                <button onClick={() => props.history.push(`/followers/${props.userID}`)}>Followers</button>
+                <button onClick={() => props.history.push(`/following/${props.userID}`)}>Following</button>
+                <button onClick={() => signout()}>Signout</button>
 
+            </div>
+        </div>
+      : 
+      <div className="m-auto antialiased font-sans font-serif font-mono text-center">
       <div className="container flex justify-between mx-auto">
-          {/* <Feed/>
-          <Link to={`/story/${user?.id}`}>Story</Link>
-          <Followers/>
-          <Following/> */}
-          {/* <Link to="/Signup">Signup</Link>
-          <Link to="/Signin">Signin</Link> */}
-          <button onClick={signout}>signout</button>
-          <button onClick={() => {
-            console.log(getCurrentUserID());
-          }}>getCurrentUser</button>
+        <button onClick={() => props.history.push('/signin')}>Signin</button>
+        <button onClick={() => props.history.push('/signup')}>Signup</button>
       </div>
       </div>
+      }
     </div>
 
   );
 }
 
-export default Nav;
+export default withRouter(Nav);
