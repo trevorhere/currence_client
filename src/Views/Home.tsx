@@ -7,7 +7,7 @@ import Followers from './Followers';
 import Following from './Following';
 import { User } from '../Models/User';
 
-import { signout, getCurrentUser } from '../Services/User';
+import { signout, getCurrentUserID } from '../Services/User';
 
 
 const reRoute = (props):void =>{
@@ -16,29 +16,29 @@ const reRoute = (props):void =>{
 
 const Home: React.FC<RouteComponentProps> = (props) => {
   
-  const [user, setUser] = useState<User| null>(null);
+  const [userID, setUserID] = useState< string | null>(null);
   
   useEffect(() => {
-    setUser(getCurrentUser());
-    console.log('current user: ', user);
-  }, [user])
+    setUserID(getCurrentUserID());
+    console.log('current user: ', userID);
+  }, [userID])
 
 
   return ( 
     <div>
-      {(!user)? reRoute(props) : <></> }
+      {(!userID)? reRoute(props) : <></> }
       <div className="m-auto antialiased font-sans font-serif font-mono text-center">
 
       <div className="container flex justify-between mx-auto">
           <Feed/>
-          <Link to={`/story/${user?.id}`}>Story</Link>
+          <Link to={`/story/${userID}`}>Story</Link>
           <Followers/>
           <Following/>
           <Link to="/Signup">Signup</Link>
           <Link to="/Signin">Signin</Link>
           <button onClick={signout}>signout</button>
           <button onClick={() => {
-            console.log(getCurrentUser());
+            console.log(getCurrentUserID());
           }}>getCurrentUser</button>
       </div>
 

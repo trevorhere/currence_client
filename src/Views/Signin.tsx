@@ -1,28 +1,41 @@
 import React, {useState, useEffect} from 'react';
-import { signin, getCurrentUser } from '../Services/User';
+import { signin, getCurrentUserID } from '../Services/User';
 import { User } from '../Models/User'
 
-import { RouteComponentProps } from 'react-router-dom';
+import {  RouteComponentProps, withRouter} from 'react-router-dom';
 
 
-const reRoute = (props):void =>{
-  props.history.push("/home")
+interface ISigninProps extends RouteComponentProps {
+  setUserID: (userID: string) => void;
+  history: any
 }
 
-const Signin: React.FC<RouteComponentProps>  = (props) => {
+const reRoute = (props: ISigninProps, userID: string):void =>{
+  props.history.push(`/home/${userID}`)
+}
+
+const handleSignin = (email, password, setUserID, setUserIDCallback) => {
+  let userID = signin(email, password);
+  setUserID(userID);
+  setUserIDCallback(userID);
+}
+
+const Signin: React.FC<ISigninProps> = (props: ISigninProps) => {
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [user, setUser] = useState<User| null>(null);
+  const [userID, setUserID] = useState<string | null>(null);
   
-  useEffect(() => {
-    setUser(getCurrentUser());
-    console.log('current user: ', user);
-  }, [user])
+  // useEffect(() => {
+  //   // setUserID(getCurrentUserID());
+  //   // props.setUserIDCallback(userID)
+  //   // console.log('props', props.setUserID);
+  //   console.log('current user ID: ', userID);
+  // }, [userID])
 
   return ( 
     <div>
-      {user? reRoute(props) : <></> }
+      {userID? reRoute(props, userID) : <></> }
       <div className="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white text-2xl">
         <form className="bg-white shadow-md  w-1/4 rounded px-8 pt-6 pb-8 mb-4">
           <h2 className="text-black py-6 font-bold"> Twitter Clone</h2>
@@ -55,8 +68,9 @@ const Signin: React.FC<RouteComponentProps>  = (props) => {
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
               type="button"
               onClick={() => {
-                signin(email, password)
-                setUser(getCurrentUser())
+                handleSignin(email, password, setUserID, props.setUserID)
+                // signin(email, password)
+                // setUserID(getCurrentUserID())
               }}
             >
               Sign In
@@ -75,4 +89,4 @@ const Signin: React.FC<RouteComponentProps>  = (props) => {
   );
 }
 
-export default Signin;
+export default  withRouter(Signin);

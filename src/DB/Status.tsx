@@ -1,6 +1,5 @@
 import { Status } from '../Models/Status'
 
-
 export const  StatusA1 = new Status("emailA","this is status A1");
 export const  StatusA2 = new Status("emailA","this is status A2");
 export const  StatusA3 = new Status("emailA","this is status A3");

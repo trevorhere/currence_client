@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import { signup, getCurrentUser } from '../Services/User';
+import { signup, getCurrentUserID } from '../Services/User';
 import { RouteComponentProps } from 'react-router-dom';
 import { User } from '../Models/User'
+
+
 
 const Signup: React.FC<RouteComponentProps> = (props) => {
 
@@ -11,17 +13,17 @@ const Signup: React.FC<RouteComponentProps> = (props) => {
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');  
-  const [user, setUser] = useState<User| null>(null);
+  const [userID, setUserID] = useState<User| null>(null);
 
   useEffect(() => {
-    setUser(getCurrentUser());
-    console.log('current user: ', user);
-  }, [user])
+    setUserID(getCurrentUserID());
+    console.log('current user: ID ', userID);
+  }, [userID])
 
 
   return ( 
     <div>
-       {user? reRoute(props) : <></> }   
+       {userID? reRoute(props) : <></> }   
       <div className="bg-gray-900 min-h-screen  flex flex-col items-center justify-center text-white text-2xl">
         <form className="bg-white shadow-md w-1/4 rounded px-8 pt-6 pb-8 mb-4">
           <h2 className="text-black py-6 font-bold"> Twitter Clone</h2>
@@ -55,7 +57,7 @@ const Signup: React.FC<RouteComponentProps> = (props) => {
               type="button"
               onClick={() => {
                 signup(email, password)
-                setUser(getCurrentUser())
+                setUserID(getCurrentUserID())
               }}
               >
                 Sign Up

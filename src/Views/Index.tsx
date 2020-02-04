@@ -10,21 +10,21 @@ import Following from './Following';
 import Signup from './Signup';
 import Signin from './Signin';
 
-import { signout, getCurrentUser } from '../Services/User';
+import { signout, getCurrentUserID } from '../Services/User';
 
 // const reRoute = (props) => {
 //   props.history.push("/signin");
-//   console.log(getCurrentUser);
+//   console.log(getCurrentUserID);
 // }
 
 const Index: React.FC<RouteComponentProps> = (props) => {
   
-  const [user, setUser] = useState<User| null>(null);
+  const [userID, setUserID] = useState< string | null>(null);
   
   useEffect(() => {
-    setUser(getCurrentUser());
-    console.log('current user: ', user);
-  }, [user])
+    setUserID(getCurrentUserID());
+    console.log('current user: ', userID);
+  }, [userID])
 
 
   return ( 
@@ -38,12 +38,12 @@ const Index: React.FC<RouteComponentProps> = (props) => {
 
       <div className="container flex justify-between mx-auto">
 
-        {user? 
+        {userID? 
           <div className="container flex justify-between mx-auto">
           <button onClick={signout}>signout</button>
           <button onClick={() => {
-            console.log(getCurrentUser());
-            }}>getCurrentUser</button>
+            console.log(getCurrentUserID());
+            }}>getCurrentUserID</button>
           </div> 
         : 
           <div className="container flex justify-between mx-auto">
@@ -64,8 +64,8 @@ const Index: React.FC<RouteComponentProps> = (props) => {
               <button 
                 className="hover:bg-blue-700 border text-blue-500 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
                 onClick={() => {
-                  console.log(getCurrentUser());
-                }}>getCurrentUser
+                  console.log(getCurrentUserID());
+                }}>getCurrentUserID
               </button>
           </div>
         }
