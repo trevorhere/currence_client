@@ -4,15 +4,11 @@ import { Status } from '../Models';
 import { loadStatuses, setViewUpdater, saveStatus, setViewFetcher } from '../Services/Story';
 
 
-// interface StoryProps extends RouteComponentProps {
-//   user_id: string
-// }
-
-const Story: React.FC<RouteComponentProps> = (props) => {
+const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   // const [user, setUser] = useState<User>('');
 
-  const [user_id, setUser_id] = useState<string>('');
-  const [userStatuses, setUserStatuses] = useState<Status[]>([]);
+  const [userID, setUserID] = useState<string>('');
+  const [userStatuses, setUserStatuses] = useState<Status[] | undefined>([]);
   const [newStatusMessage, setNewStatusMessage] = useState<string>('');
   
   
@@ -25,23 +21,20 @@ const Story: React.FC<RouteComponentProps> = (props) => {
   }
 
   useEffect(() => {
-    setUser_id(props?.match?.params.user_id);
+    setUserID(props?.match?.params.user_id);
 
     const loadUserStatuses = async () => {
-      await loadStatuses(user_id, setUserStatuses);
+      await loadStatuses(userID, setUserStatuses);
     };
 
     loadUserStatuses();
 
-    setViewUpdater(() => {return setUserStatuses});
-    setViewFetcher(() => {return userStatuses});
-
-  },[props,user_id, userStatuses]);
+  },[props,userID, userStatuses]);
 
 
   return (
     <div className="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white text-2xl">
-      <h2>Story: {user_id }</h2>
+      <h2>Story: {userID }</h2>
       <div>
         { userStatuses?.map(status => {
         return( <p>status: {status.message}</p> )
@@ -60,7 +53,7 @@ const Story: React.FC<RouteComponentProps> = (props) => {
             <button 
               className="hover:bg-blue-700 border text-blue-500 font-bold my-3 py-3 px-4 rounded focus:outline-none focus:shadow-outline" 
               type="button"
-              onClick={() =>  addStatus(new Status( user_id, newStatusMessage))}
+              onClick={() =>  addStatus(new Status(userID, newStatusMessage))}
               >
                 Submit
             </button>
