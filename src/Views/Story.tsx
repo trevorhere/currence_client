@@ -8,7 +8,7 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   // const [user, setUser] = useState<User>('');
 
   const [userID, setUserID] = useState<string>('');
-  const [userStatuses, setUserStatuses] = useState<Status[] | undefined>([]);
+  const [userStatuses, setUserStatuses] = useState<Status[]>([]);
   const [newStatusMessage, setNewStatusMessage] = useState<string>('');
   
   
