@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import logo from '../Assets/logo.svg';
 import { Link, RouteComponentProps} from 'react-router-dom';
 import Feed from './Feed';
@@ -7,7 +7,9 @@ import Followers from './Followers';
 import Following from './Following';
 import { User } from '../Models/User';
 
-import { signout, getCurrentUserID } from '../Services/User';
+import { authContext } from "../Context/authContext";
+
+
 
 
 const reRoute = (props):void =>{
@@ -15,15 +17,8 @@ const reRoute = (props):void =>{
 }
 
 const Home: React.FC<RouteComponentProps> = (props) => {
-  
-  const [userID, setUserID] = useState< string | null>(null);
-  
-  useEffect(() => {
-    setUserID(getCurrentUserID());
-    console.log('current user: ', userID);
-  }, [userID])
-
-
+  const { userID } = useContext(authContext);
+ 
   return ( 
     <div>
       {(!userID)? reRoute(props) : <></> }

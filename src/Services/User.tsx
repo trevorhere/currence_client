@@ -2,14 +2,13 @@
 import { User } from '../Models/User'
 import { Status } from '../Models/Status'
 
-import { DB_Users } from '../DB/User'
-import { DB_Statuses } from '../DB/Status'
+import { DB_Users, DB_Statuses } from '../DB'
 
 
 let currentUserID: string | null;
 
 
-export const signup = (email:string, password:string): string => {
+export const signup = async (email:string, password:string) => {
     const newUser = new User(email, email,password);
     DB_Users.push(newUser);
     currentUserID= newUser.getID();
@@ -23,7 +22,7 @@ export const signup = (email:string, password:string): string => {
     return newUser.getID();
 }
 
-export const signin = (email:string, password:string): string | null => {
+export const signin =  async (email:string, password:string) => {
     console.log('signing in');
     let currentUserArr = DB_Users.filter(user => {
         return (user.email == email && user.password == password)
@@ -37,7 +36,7 @@ export const signin = (email:string, password:string): string | null => {
     } else {
         console.log('returning id: ', currentUserArr[0].getID())
         currentUserID = currentUserArr[0].getID();
-        return currentUserArr[0].getID();
+        return currentUserID;
     }
 }
 

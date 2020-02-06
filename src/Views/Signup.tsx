@@ -8,7 +8,7 @@ interface ISignupProps extends RouteComponentProps {
 }
 
 const reRoute = (props:ISignupProps, userID: string):void =>{
-  props.history.push(`/home/${userID}`)
+  props.history.push(`/feed/${userID}`)
 }
 
 const handleSignup = (email, password, setUserID, setUserIDCallback) => {

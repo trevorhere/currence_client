@@ -1,13 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {withRouter, RouteComponentProps} from "react-router";
 import { Status } from '../Models';
 import { loadStatuses, setViewUpdater, saveStatus, setViewFetcher } from '../Services/Story';
-
+import { authContext } from "../Context/authContext";
 
 const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
-  // const [user, setUser] = useState<User>('');
-
-  const [userID, setUserID] = useState<string>('');
+  
+  const { userID } = useContext(authContext);
   const [userStatuses, setUserStatuses] = useState<Status[] | undefined>([]);
   const [newStatusMessage, setNewStatusMessage] = useState<string>('');
   
@@ -21,7 +20,6 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   }
 
   useEffect(() => {
-    setUserID(props?.match?.params.user_id);
 
     const loadUserStatuses = async () => {
       await loadStatuses(userID, setUserStatuses);

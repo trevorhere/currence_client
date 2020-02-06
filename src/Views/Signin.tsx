@@ -1,31 +1,22 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+import { authContext } from '../Context/authContext';
 import { signin } from '../Services/User';
-
 import {  RouteComponentProps, withRouter} from 'react-router-dom';
 
-interface ISigninProps extends RouteComponentProps {
-  setUserID: (userID: string) => void;
-  history: any
+const reRoute = (props: RouteComponentProps, userID: string):void =>{
+  props.history.push(`/feed/${userID}`)
 }
 
-const reRoute = (props: ISigninProps, userID: string):void =>{
-  props.history.push(`/home/${userID}`)
-}
+const Signin: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
-const handleSignin = (email, password, setUserID, setUserIDCallback) => {
-  let userID = signin(email, password);
-  setUserID(userID);
-  setUserIDCallback(userID);
-}
-
-const Signin: React.FC<ISigninProps> = (props: ISigninProps) => {
-
+  const { authenticatedUserID, setAuthenticatedUserID } = useContext(authContext);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [userID, setUserID] = useState<string | null>(null);
+
+
   return ( 
     <div>
-      {userID? reRoute(props, userID) : <></> }
+      {authenticatedUserID? reRoute(props, authenticatedUserID) : <></> }
       <div className="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white text-2xl">
         <form className="bg-white shadow-md  w-1/4 rounded px-8 pt-6 pb-8 mb-4">
           <h2 className="text-black py-6 font-bold"> Twitter Clone</h2>
@@ -57,8 +48,11 @@ const Signin: React.FC<ISigninProps> = (props: ISigninProps) => {
             <button 
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
               type="button"
-              onClick={() => {
-                handleSignin(email, password, setUserID, props.setUserID)
+              onClick={ async () => {
+                const newUserID = await signin(email, password);
+                console.log(`setting userID: ${newUserID}`)
+                setAuthenticatedUserID(newUserID);
+              //  handI=leSignin(email, password, setUserID, props.setUserID)
               }}
             >
               Sign In

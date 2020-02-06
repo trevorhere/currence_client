@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {  RouteComponentProps, withRouter } from 'react-router-dom';
 import { signout } from '../Services/User';
 
-const handleSignout = (props) => {
+
+import { authContext } from "../Context/authContext";
+
+
+
+const handleSignout = (setUserIDCallback) => {
     signout();
-    props.history.push("/");
+    setUserIDCallback(null);
 }
 
 interface INavProps extends RouteComponentProps {
@@ -13,16 +18,22 @@ interface INavProps extends RouteComponentProps {
 }
 
 const Nav: React.FC<INavProps> = (props: INavProps) => {
+  
+  const { authenticatedUserID, setAuthenticatedUserID} = useContext(authContext);
+
+
+
+
   return ( 
     <div>
-      {(props.userID)? 
+      {(authenticatedUserID)? 
         <div className="m-auto antialiased font-sans font-serif font-mono text-center">
             <div className="container flex justify-between mx-auto">
-                <button onClick={() => props.history.push(`/feed/${props.userID}`)}>Feed</button>
-                <button onClick={() => props.history.push(`/story/${props.userID}`)}>Story</button>
-                <button onClick={() => props.history.push(`/followers/${props.userID}`)}>Followers</button>
-                <button onClick={() => props.history.push(`/following/${props.userID}`)}>Following</button>
-                <button onClick={() => handleSignout(props)}>Signout</button>
+                <button onClick={() => props.history.push(`/feed/${authenticatedUserID}`)}>Feed</button>
+                <button onClick={() => props.history.push(`/story`)}>Story</button>
+                <button onClick={() => props.history.push(`/followers/${authenticatedUserID}`)}>Followers</button>
+                <button onClick={() => props.history.push(`/following/${authenticatedUserID}`)}>Following</button>
+                <button onClick={() => handleSignout(setAuthenticatedUserID)}>Signout</button>
 
             </div>
         </div>
@@ -39,4 +50,4 @@ const Nav: React.FC<INavProps> = (props: INavProps) => {
   );
 }
 
-export default withRouter(Nav);
+export default withRouter(Nav)
