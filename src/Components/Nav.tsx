@@ -9,15 +9,10 @@ import { authContext } from "../Context/authContext";
 
 const handleSignout = (setUserIDCallback) => {
     signout();
-    setUserIDCallback(null);
+    setUserIDCallback("");
 }
 
-interface INavProps extends RouteComponentProps {
-    userID: string;
-    history: any;
-}
-
-const Nav: React.FC<INavProps> = (props: INavProps) => {
+const Nav: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   
   const { authenticatedUserID, setAuthenticatedUserID} = useContext(authContext);
 
