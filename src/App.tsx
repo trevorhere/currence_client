@@ -17,6 +17,7 @@ const App: React.FC = () => {
 
   seedDB();
 
+
   const [authenticatedUserID, setAuthenticatedUserID] = useState< string >("");
   const value = useMemo(() => ({ authenticatedUserID, setAuthenticatedUserID }), [authenticatedUserID, setAuthenticatedUserID]);
 
@@ -30,7 +31,7 @@ const App: React.FC = () => {
 
 
   return (
-    <authContext.Provider value={{ authenticatedUserID, setAuthenticatedUserID }}>
+    <authContext.Provider value={value ? value : null}>
       <Router>
         <Nav />
         <Switch>
