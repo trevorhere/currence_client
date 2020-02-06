@@ -20,12 +20,12 @@ const App: React.FC = () => {
   seedDB();
 
 
-  const [authenticatedUserID, setAuthenticatedUserID] = useState< string | null>(null);
+  const [authenticatedUserID, setAuthenticatedUserID] = useState< string >("");
   const value = useMemo(() => ({ authenticatedUserID, setAuthenticatedUserID }), [authenticatedUserID, setAuthenticatedUserID]);
 
   const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
-        authenticatedUserID
+        authenticatedUserID.length
         ? <Component {...props} />
         : <Redirect to='/' />
     )} />

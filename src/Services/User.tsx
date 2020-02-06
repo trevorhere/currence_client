@@ -4,7 +4,6 @@ import { Status } from '../Models/Status'
 
 import { DB_Users, DB_Statuses } from '../DB'
 
-
 let currentUserID: string | null;
 
 
