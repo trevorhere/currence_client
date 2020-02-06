@@ -30,7 +30,7 @@ const App: React.FC = () => {
 
 
   return (
-    <authContext.Provider value={value}>
+    <authContext.Provider value={{ authenticatedUserID, setAuthenticatedUserID }}>
       <Router>
         <Nav />
         <Switch>
