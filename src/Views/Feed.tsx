@@ -15,7 +15,7 @@ const Feed: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
       if(feed != null){
         return feed.map(status => {
           return (
-            <h2>owner: {status.user_id} message: {status.message}</h2>
+            <h2 key={status.id}>owner: {status.user_id} message: {status.message}</h2>
           )})
         } else {
           return <p>feed not found</p>
@@ -32,7 +32,7 @@ const Feed: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   return (
 
     <div className="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white text-2xl">
-      {( authenticatedUserID.length && authenticatedUserID == props.match.params.userID) 
+      {( authenticatedUserID && authenticatedUserID == props.match.params.userID) 
       ? 
       <div>
         <h2>Feed For Authenticated User: {authenticatedUserID} </h2>

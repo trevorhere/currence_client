@@ -9,7 +9,7 @@ import { authContext } from "../Context/authContext";
 
 const handleSignout = (setUserIDCallback) => {
     signout();
-    setUserIDCallback("");
+    setUserIDCallback(null);
 }
 
 const Nav: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
