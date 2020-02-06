@@ -13,12 +13,9 @@ import Followers from './Views/Followers';
 import Following from './Views/Following';
 
 
-
-
 const App: React.FC = () => {
 
   seedDB();
-
 
   const [authenticatedUserID, setAuthenticatedUserID] = useState< string >("");
   const value = useMemo(() => ({ authenticatedUserID, setAuthenticatedUserID }), [authenticatedUserID, setAuthenticatedUserID]);
