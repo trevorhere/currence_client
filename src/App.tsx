@@ -19,7 +19,7 @@ const App: React.FC = () => {
 
 
   const [authenticatedUserID, setAuthenticatedUserID] = useState< string >("");
-  const value = useMemo(() => ({ authenticatedUserID, setAuthenticatedUserID }), [authenticatedUserID, setAuthenticatedUserID]);
+  const value:any = useMemo(() => ({ authenticatedUserID, setAuthenticatedUserID }), [authenticatedUserID, setAuthenticatedUserID]);
 
   const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
@@ -31,7 +31,7 @@ const App: React.FC = () => {
 
 
   return (
-    <authContext.Provider value={value ? value : null}>
+    <authContext.Provider value={value}>
       <Router>
         <Nav />
         <Switch>
