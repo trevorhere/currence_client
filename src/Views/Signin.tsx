@@ -3,8 +3,8 @@ import { authContext } from '../Context/authContext';
 import { signin } from '../Services/User';
 import {  RouteComponentProps, withRouter} from 'react-router-dom';
 
-const reRoute = (props: RouteComponentProps, userID: string):void =>{
-  props.history.push(`/feed/${userID}`)
+const reRoute = (props: RouteComponentProps, authenticatedUserID: string | null):void =>{
+  props.history.push(`/feed/${authenticatedUserID}`)
 }
 
 const Signin: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
