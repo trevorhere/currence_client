@@ -51,7 +51,9 @@ const Signin: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
               onClick={ async () => {
                 const newUserID = await signin(email, password);
                 console.log(`setting userID: ${newUserID}`)
-                setAuthenticatedUserID("test");
+                if(setAuthenticatedUserID){
+                  setAuthenticatedUserID(newUserID);
+                }
               //  handI=leSignin(email, password, setUserID, props.setUserID)
               }}
             >
