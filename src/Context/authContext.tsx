@@ -1,8 +1,8 @@
 import React, { createContext} from "react";
 
-export type Props = {
+type authProps = {
     authenticatedUserID: string | null;
-    setAuthenticatedUserID: (authenticatedUserID: string | null) => void;
+    setAuthenticatedUserID: React.Dispatch<React.SetStateAction<null>>
  }
 
-export const authContext = createContext({} as Props);
+export const authContext = createContext<Partial<authProps>>({});
