@@ -6,7 +6,7 @@ import { authContext } from "../Context/authContext";
 
 const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   
-  const { userID } = useContext(authContext);
+  const { authenticatedUserID } = useContext(authContext);
   const [userStatuses, setUserStatuses] = useState<Status[] | undefined>([]);
   const [newStatusMessage, setNewStatusMessage] = useState<string>('');
   
@@ -22,17 +22,17 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   useEffect(() => {
 
     const loadUserStatuses = async () => {
-      await loadStatuses(userID, setUserStatuses);
+      await loadStatuses(authenticatedUserID, setUserStatuses);
     };
 
     loadUserStatuses();
 
-  },[props,userID, userStatuses]);
+  },[props,authenticatedUserID, userStatuses]);
 
 
   return (
     <div className="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white text-2xl">
-      <h2>Story: {userID }</h2>
+      <h2>Story: {authenticatedUserID }</h2>
       <div>
         { userStatuses?.map(status => {
         return( <p>status: {status.message}</p> )
@@ -51,7 +51,7 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
             <button 
               className="hover:bg-blue-700 border text-blue-500 font-bold my-3 py-3 px-4 rounded focus:outline-none focus:shadow-outline" 
               type="button"
-              onClick={() =>  addStatus(new Status(userID, newStatusMessage))}
+              onClick={() =>  addStatus(new Status(authenticatedUserID, newStatusMessage))}
               >
                 Submit
             </button>
