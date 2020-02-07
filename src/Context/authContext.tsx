@@ -1,6 +1,8 @@
 import { createContext} from "react";
 
-export const authContext = createContext({
-    authenticatedUserID:null, 
-    setAuthenticatedUserID: null
-});
+interface IContextProps {
+    authenticatedUserID: string;
+    setAuthenticatedUserID: (authenticatedUserID: string) => void;
+  }
+
+export const authContext = createContext({} as IContextProps);
