@@ -16,7 +16,7 @@ const Signin: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
   return ( 
     <div>
-      {authenticatedUserID? reRoute(props, authenticatedUserID) : <></> }
+      {authenticatedUserID? reRoute(props, authenticatedUserID) : null }
       <div className="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white text-2xl">
         <form className="bg-white shadow-md  w-1/4 rounded px-8 pt-6 pb-8 mb-4">
           <h2 className="text-black py-6 font-bold"> Twitter Clone</h2>
