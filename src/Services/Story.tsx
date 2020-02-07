@@ -8,8 +8,8 @@ export const fetchUser = ( user_id: string): User | null => {
     return getUser(user_id);
 } 
 
-export const loadStatuses = ( user_id: string | null | undefined, setUserStatuses:(statuses: Status[] | undefined ) => void): void => {
-    let statusArr = getUser(user_id!)?.getStatuses();
+export const loadStatuses = ( user_id:string , setUserStatuses:(statuses: Status[] | undefined ) => void): void => {
+    let statusArr = getUser(user_id)?.getStatuses();
     setUserStatuses(statusArr);
 } 
 

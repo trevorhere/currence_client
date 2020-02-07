@@ -20,9 +20,8 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   }
 
   useEffect(() => {
-
     const loadUserStatuses = async () => {
-      await loadStatuses(authenticatedUserID, setUserStatuses);
+      await loadStatuses(authenticatedUserID!, setUserStatuses);
     };
 
     loadUserStatuses();
@@ -38,7 +37,7 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
         return( <p>status: {status.message}</p> )
         })}
         </div>
-        <label className="block text-gray-700 text-sm py-4 font-bold mb-2">
+        <label className="block text-gray-700 text-xsm py-4 font-bold mb-2">
               New Status
             </label>
             <input 
