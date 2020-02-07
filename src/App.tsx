@@ -13,6 +13,11 @@ import Followers from './Views/Followers';
 import Following from './Views/Following';
 
 
+interface IContextProps {
+  authenticatedUserID: string | null;
+  setAuthenticatedUserID: (authenticatedUserID: string) => void;
+}
+
 const App: React.FC = () => {
 
   seedDB();
@@ -31,7 +36,7 @@ const App: React.FC = () => {
 
 
   return (
-    <authContext.Provider value={value}>
+    <authContext.Provider value={{authenticatedUserID, setAuthenticatedUserID}}>
       <Router>
         <Nav />
         <Switch>
