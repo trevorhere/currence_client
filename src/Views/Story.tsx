@@ -50,7 +50,7 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
             <button 
               className="hover:bg-blue-700 border text-blue-500 font-bold my-3 py-3 px-4 rounded focus:outline-none focus:shadow-outline" 
               type="button"
-              onClick={() =>  addStatus(new Status(authenticatedUserID, newStatusMessage))}
+              onClick={() =>  addStatus(new Status(authenticatedUserID!, newStatusMessage!))}
               >
                 Submit
             </button>
