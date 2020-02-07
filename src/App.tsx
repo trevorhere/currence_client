@@ -19,7 +19,7 @@ const App: React.FC = () => {
 
 
   const [authenticatedUserID, setAuthenticatedUserID] = useState(null);
-  const value = useMemo(() => ({  authenticatedUserID:null, setAuthenticatedUserID: null }), [authenticatedUserID, setAuthenticatedUserID]);
+  const value = useMemo(() => ({  authenticatedUserID, setAuthenticatedUserID }), [authenticatedUserID, setAuthenticatedUserID]);
 
   const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
