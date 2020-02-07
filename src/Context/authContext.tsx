@@ -1,3 +1,3 @@
-import { createContext } from "react";
+import { createContext, Dispatch, SetStateAction } from "react";
 
-export const authContext = createContext({ authenticatedUserID: null, setUserAuthenticatedID: null });
+export const authContext = createContext({ authenticatedUserID: null, setAuthenticatedUserID: Dispatch<SetStateAction});
