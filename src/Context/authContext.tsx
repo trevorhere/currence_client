@@ -5,4 +5,4 @@ interface IContextProps {
     setAuthenticatedUserID: (authenticatedUserID: string) => void;
 }
 
-export const authContext = createContext({});
+export const authContext = createContext({authenticatedUserID: null, setAuthenticatedUserID: {}});
