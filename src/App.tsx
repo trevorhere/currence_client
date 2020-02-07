@@ -13,18 +13,12 @@ import Followers from './Views/Followers';
 import Following from './Views/Following';
 
 
-interface IContextProps {
-  authenticatedUserID: string | null;
-  setAuthenticatedUserID: (authenticatedUserID: string) => void;
-}
-
 const App: React.FC = () => {
 
   seedDB();
 
-
   const [authenticatedUserID, setAuthenticatedUserID] = useState(null);
-  const value = useMemo(() => ({  authenticatedUserID, setAuthenticatedUserID}), [authenticatedUserID, setAuthenticatedUserID]);
+  const value = useMemo(() => ({  authenticatedUserID, setAuthenticatedUserID }), [authenticatedUserID, setAuthenticatedUserID]);
 
   const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
