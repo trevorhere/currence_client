@@ -4,8 +4,7 @@ import { Status } from '../Models/Status'
 
 import { DB_Users, DB_Statuses } from '../DB'
 
-let currentUserID: string | null;
-
+let currentUserID; 
 
 export const signup = async (email:string, password:string) => {
     const newUser = new User(email, email,password);
