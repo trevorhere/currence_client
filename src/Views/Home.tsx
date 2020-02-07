@@ -17,11 +17,11 @@ const reRoute = (props):void =>{
 }
 
 const Home: React.FC<RouteComponentProps> = (props) => {
-  const { userID } = useContext(authContext);
+  const { authenticatedUserID } = useContext(authContext);
  
   return ( 
     <div>
-      {(!userID)? reRoute(props) : <></> }
+      {(!authenticatedUserID)? reRoute(props) : <></> }
       <div className="m-auto antialiased font-sans font-serif font-mono text-center">
         <header className="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white text-2xl">
           <img src={logo} className="App-logo" alt="logo" />
