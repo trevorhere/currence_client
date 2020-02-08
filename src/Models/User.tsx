@@ -1,12 +1,11 @@
 
 import { Status } from './Status';
-
 export class User {
     id: string;
     email:string;
     password: string;
     followers: User[];
-    followees: User[];
+    following: User[];
     statuses: Status[];
 
     constructor(id: string, email:string, password:string){
@@ -14,10 +13,9 @@ export class User {
         this.email = email;
         this.password = password;
         this.followers = [];
-        this.followees = [];
+        this.following = [];
         this.statuses = []
     }
-    
     getID():string{
         return this.id;
     }
@@ -27,52 +25,46 @@ export class User {
     getEmail(): string{
         return this.email;
     };
-    setPassowrd(password:string): void {
+    setPassword(password:string): void {
         this.password = password;
     };
     getPassword(): string{
         return this.password;
     };
-    addFollower(follower: User): void{
-        this.followers.push(follower);
+    addFollower(user: User): void{
+        this.followers.push(user);
     }
-    getFollower(user_id: string): User | null{
-        let follower  = this.followers.filter(follower => {
-            return follower.getID() == user_id;
-        })
-
-        if(follower.length > 0){
-            return follower[0];
-        } else {
-            return null;
-        }
+    removeFollower(user: User): void {
+        this.followers.filter(follower => follower.id !==  user.id)
+    }
+    getFollower(userID: string): User | undefined{
+        return this.followers.find(follower =>  follower.id === userID)
     }
     getFollowers(): User[]{
-       return this.followers;
+        return this.followers;
     }
-    addFollowee(followee: User): void{
-        this.followees.push(followee);
+    setFollowers(followers: User[]): void {
+        this.followers = [...followers];
     }
-    getFollowee(user_id: string): User | null{
-        let followee  = this.followees.filter(followee => {
-             return followee.getID() == user_id;
-        })
-
-        if(followee.length > 0){
-            return followee[0];
-        } else {
-            return null;
-        }
+    addFollowing(user: User): void{
+        this.following.push(user);
     }
-    getFollowees(): User[]{
-       return this.followees;
+    removeFollowing(user: User): void {
+        this.setFollowing(this.following.filter(followee => followee.id !==  user.id))
+    }
+    getFollowee(userID: string): User | undefined {
+        return this.following.find(followee =>  followee.id === userID)
+    }
+    setFollowing(followees: User[]): void {
+    this.following = [...followees];
+    }
+    getFollowing(): User[]{
+        return this.following;
     }
     addStatus(status: Status): void {
-       this.statuses.push(status);
+        this.statuses.push(status);
     }
-    getStatuses(): Status[] {
-        console.log(this.statuses);
-        
+    getStatuses(): Status[] {        
         return this.statuses;
     }
 }

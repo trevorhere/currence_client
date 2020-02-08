@@ -9,6 +9,16 @@ const Feed: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
   const [currUserID, setCurrUserID] = useState<string| null>(null);
   const [feed, setFeed] = useState< Status[] | null  >(null);
+  const [newStatusMessage, setNewStatusMessage] = useState<string>('');
+  
+    
+  const addStatus = (status: Status): void   => {
+    console.log('status', status);
+    // userStatuses!.push(status);
+    // if(userStatuses){
+    //   setUserStatuses([...userStatuses])
+    // }
+  }
 
 
   function renderFeed(){
@@ -37,6 +47,23 @@ const Feed: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
       <div>
         <h2>Feed For Authenticated User: {authenticatedUserID} </h2>
         {renderFeed()}
+        <label className="block text-gray-700 text-xsm py-4 font-bold mb-2">
+              New Status
+            </label>
+            <input 
+              className="shadow appearance-none border rounded w-1/4 py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+              id="status" 
+              type="text" 
+              placeholder="status"
+              onChange={(e) => setNewStatusMessage(e.target.value)}
+            />
+            <button 
+              className="hover:bg-blue-700 border text-blue-500 font-bold my-3 py-3 px-4 rounded focus:outline-none focus:shadow-outline" 
+              type="button"
+              onClick={() =>  addStatus(new Status(authenticatedUserID!, newStatusMessage!))}
+              >
+                Submit
+            </button>
       </div>
       : 
       <div>

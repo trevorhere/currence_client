@@ -34,14 +34,15 @@ const App: React.FC = () => {
       <Router>
         <Nav />
         <Switch>
-          <Route path="/" exact component={Index}/>
           <Route path="/signup" exact component={Signup}/>
           <Route path="/signin" exact component={Signin}/>
-          <Route path="/home" component={Home} />
-          <Route path='/story' component={Story} />
-          <Route path='/followers' component={Followers} />
-          <Route path='/following' component={Following} />
+          <Route path='/story/:userID' exact component={Story} />
+          <Route path='/followers/:userID' component={Followers} />
+          <Route path='/following/:userID' component={Following} />
           <PrivateRoute path='/feed/:userID' component={Feed} />
+          <Route path="/" exact component={Index}/>
+          <Route render={() => <Redirect to="/" />} />
+
         </Switch>
       </Router>
     </authContext.Provider>

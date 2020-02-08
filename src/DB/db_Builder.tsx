@@ -48,14 +48,14 @@ export const seedDB = () => {
     UserC.addFollower(UserB);
 
     // add followees for every user
-    UserA.addFollowee(UserB);
-    UserA.addFollowee(UserC);
+    UserA.addFollowing(UserB);
+    UserA.addFollowing(UserC);
 
-    UserB.addFollowee(UserA);
-    UserB.addFollowee(UserC);
+    UserB.addFollowing(UserA);
+    UserB.addFollowing(UserC);
 
-    UserC.addFollowee(UserA);
-    UserC.addFollowee(UserB);
+    UserC.addFollowing(UserA);
+    UserC.addFollowing(UserB);
 
     // add statuses for every user
     UserA.addStatus(StatusA1);

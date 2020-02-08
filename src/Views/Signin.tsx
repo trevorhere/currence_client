@@ -10,8 +10,8 @@ const reRoute = (props: RouteComponentProps, authenticatedUserID: string | null)
 const Signin: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
   const { authenticatedUserID, setAuthenticatedUserID } = useContext(authContext);
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState<string>('emailA');
+  const [password, setPassword] = useState<string>('passwordA');
 
 
   return ( 
@@ -54,7 +54,6 @@ const Signin: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
                 if(setAuthenticatedUserID){
                   setAuthenticatedUserID(newUserID);
                 }
-              //  handI=leSignin(email, password, setUserID, props.setUserID)
               }}
             >
               Sign In
