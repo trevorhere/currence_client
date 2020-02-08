@@ -37,7 +37,7 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
       className="hover:bg-blue-700 border text-blue-500 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
       type="button"
       onClick={() => {
-        follow(authenticatedUserID, storyOwnerID);
+        follow(authenticatedUserID!, storyOwnerID);
         setIsAFollower(true);
         }
         }>
