@@ -50,7 +50,7 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
   useEffect(() => {
     setStoryOwnerID(props.match.params.userID!);
-    setIsAFollower(isFollowing(authenticatedUserID, storyOwnerID))
+    setIsAFollower(isFollowing(authenticatedUserID!, storyOwnerID))
 
     const loadUserStatuses = async () => {
       await loadStatuses(storyOwnerID, setUserStatuses);
