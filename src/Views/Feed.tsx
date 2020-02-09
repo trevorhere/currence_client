@@ -10,8 +10,8 @@ const Feed: React.FC = () => {
   
     
   const addStatus = (): void   => {
-    createStatus(authenticatedUserID, newStatusMessage);
-    setFeed(buildFeed(authenticatedUserID))
+    createStatus(authenticatedUserID!, newStatusMessage);
+    setFeed(buildFeed(authenticatedUserID!))
   }
 
 
