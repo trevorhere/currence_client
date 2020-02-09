@@ -1,31 +1,32 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { signup } from '../Services/User';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { authContext } from '../Context/authContext';
+
 
 interface ISignupProps extends RouteComponentProps {
   setUserID: (userID: string) => void;
   history: any
 }
 
-const reRoute = (props:ISignupProps, userID: string):void =>{
-  props.history.push(`/feed/${userID}`)
+
+
+const reRoute = (props: RouteComponentProps, authenticatedUserID: string | null):void =>{
+  props.history.push(`/home/${authenticatedUserID}`)
 }
 
-const handleSignup = (email, password, setUserID, setUserIDCallback) => {
-  let userID = signup(email, password);
-  setUserID(userID);
-  setUserIDCallback(userID);
-}
 
 const Signup: React.FC<ISignupProps> = (props:ISignupProps) => {
 
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');  
-  const [userID, setUserID] = useState< string | null>(null);
+  const { authenticatedUserID, setAuthenticatedUserID } = useContext(authContext);
+  const [email, setEmail] = useState<string>('emailA');
+  const [password, setPassword] = useState<string>('passwordA');
+  const [alias, setAlias] = useState<string>('aliasA');
+
 
   return ( 
     <div>
-        {userID? reRoute(props, userID) : <></> } 
+      {authenticatedUserID? reRoute(props, authenticatedUserID) : null }
       <div className="bg-gray-900 min-h-screen  flex flex-col items-center justify-center text-white text-2xl">
         <form className="bg-white shadow-md w-1/4 rounded px-8 pt-6 pb-8 mb-4">
           <h2 className="text-black py-6 font-bold"> Twitter Clone</h2>
@@ -39,6 +40,18 @@ const Signup: React.FC<ISignupProps> = (props:ISignupProps) => {
               type="text" 
               placeholder="Email"
               onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Alias
+            </label>
+            <input 
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+              id="alias" 
+              type="text" 
+              placeholder="Alias"
+              onChange={(e) => setAlias(e.target.value)}
             />
           </div>
           <div className="mb-6">
@@ -57,8 +70,11 @@ const Signup: React.FC<ISignupProps> = (props:ISignupProps) => {
             <button 
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
               type="button"
-              onClick={() => {
-                handleSignup(email, password, setUserID, props.setUserID)
+              onClick={async () => {
+                const newUserID = await signup(email, alias, password);
+                if(setAuthenticatedUserID){
+                  setAuthenticatedUserID(newUserID);
+                }
               }}
               >
                 Sign Up

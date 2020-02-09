@@ -4,13 +4,13 @@ import { signin } from '../Services/User';
 import {  RouteComponentProps, withRouter} from 'react-router-dom';
 
 const reRoute = (props: RouteComponentProps, authenticatedUserID: string | null):void =>{
-  props.history.push(`/feed/${authenticatedUserID}`)
+  props.history.push(`/home/${authenticatedUserID}`)
 }
 
 const Signin: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
   const { authenticatedUserID, setAuthenticatedUserID } = useContext(authContext);
-  const [email, setEmail] = useState<string>('emailA');
+  const [alias, setAlias] = useState<string>('aliasA');
   const [password, setPassword] = useState<string>('passwordA');
 
 
@@ -22,14 +22,14 @@ const Signin: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
           <h2 className="text-black py-6 font-bold"> Twitter Clone</h2>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
-              Email 
+              Alias 
             </label>
             <input 
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-              id="email" 
+              id="alias" 
               type="text" 
-              placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Alias"
+              onChange={(e) => setAlias(e.target.value)}
             />
           </div>
           <div className="mb-6">
@@ -49,7 +49,7 @@ const Signin: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
               type="button"
               onClick={ async () => {
-                const newUserID = await signin(email, password);
+                const newUserID = await signin(alias, password);
                 console.log(`setting userID: ${newUserID}`)
                 if(setAuthenticatedUserID){
                   setAuthenticatedUserID(newUserID);

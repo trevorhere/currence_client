@@ -7,9 +7,9 @@ export const seedDB = () => {
 
     console.log('🌱 seeding DB  🌱')  
 
-    const UserA = new User("idA","emailA","passwordA");
-    const UserB = new User("idB","emailB","passwordB");
-    const UserC = new User("idC","emailC","passwordC");
+    const UserA = new User("idA", "aliasA", "emailA","passwordA");
+    const UserB = new User("idB", "aliasB","emailB","passwordB");
+    const UserC = new User("idC", "aliasC","emailC","passwordC");
 
     DB_Users.push(UserA, UserB, UserC);
 

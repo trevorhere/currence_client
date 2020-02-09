@@ -6,24 +6,23 @@ import { DB_Users, DB_Statuses } from '../DB'
 
 let currentUserID; 
 
-export const signup = async (email:string, password:string) => {
-    const newUser = new User(email, email,password);
+export const signup = async (email:string, alias:string, password:string) => {
+    const newUser = new User(alias, email, alias, password);
     DB_Users.push(newUser);
-    currentUserID= newUser.getID();
+    currentUserID = newUser.getID();
 
-    const StatusX1 = new Status(email,`this is status 1 for ${email}`);
-    const StatusX2 = new Status(email,`this is status 2 for ${email}`);
-    const StatusX3 = new Status(email,`this is status 3 for ${email}`);
+    const StatusX1 = new Status(alias,`this is status 1 for ${alias}`);
+    const StatusX2 = new Status(alias,`this is status 2 for ${alias}`);
+    const StatusX3 = new Status(alias,`this is status 3 for ${alias}`);
 
     DB_Statuses.push(StatusX1, StatusX2, StatusX3);
-
-    return newUser.getID();
+    return currentUserID;
 }
 
-export const signin =  async (email:string, password:string) => {
+export const signin =  async (alias:string, password:string) => {
     console.log('signing in');
     let currentUserArr = DB_Users.filter(user => {
-        return (user.email == email && user.password == password)
+        return (user.alias == alias && user.password == password)
     });
 
     if(currentUserArr.length < 1){
@@ -52,5 +51,6 @@ export const getCurrentUserID = (): string | null => {
         return null;
     }
 }
+
 
 

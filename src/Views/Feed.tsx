@@ -1,27 +1,21 @@
 import React, { useContext, useState, useEffect} from 'react';
 import { authContext } from '../Context/authContext';
-import { RouteComponentProps } from 'react-router-dom';
-import { buildFeed } from '../Services/Feed'
+import { buildFeed, createStatus } from '../Services/Feed'
 import {Status } from '../Models'
 
-const Feed: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
+const Feed: React.FC = () => {
   const { authenticatedUserID } = useContext(authContext);
-
-  const [currUserID, setCurrUserID] = useState<string| null>(null);
   const [feed, setFeed] = useState< Status[] | null  >(null);
   const [newStatusMessage, setNewStatusMessage] = useState<string>('');
   
     
-  const addStatus = (status: Status): void   => {
-    console.log('status', status);
-    // userStatuses!.push(status);
-    // if(userStatuses){
-    //   setUserStatuses([...userStatuses])
-    // }
+  const addStatus = (): void   => {
+    createStatus(authenticatedUserID, newStatusMessage);
+    setFeed(buildFeed(authenticatedUserID))
   }
 
 
-  function renderFeed(){
+  const renderFeed = () => {
       if(feed != null){
         return feed.map(status => {
           return (
@@ -33,25 +27,17 @@ const Feed: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
     }
   
   useEffect(() => {
-    setCurrUserID(props.match.params.userID)
-    const latestFeed =  buildFeed(currUserID);
+    const latestFeed =  buildFeed(authenticatedUserID!);
     setFeed(latestFeed);
-  }, [props.match.params.userID, currUserID])
+  }, [authenticatedUserID])
 
 
   return (
-
     <div className="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white text-2xl">
-      {( authenticatedUserID && authenticatedUserID == props.match.params.userID) 
-      ? 
-      <div>
-        <h2>Feed For Authenticated User: {authenticatedUserID} </h2>
-        {renderFeed()}
-        <label className="block text-gray-700 text-xsm py-4 font-bold mb-2">
-              New Status
-            </label>
+        <h2>Home </h2>
+        <div className="flex-row">
             <input 
-              className="shadow appearance-none border rounded w-1/4 py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+              className="shadow appearance-none border rounded  py-3 px-3 mx-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
               id="status" 
               type="text" 
               placeholder="status"
@@ -60,18 +46,14 @@ const Feed: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
             <button 
               className="hover:bg-blue-700 border text-blue-500 font-bold my-3 py-3 px-4 rounded focus:outline-none focus:shadow-outline" 
               type="button"
-              onClick={() =>  addStatus(new Status(authenticatedUserID!, newStatusMessage!))}
+              onClick={() =>  addStatus()}
               >
                 Submit
             </button>
-      </div>
-      : 
-      <div>
-        <h2> No User Found</h2>
-      </div>
-      }
-    </div>
+        </div>
 
+        {renderFeed()}
+      </div>
   );
 }
 

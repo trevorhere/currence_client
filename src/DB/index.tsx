@@ -5,7 +5,7 @@ import {
     DB_Statuses, 
 } from './db_Builder'
 
-let currentUser = new User("","","");
+let currentUser = new User("","","","");
 
 const setCurrentUser = (newCurrentUser: User) => {
     currentUser = newCurrentUser;
@@ -15,10 +15,10 @@ const getCurrentUser = () => {
     return currentUser;
 }
 
-const getUser = (user_id: string):  User | null => {
+const getUser = (userID: string):  User | null => {
 
     let user = DB_Users.filter( user => {
-        return user.getID() == user_id;
+        return user.getID() === userID;
     })
 
     if(user.length > 0){

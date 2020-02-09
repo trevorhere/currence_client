@@ -3,14 +3,16 @@ import { Status } from './Status';
 export class User {
     id: string;
     email:string;
+    alias:string;
     password: string;
     followers: User[];
     following: User[];
     statuses: Status[];
 
-    constructor(id: string, email:string, password:string){
+    constructor(id: string, alias:string, email:string, password:string){
         this.id = id;
         this.email = email;
+        this.alias = alias;
         this.password = password;
         this.followers = [];
         this.following = [];
@@ -18,6 +20,9 @@ export class User {
     }
     getID():string{
         return this.id;
+    }
+    getAlias():string{
+        return this.alias;
     }
     setEmail(email:string): void {
         this.email = email;
@@ -63,8 +68,10 @@ export class User {
     }
     addStatus(status: Status): void {
         this.statuses.push(status);
+        console.log(this.email,'added status: ', status.id, status.message)
     }
-    getStatuses(): Status[] {        
+    getStatuses(): Status[] {   
+        console.log('get statuses: ',[...this.statuses])     
         return this.statuses;
     }
 }

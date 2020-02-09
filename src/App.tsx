@@ -37,9 +37,9 @@ const App: React.FC = () => {
           <Route path="/signup" exact component={Signup}/>
           <Route path="/signin" exact component={Signin}/>
           <Route path='/story/:userID' exact component={Story} />
-          <Route path='/followers/:userID' component={Followers} />
-          <Route path='/following/:userID' component={Following} />
-          <PrivateRoute path='/feed/:userID' component={Feed} />
+          <PrivateRoute path='/followers/:userID' component={Followers} />
+          <PrivateRoute path='/following/:userID' component={Following} />
+          <PrivateRoute path='/home/:userID' component={Feed} />
           <Route path="/" exact component={Index}/>
           <Route render={() => <Redirect to="/" />} />
 

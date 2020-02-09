@@ -1,22 +1,19 @@
 import { getUser } from '../DB'
-import { Status } from '../Models';
-import * as util from 'util' // has no default export
+import  { User, Status} from '../Models'
+import * as util from 'util' 
 
 export const  buildFeed = ( userID:string | null) => {
-
 
     if(userID){
 
         let currUser = getUser(userID);
-        console.log('followers: \n', util.inspect(currUser?.getFollowers()));
+        // console.log('followers: \n', util.inspect(currUser?.getFollowers()));
 
-
-        if(!currUser){
+        if(!currUser)
             return null;
-        }
 
-        let followers = currUser.getFollowers();
-        let feed: Status[] = [];
+        let followers = [...currUser.getFollowers()];
+        let feed = [...currUser.getStatuses()];
 
         followers.map(follower => {
             follower.getStatuses().map(status => {
@@ -24,10 +21,13 @@ export const  buildFeed = ( userID:string | null) => {
             })
         });
 
-        console.log("feed: ", feed);
-
-
         return feed;
 
     } else return null;
+}
+
+export const createStatus = (userID:string, message: string):void => {
+   // console.log('userID; ', userID, ' message: ', message);
+    const newStatus = new Status(userID, message);
+    getUser(userID)?.addStatus(newStatus);
 }

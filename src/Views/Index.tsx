@@ -33,7 +33,7 @@ const Index: React.FC<RouteComponentProps> = (props) => {
 
       <header className="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white  text-2xl">
         <p className="py-20 text-4xl">
-          Welcome To TwitterClone
+          Welcome To Currence
         </p>
 
       <div className="container flex justify-between mx-auto">

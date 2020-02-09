@@ -12,7 +12,7 @@ import { authContext } from "../Context/authContext";
 const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   
   const { authenticatedUserID } = useContext(authContext);
-  const [userStatuses, setUserStatuses] = useState<Status[] | undefined>([]);
+  const [userStory, setUserStory] = useState<Status[] | null>(null);
   const [storyOwnerID, setStoryOwnerID] = useState<string>('');
   const [isAFollower, setIsAFollower] = useState<boolean | null>(null);
 
@@ -46,19 +46,14 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
       </div>
   }
 
-
-
   useEffect(() => {
     setStoryOwnerID(props.match.params.userID!);
     setIsAFollower(isFollowing(authenticatedUserID!, storyOwnerID))
 
-    const loadUserStatuses = async () => {
-      await loadStatuses(storyOwnerID, setUserStatuses);
-    };
+    const latestStory = loadStatuses(storyOwnerID);
+    setUserStory(latestStory)
 
-    loadUserStatuses();
-
-  },[props,storyOwnerID,authenticatedUserID, userStatuses]);
+  },[props,storyOwnerID,authenticatedUserID]);
 
 
   return (
@@ -68,7 +63,7 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
       ? 
       <div>
 
-        {(authenticatedUserID == storyOwnerID) 
+        {(authenticatedUserID === storyOwnerID) 
         ?
         <div>
 
@@ -91,8 +86,8 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
     <div>
       <h2>Story: {storyOwnerID }</h2>
-        { userStatuses?.map(status => {
-        return( <p>status: {status.message}</p> )
+        { userStory?.map(status => {
+        return( <p>status: {status.message} owner_id: {status.user_id}</p> )
         })}
         </div>   
 
