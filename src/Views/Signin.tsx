@@ -4,7 +4,7 @@ import { signin } from '../Services/User';
 import {  RouteComponentProps, withRouter} from 'react-router-dom';
 
 const reRoute = (props: RouteComponentProps, authenticatedUserID: string | null):void =>{
-  props.history.push(`/home/${authenticatedUserID}`)
+  props.history.push(`/home`)
 }
 
 const Signin: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {

@@ -39,7 +39,7 @@ const App: React.FC = () => {
           <Route path='/story/:userID' exact component={Story} />
           <PrivateRoute path='/followers/:userID' component={Followers} />
           <PrivateRoute path='/following/:userID' component={Following} />
-          <PrivateRoute path='/home/:userID' component={Feed} />
+          <PrivateRoute path='/home' component={Feed} />
           <Route path="/" exact component={Index}/>
           <Route render={() => <Redirect to="/" />} />
 
