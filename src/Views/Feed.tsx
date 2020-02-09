@@ -11,6 +11,7 @@ const Feed: React.FC = () => {
     
   const addStatus = (): void   => {
     createStatus(authenticatedUserID!, newStatusMessage);
+    setNewStatusMessage('');
     setFeed(buildFeed(authenticatedUserID!))
   }
 
@@ -39,6 +40,7 @@ const Feed: React.FC = () => {
             <input 
               className="shadow appearance-none border rounded  py-3 px-3 mx-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
               id="status" 
+              value={newStatusMessage}
               type="text" 
               placeholder="status"
               onChange={(e) => setNewStatusMessage(e.target.value)}
