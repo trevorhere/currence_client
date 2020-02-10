@@ -10,14 +10,15 @@ export class User {
     statuses: Status[];
 
     constructor(id: string, alias:string, email:string, password:string){
-        this.id = id;
+        this.id = alias;
         this.email = email;
         this.alias = alias;
         this.password = password;
         this.followers = [];
         this.following = [];
-        this.statuses = []
+        this.statuses = [];
     }
+
     getID():string{
         return this.id;
     }

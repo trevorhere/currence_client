@@ -1,8 +1,10 @@
 import { getUser } from '../DB'
 import  { User, Status} from '../Models'
-import * as util from 'util' 
+import * as util from 'util'
+import moment from 'moment';
 
-export const  buildFeed = ( userID:string | null) => {
+
+export const  buildFeed = ( userID: string | null) => {
 
     if(userID){
 
@@ -12,22 +14,25 @@ export const  buildFeed = ( userID:string | null) => {
         if(!currUser)
             return null;
 
-        let followers = [...currUser.getFollowers()];
+        let followees = [...currUser.getFollowing()];
         let feed = [...currUser.getStatuses()];
 
-        followers.map(follower => {
-            follower.getStatuses().map(status => {
+        followees.map(followee => {
+            followee.getStatuses().map(status => {
                 feed.push(status);
             })
         });
 
-        return feed;
+
+
+        return feed.sort((b, a) => moment(a.created_at).diff(b.created_at));
 
     } else return null;
 }
 
 export const createStatus = (userID:string, message: string):void => {
    // console.log('userID; ', userID, ' message: ', message);
-    const newStatus = new Status(userID, message);
-    getUser(userID)?.addStatus(newStatus);
+    const user = getUser(userID);
+    const newStatus = new Status(userID, user!.alias, message);
+    user?.addStatus(newStatus);
 }

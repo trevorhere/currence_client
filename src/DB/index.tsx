@@ -3,6 +3,7 @@ import { User, Status} from '../Models'
 import { 
     DB_Users, 
     DB_Statuses, 
+    DB_Aliases
 } from './db_Builder'
 
 let currentUser = new User("","","","");
@@ -35,6 +36,7 @@ export {
     getCurrentUser, 
     getUser,  
     DB_Statuses, 
-    DB_Users
+    DB_Users,
+    DB_Aliases
 }
 

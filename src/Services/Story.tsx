@@ -1,5 +1,7 @@
 import { getUser } from '../DB'
 import { User, Status } from '../Models';
+import moment from 'moment';
+
 
 
 export const fetchUser = ( userID: string): User | null => {
@@ -9,7 +11,7 @@ export const fetchUser = ( userID: string): User | null => {
 export const loadStatuses = ( userID:string): Status[] | null => {
     const user = getUser(userID);
     if(user){
-        return [...user!.getStatuses()]
+        return [...user!.getStatuses()].sort((b, a) => moment(a.created_at).diff(b.created_at));
     }
 
     return null;
