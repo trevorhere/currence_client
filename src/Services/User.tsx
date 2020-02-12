@@ -61,11 +61,8 @@ export const getCurrentUserID = (): string | null => {
 export const goodAlias = (alias) => {
 
     let result = true;
-    if( alias.split('')[0] !== '@'){
-        console.log('failed on 1');
-        result = false;
-    }
-    if(!alias.split('').splice(1,alias.length).join('').match(/^[a-z]+$/i)){
+
+    if(!alias.match(/^[a-z]+$/i)){
         console.log('failed on 2');
         result = false;
     }

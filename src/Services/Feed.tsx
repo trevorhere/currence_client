@@ -7,7 +7,6 @@ import moment from 'moment';
 export const  buildFeed = ( userID: string | null) => {
 
     if(userID){
-
         let currUser = getUser(userID);
         // console.log('followers: \n', util.inspect(currUser?.getFollowers()));
 
@@ -17,12 +16,13 @@ export const  buildFeed = ( userID: string | null) => {
         let followees = [...currUser.getFollowing()];
         let feed = [...currUser.getStatuses()];
 
-        followees.map(followee => {
-            followee.getStatuses().map(status => {
-                feed.push(status);
-            })
-        });
-
+        if(followees.length > 0){
+            followees.map(followee => {
+                followee.getStatuses().map(status => {
+                    feed.push(status);
+                })
+            });
+        };
 
 
         return feed.sort((b, a) => moment(a.created_at).diff(b.created_at));

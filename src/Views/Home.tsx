@@ -1,15 +1,7 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, { useContext}  from 'react';
 import logo from '../Assets/logo.svg';
-import { Link, RouteComponentProps} from 'react-router-dom';
-import Feed from './Feed';
-import Story from './Story';
-import Followers from './Followers';
-import Following from './Following';
-import { User } from '../Models/User';
-
+import { RouteComponentProps} from 'react-router-dom';
 import { authContext } from "../Context/authContext";
-
-
 
 
 const reRoute = (props):void =>{

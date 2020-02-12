@@ -8,6 +8,7 @@ export class User {
     followers: User[];
     following: User[];
     statuses: Status[];
+    picture: string;
 
     constructor(id: string, alias:string, email:string, password:string){
         this.id = alias;
@@ -17,6 +18,7 @@ export class User {
         this.followers = [];
         this.following = [];
         this.statuses = [];
+        this.picture = "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcR78nxauqRQgKG0Ef9sfHVvsHD1WMnxeP8GUBJOuYtOUd_YC3Gq"
     }
 
     getID():string{

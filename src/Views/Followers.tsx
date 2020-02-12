@@ -1,7 +1,6 @@
-import React, { useContext, useState, useEffect} from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import { authContext } from '../Context/authContext';
-import {Status, User } from '../Models'
+import React, { useState, useEffect} from 'react';
+import { RouteComponentProps, Link } from 'react-router-dom';
+import { User } from '../Models'
 
 import  { buildFollowers } from '../Services/Followers'
 
@@ -10,10 +9,8 @@ import  { buildFollowers } from '../Services/Followers'
 
 const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
-  const { authenticatedUserID } = useContext(authContext);
   const [currUserID, setCurrUserID] = useState<string| null>(null);
   const [followers, setFollowers] = useState< User[] | null  >(null);
-  const [newStatusMessage, setNewStatusMessage] = useState<string>('');
 
   useEffect(() => {
     setCurrUserID(props.match.params.userID)
@@ -25,9 +22,19 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
   
   const renderFollowers = () => {
     if(followers != null){
-      return followers.map(user => {
+      return followers.map((user, i) => {
         return (
-          <h2 key={user.id}> email: {user.email} </h2>
+
+          <div className="flex border-b-2 w-1/2 border-gray-600 items-center py-4">
+          <img className="w-10 h-10 rounded-full mr-4"  src={user.picture} alt="Avatar of Jonathan Reinink"/>
+          <div className="text-sm">
+          <Link 
+            to={`/story/${user.alias}`}
+            className="leading-none text-blue-500 hover:underline"
+            >{user.alias}</Link>
+            <p className="text-gray-600">Aug 18</p>
+          </div>
+          </div>
         )})
       } else {
         return <p>followers not found</p>
