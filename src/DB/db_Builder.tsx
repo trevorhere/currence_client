@@ -5,13 +5,17 @@ export const DB_Statuses: Status[] = [];
 export const DB_Aliases: string[] = [];
 
 
+const url1 = "https://i.imgur.com/TJtR10j.png";
+const url2 = "https://i.imgur.com/7uQJRfe.png";
+const url3 = "https://i.imgur.com/sJE8BhU.png"
+
 export const seedDB = () => {
 
     console.log('🌱 seeding DB  🌱')  
 
-    const UserA = new User("aliasA", "aliasA", "emailA","passwordA");
-    const UserB = new User("aliasB", "aliasB","emailB","passwordB");
-    const UserC = new User("aliasC", "aliasC","emailC","passwordC");
+    const UserA = new User("aliasA", "aliasA", "emailA","passwordA", url1);
+    const UserB = new User("aliasB", "aliasB","emailB","passwordB" ,url2);
+    const UserC = new User("aliasC", "aliasC","emailC","passwordC", url3);
 
     DB_Users.push(UserA, UserB, UserC);
 

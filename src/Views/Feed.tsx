@@ -1,10 +1,8 @@
 import React, { useContext, useState, useEffect} from 'react';
 import { authContext } from '../Context/authContext';
-import { Link } from 'react-router-dom';
-import { buildFeed, createStatus } from '../Services/Feed'
+import { buildFeed, createStatus, aliasCStatus } from '../Services/Feed'
 import {Status } from '../Models'
 import { cStatus } from '../Components'
-import moment from 'moment';
 
 const Feed: React.FC = () => {
   const { authenticatedUserID } = useContext(authContext);
@@ -18,21 +16,7 @@ const Feed: React.FC = () => {
     setFeed(buildFeed(authenticatedUserID!))
   }
 
-  const renderStatusMessage = (msg:string) => {
-    return ( msg.split(" ").map(word => {
-      if(word[0] === '@'){
-      return (
-        <Link 
-          to={`/story/${word.slice(1, word.length)}`}
-          className="text-blue-500 hover:underline"
-          >{word}</Link>
-        )
-      } else {
-        return ` ${word} `;
-      }
-    })
-    )
-  }
+
 
 
   const renderFeed = () => {
@@ -75,6 +59,14 @@ const Feed: React.FC = () => {
         </div>
 
         {renderFeed()}
+
+            <button 
+              className=" hover:bg-blue-700 border text-blue-500 font-bold my-3 py-3 px-4 rounded focus:outline-none focus:shadow-outline" 
+              type="button"
+              onClick={() =>  aliasCStatus()}
+              >
+                aliasC Status
+            </button>
       </div>
   );
 }

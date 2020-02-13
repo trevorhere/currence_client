@@ -6,7 +6,7 @@ import {
     DB_Aliases
 } from './db_Builder'
 
-let currentUser = new User("","","","");
+let currentUser = new User("","","","","");
 
 const setCurrentUser = (newCurrentUser: User) => {
     currentUser = newCurrentUser;

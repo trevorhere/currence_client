@@ -13,7 +13,7 @@ export const signup = async (email:string, alias:string, password:string) => {
     }
 
 
-    const newUser = new User(alias, alias, email, password);
+    const newUser = new User(alias, alias, email, password, "https://i.imgur.com/ylyowqj.png");
     DB_Users.push(newUser);
     currentUserID = newUser.getID();
 
