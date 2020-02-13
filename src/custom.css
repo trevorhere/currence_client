@@ -1,0 +1,7 @@
+.cStatus  a {
+   color: #4299E0; 
+}
+
+.cStatus a:hover {
+    text-decoration: underline !important;
+}
