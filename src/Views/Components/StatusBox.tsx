@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Status } from '../Models'
+import { Status } from '../../Models'
 import moment from 'moment';
 import Linkify from 'react-linkify';
-import '.././custom.css';
-import { getUser } from '../DB'
+import '../.././custom.css';
+import { getUser } from '../../DB'
 
 const getUserImage = (userID: string): string => {
     const user = getUser(userID);
@@ -30,9 +30,9 @@ const renderStatusMessage = (msg:string) => {
     )
 }
 
-export const cStatus = (status: Status) => {
+const StatusBox = (status: Status) => {
     return(
-        <div key={status.id} className="cStatus flex border-b-2 border-gray-600  px-2 py-2 items-stretch mb-5 lg:w-1/4 sm:w-1/2  text-sm">
+        <div key={status.id} className="cStatus flex border-b border-gray-600  px-2 py-2 items-stretch mb-5 w-full  text-sm">
         <img 
             alt="meaningful text" 
             src={getUserImage(status.user_id)}
@@ -52,3 +52,6 @@ export const cStatus = (status: Status) => {
     )
 }
 
+
+
+export default StatusBox

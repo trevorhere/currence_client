@@ -24,7 +24,6 @@ const Following: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
     unfollow(authenticatedUserID!, followingID);
     const latestFollowing =  buildFollowing(currUserID);
     setFollowing(latestFollowing);
-
   }
 
   
@@ -32,7 +31,7 @@ const Following: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
     if(Following != null){
       return Following.map((user,i) => {
         return (
-          <div className="flex border-b-2 w-1/2 border-gray-600 items-center justify-between py-4">
+          <div className="flex border-b-2 border-gray-600 items-center justify-between py-4">
             <div className="flex flex-row">
               <div>
                 <img className="w-10 h-10 rounded-full mr-4"  src={user.picture} alt="Avatar of Jonathan Reinink"/>
@@ -46,7 +45,8 @@ const Following: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
               </div>
             </div>
           <button 
-              className="hover:bg-blue-700 border text-md text-blue-500  py-1 px-2 mx-10 rounded focus:outline-none focus:shadow-outline" 
+              className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2  rounded focus:outline-none focus:shadow-outline" 
+
               type="button"
               onClick={() =>  handleUnfollow(user.id)}
               >
@@ -62,10 +62,11 @@ const Following: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
 
 
   return (
-    <div className="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white text-2xl">
-      <h2 className="text-left font-bold my-4"> Following </h2>
-      {renderFollowing()}
+    <div className="flex pt-32 flex-col items-center content-center justify-center  text-white text-xl">
+    <div className=" w-1/4 ">
+    {renderFollowing()}
     </div>
+</div>
   );
 }
 

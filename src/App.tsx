@@ -3,22 +3,29 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import Index from './Views/Index'
 import Signin from './Views/Signin'
 import Signup from './Views/Signup'
-import Home from './Views/Home'
 import Story from './Views/Story'
-import Nav from './Components/Nav'
+import Nav from './Views/Components/Nav'
 import { seedDB } from './DB/db_Builder';
 import { authContext } from "./Context/authContext";
 import Feed from './Views/Feed';
 import Followers from './Views/Followers';
 import Following from './Views/Following';
 
+import { getUser, setCurrentUser} from './DB'
 
 const App: React.FC = () => {
 
   seedDB();
 
+  const user = getUser("aliasA");
+  setCurrentUser(user!);
+
+
+
   const [authenticatedUserID, setAuthenticatedUserID] = useState(null);
   const value = useMemo(() => ({  authenticatedUserID, setAuthenticatedUserID }), [authenticatedUserID, setAuthenticatedUserID]);
+
+  
 
   const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
@@ -28,8 +35,8 @@ const App: React.FC = () => {
     )} />
   )
 
-
   return (
+    <div className="w-full overflow-x-hidden">
     <authContext.Provider value={value}>
       <Router>
         <Nav />
@@ -46,6 +53,7 @@ const App: React.FC = () => {
         </Switch>
       </Router>
     </authContext.Provider>
+    </div>
   );
 }
 

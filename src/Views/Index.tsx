@@ -3,7 +3,6 @@ import { RouteComponentProps} from 'react-router-dom';
 
 const Index: React.FC<RouteComponentProps> = (props) => {
   
-
   return ( 
     <div className="m-auto antialiased font-sans font-serif font-mono text-center">
       <header className="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white  text-2xl">
@@ -34,4 +33,3 @@ const Index: React.FC<RouteComponentProps> = (props) => {
 }
 
 export default Index;
-
