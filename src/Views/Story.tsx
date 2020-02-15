@@ -5,7 +5,7 @@ import { loadStatuses, follow, unFollow, isFollowing} from '../Services/Story';
 import { authContext } from "../Context/authContext";
 import  StatusBox from "./Components/StatusBox"
 import  ProfileBox  from './Components/ProfileBox'
-import { getUser } from '../DB'
+import { getUser } from '../API'
 
 const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   

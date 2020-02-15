@@ -4,7 +4,6 @@ import { buildFeed, createStatus, aliasCStatus } from '../Services/Feed'
 import {Status } from '../Models'
 import StatusBox  from './Components/StatusBox'
 import  ProfileBox  from './Components/ProfileBox'
-import { signin } from '../Services/User';
 import styled from 'styled-components';
 import '../custom.css'
 

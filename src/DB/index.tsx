@@ -16,6 +16,25 @@ const getCurrentUser = () => {
     return currentUser;
 }
 
+const getUsers = () => {
+    return [...DB_Users]
+}
+
+const addUser = (user: User):void => {
+    DB_Users.push(user);
+}
+
+const getAliases = () => {
+    return [...DB_Aliases]
+}
+
+const getStatuses = () => {
+    return [...DB_Statuses]
+}
+
+const addStatus = (status: Status):void => {
+    DB_Statuses.push(status);
+}
 const getUser = (userID: string):  User | null => {
 
     let user = DB_Users.filter( user => {
@@ -30,13 +49,16 @@ const getUser = (userID: string):  User | null => {
 }
 
 
-
-export { 
+export
+{
     setCurrentUser,
     getCurrentUser, 
     getUser,  
-    DB_Statuses, 
-    DB_Users,
-    DB_Aliases
+    addUser,
+    getUsers,  
+    getStatuses,
+    addStatus,
+    getAliases
 }
+
 

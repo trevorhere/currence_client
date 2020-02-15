@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import { signup } from '../Services/User';
+import { signup } from '../Services/auth';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { authContext } from '../Context/authContext';
 

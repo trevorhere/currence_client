@@ -2,7 +2,7 @@
 import { User } from '../Models/User'
 import { Status } from '../Models/Status'
 
-import { DB_Users, DB_Statuses } from '../DB'
+import { addUser, addStatus, getUsers, getStatuses } from '../API'
 
 let currentUserID; 
 
@@ -14,20 +14,23 @@ export const signup = async (email:string, alias:string, password:string) => {
 
 
     const newUser = new User(alias, alias, email, password, "https://i.imgur.com/ylyowqj.png");
-    DB_Users.push(newUser);
+    addUser(newUser);
     currentUserID = newUser.getID();
 
     const StatusX1 = new Status(alias, alias,`this is status 1 for ${alias}`);
     const StatusX2 = new Status(alias,alias, `this is status 2 for ${alias}`);
     const StatusX3 = new Status(alias,alias,`this is status 3 for ${alias}`);
 
-    DB_Statuses.push(StatusX1, StatusX2, StatusX3);
+    addStatus(StatusX1);
+    addStatus( StatusX2);
+    addStatus(StatusX3);
+
     return currentUserID;
 }
 
 export const signin =  async (alias:string, password:string) => {
     console.log('signing in');
-    let currentUserArr = DB_Users.filter(user => {
+    let currentUserArr = getUsers().filter(user => {
         return (user.alias === alias && user.password === password)
     });
 
@@ -72,7 +75,7 @@ export const goodAlias = (alias) => {
         result = false;
     }
 
-    let existing_aliases = DB_Users.filter(user => {
+    let existing_aliases = getUsers().filter(user => {
         return(alias === user.alias)
     });
 

@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
 import { authContext } from '../Context/authContext';
-import { signin } from '../Services/User';
+import { signin } from '../Services/auth';
 import {  RouteComponentProps, withRouter} from 'react-router-dom';
 
 const reRoute = (props: RouteComponentProps, authenticatedUserID: string | null):void =>{

@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect} from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { User } from '../Models'
 import { authContext } from "../Context/authContext";
+import { follow, unFollow, isFollowing} from '../Services/Story';
+
 
 import  { buildFollowers } from '../Services/Followers'
 
@@ -14,6 +16,7 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
 
   const [currUserID, setCurrUserID] = useState<string| null>(null);
   const [followers, setFollowers] = useState< User[] | null  >(null);
+  const [isAFollower, setIsAFollower] = useState<boolean | null>(null);
   const { authenticatedUserID } = useContext(authContext);
 
   
@@ -25,10 +28,44 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
   }, [props.match.params.userID, currUserID])
 
 
-  const handleUnfollow = ( followingID:string) => {
-    unfollow(authenticatedUserID!, followingID);
+  const handleUnfollow = ( followeeID:string) => {
+    unfollow(currUserID!, followeeID);
     const latestFollowers =  buildFollowers(currUserID);
     setFollowers(latestFollowers);
+  }
+
+  const handleFollow = (followeeID:string) => {
+    follow(currUserID!, followeeID);
+    const latestFollowers =  buildFollowers(currUserID);
+    setFollowers(latestFollowers);
+  }
+
+
+  const renderFollowActionButton = (userID:string , followeeID: string) => {
+    return (isFollowing(currUserID!, followeeID)) ?
+      <div>
+      <button 
+        className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2  rounded focus:outline-none focus:shadow-outline" 
+        type="button"
+        onClick={() => {
+          handleUnfollow(followeeID);
+        }}
+      >
+        unfollow
+      </button>
+      </div>
+      :
+      <div>
+      <button 
+        className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2  rounded focus:outline-none focus:shadow-outline" 
+        type="button"
+        onClick={() => {
+          handleFollow(followeeID);
+        }
+        }>
+        follow
+      </button>
+      </div>
   }
 
   
@@ -49,13 +86,7 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
                   <p className="text-gray-600">Aug 18</p>
               </div>
           </div>
-          <button 
-              className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2  rounded focus:outline-none focus:shadow-outline" 
-              type="button"
-              onClick={() =>  handleUnfollow(user.id)}
-              >
-                unfollow
-            </button>
+            {renderFollowActionButton(authenticatedUserID!, user.getID()!)}
           </div>
         )})
       } else {

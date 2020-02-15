@@ -1,4 +1,4 @@
-import { getUser } from '../DB'
+import { getUser } from '../API'
 import * as util from 'util' // has no default export
 
 export const  buildFollowers = ( userID:string | null) => {

@@ -1,4 +1,4 @@
-import { getUser } from '../DB'
+import { getUser } from '../API'
 import { User, Status } from '../Models';
 import moment from 'moment';
 
@@ -13,7 +13,6 @@ export const loadStatuses = ( userID:string): Status[] | null => {
     if(user){
         return [...user!.getStatuses()].sort((b, a) => moment(a.created_at).diff(b.created_at));
     }
-
     return null;
 } 
 
@@ -33,9 +32,6 @@ export const follow = (userID: string, followeeID: string): void => {
 
     user?.addFollowing(followee!);
     followee?.addFollower(user!);
-
-    console.log('following: ', user?.getFollowing());
-
 }
 
 export const unFollow = (userID: string, followeeID: string): void => {
@@ -44,18 +40,13 @@ export const unFollow = (userID: string, followeeID: string): void => {
 
     user!.removeFollowing(followee!);
     followee!.removeFollower(user!);
-
-    console.log('following: ', user?.getFollowing());
 }
 
 export const isFollowing = (userID: string, followeeID: string): boolean => {
+    console.log('userID', userID);
+    console.log('fID', followeeID);
     const user = getUser(userID);
+
+    console.log('returning: ',user?.getFollowee(followeeID) !== undefined )
     return (user?.getFollowee(followeeID) !== undefined);
 }
-
-
-    // const fetchUserStatuses = async () => {
-    //     const fetchUserId = await setuserID(props?.match?.params.userID);
-    //     console.log('working', getUser(userID)?.getStatuses());
-    //     setUserStatuses(getUser(userID)?.getStatuses())
-    //   }

@@ -11,7 +11,7 @@ import Feed from './Views/Feed';
 import Followers from './Views/Followers';
 import Following from './Views/Following';
 
-import { getUser, setCurrentUser} from './DB'
+import { getUser, setCurrentUser} from './API'
 
 const App: React.FC = () => {
 

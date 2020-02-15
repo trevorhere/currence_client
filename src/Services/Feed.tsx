@@ -1,8 +1,6 @@
-import { getUser } from '../DB'
-import  { User, Status} from '../Models'
-import * as util from 'util'
+import { getUser } from '../API'
+import  { Status } from '../Models'
 import moment from 'moment';
-import { addListener } from 'cluster';
 
 
 export const  buildFeed = ( userID: string | null) => {
@@ -32,7 +30,6 @@ export const  buildFeed = ( userID: string | null) => {
 }
 
 export const createStatus = (userID:string, message: string):void => {
-   // console.log('userID; ', userID, ' message: ', message);
     const user = getUser(userID);
     const newStatus = new Status(userID, user!.alias, message);
     user?.addStatus(newStatus);

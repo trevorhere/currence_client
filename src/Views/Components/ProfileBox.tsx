@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import { RouteComponentProps} from "react-router";
 import { follow, unFollow, isFollowing} from '../../Services/Story';
 import { authContext } from "../../Context/authContext";
-import { getUser } from '../../DB'
+import { getUser } from '../../API'
 import { User } from '../../Models';
 
 

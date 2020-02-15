@@ -4,7 +4,7 @@ import { Status } from '../../Models'
 import moment from 'moment';
 import Linkify from 'react-linkify';
 import '../.././custom.css';
-import { getUser } from '../../DB'
+import { getUser } from '../../API'
 
 const getUserImage = (userID: string): string => {
     const user = getUser(userID);

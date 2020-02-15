@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import {  RouteComponentProps, withRouter, Link } from 'react-router-dom';
-import { signout } from '../../Services/User';
+import { signout } from '../../Services/auth';
 
 
 import { authContext } from "../../Context/authContext";
@@ -24,7 +24,7 @@ const Nav: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
             ${props.location.pathname.includes(name) ? `bg-white text-blue-500` : `` }`}
         onClick={() => props.history.push(path)}>{name}</button>
     )
-}
+  }
 
 
   return ( 
