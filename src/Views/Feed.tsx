@@ -1,27 +1,22 @@
 import React, { useContext, useState, useEffect} from 'react';
 import { authContext } from '../Context/authContext';
-import { buildFeed, createStatus, aliasCStatus } from '../Services/Feed'
+import { buildFeed, createStatus } from '../Services/Feed'
 import {Status } from '../Models'
 import StatusBox  from './Components/StatusBox'
 import  ProfileBox  from './Components/ProfileBox'
 import styled from 'styled-components';
 import '../custom.css'
 
-
 const Feed: React.FC = () => {
-  const [userID, setUserID] = useState<string>('');
-  const { authenticatedUserID, setAuthenticatedUserID } = useContext(authContext);
+  const { authenticatedUserID } = useContext(authContext);
   const [feed, setFeed] = useState< Status[] | null  >(null);
   const [newStatusMessage, setNewStatusMessage] = useState<string>('');
-  
     
   const addStatus = (): void   => {
     createStatus(authenticatedUserID!, newStatusMessage);
     setNewStatusMessage('');
     setFeed(buildFeed(authenticatedUserID!))
   }
-
-
 
   const validStatusLength = ():boolean => {
   return newStatusMessage.split('').length > 128
@@ -42,7 +37,6 @@ const Feed: React.FC = () => {
     }
   
   useEffect(() => {
-    // const latestFeed =  buildFeed(authenticatedUserID!);
     const latestFeed =  buildFeed("aliasA");
     setFeed(latestFeed);
   }, [authenticatedUserID])
@@ -105,19 +99,14 @@ const Feed: React.FC = () => {
 
 export default Feed;
 
-
-
 const StatusContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0;
-  
   padding: .25rem;
   border-radius: .25rem;
   align-items: end;
   margin-bottom: 1.5rem;
-
-
 `
 const StatusField = styled.textarea`
   resize: none; 

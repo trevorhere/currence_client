@@ -8,6 +8,7 @@ export class User {
     followers: User[];
     following: User[];
     statuses: Status[];
+    feed: Status[];
     picture: string;
 
     constructor(id: string, alias:string, email:string, password:string,picture:string){
@@ -18,6 +19,7 @@ export class User {
         this.followers = [];
         this.following = [];
         this.statuses = [];
+        this.feed = [];
         this.picture = picture;
     }
 
@@ -46,7 +48,7 @@ export class User {
         this.followers.push(user);
     }
     removeFollower(user: User): void {
-        this.followers.filter(follower => follower.id !==  user.id)
+        this.setFollowers(this.followers.filter(follower => follower.id !==  user.id))
     }
     getFollower(userID: string): User | undefined{
         return this.followers.find(follower =>  follower.id === userID)
@@ -62,9 +64,13 @@ export class User {
     }
     removeFollowing(user: User): void {
         this.setFollowing(this.following.filter(followee => followee.id !==  user.id))
+        this.setFeed(this.feed.filter(status => status.user_id !== user.id));
     }
     getFollowee(userID: string): User | undefined {
         return this.following.find(followee =>  followee.id === userID)
+    }
+    setFeed(statuses: Status[]):void {
+        this.feed = [...statuses]
     }
     setFollowing(followees: User[]): void {
     this.following = [...followees];
@@ -72,9 +78,15 @@ export class User {
     getFollowing(): User[]{
         return this.following;
     }
+    getFeed(): Status[]{
+        return this.feed;
+    }
     addStatus(status: Status): void {
         this.statuses.push(status);
-        console.log(this.email,'added status: ', status.id, status.message)
+        this.followers.map(follower => {
+            follower.feed.push(status);
+        })
+        console.log(this.email,'added status: ', status.id, status.message);
     }
     getStatuses(): Status[] {   
         console.log('get statuses: ',[...this.statuses])     

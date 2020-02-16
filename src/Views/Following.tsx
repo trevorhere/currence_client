@@ -2,9 +2,8 @@ import React, { useContext, useState, useEffect} from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { User } from '../Models'
 import { authContext } from "../Context/authContext";
-
-import  { buildFollowing, unfollow } from '../Services/Following'
-
+import  { unFollow } from '../Services/Story'
+import  { buildFollowing } from '../Services/Following'
 
 const Following: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
@@ -12,20 +11,17 @@ const Following: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
   const [Following, setFollowing] = useState< User[] | null  >(null);
   const { authenticatedUserID } = useContext(authContext);
 
-
   useEffect(() => {
     setCurrUserID(props.match.params.userID)
     const latestFollowing =  buildFollowing(currUserID);
     setFollowing(latestFollowing);
   }, [props.match.params.userID, currUserID])
 
-
   const handleUnfollow = ( followingID:string) => {
-    unfollow(authenticatedUserID!, followingID);
+    unFollow(authenticatedUserID!, followingID);
     const latestFollowing =  buildFollowing(currUserID);
     setFollowing(latestFollowing);
   }
-
   
   const renderFollowing = () => {
     if(Following != null){
@@ -59,8 +55,6 @@ const Following: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
       }
   }
     
-
-
   return (
     <div className="flex pt-32 flex-col items-center content-center justify-center  text-white text-xl">
     <div className=" w-1/4 ">

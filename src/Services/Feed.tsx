@@ -12,14 +12,12 @@ export const  buildFeed = ( userID: string | null) => {
         if(!currUser)
             return null;
 
-        let followees = [...currUser.getFollowing()];
-        let feed = [...currUser.getStatuses()];
+        let statuses = [...currUser.getStatuses()];
+        let feed = [...currUser.getFeed()];
 
-        if(followees.length > 0){
-            followees.map(followee => {
-                followee.getStatuses().map(status => {
-                    feed.push(status);
-                })
+        if(statuses.length > 0){
+            statuses.map(status => {
+                feed.push(status);
             });
         };
 

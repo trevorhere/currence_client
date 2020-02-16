@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {  RouteComponentProps, withRouter, Link } from 'react-router-dom';
 import { signout } from '../../Services/auth';
+import styled from 'styled-components'
 
 
 import { authContext } from "../../Context/authContext";
@@ -15,6 +16,8 @@ const handleSignout = (setUserIDCallback) => {
 const Nav: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   
   const { authenticatedUserID, setAuthenticatedUserID} = useContext(authContext);
+  const [userSearchText, setUserSearchText] = useState<string| null>(null);
+
 
   const navButton = (name:string, path:string) => {
     return (
@@ -46,7 +49,13 @@ const Nav: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
                   <button
                     className="inline-block text-sm px-6 mx-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white mt-4 lg:mt-0"
                     onClick={() => handleSignout(setAuthenticatedUserID)}>Signout</button>
-
+                    <UserSearch 
+                        placeholder="user search ..."
+                        onChange={(e) => setUserSearchText(e.target.value)}
+                    />
+                    <button 
+                        className="inline-block text-sm px-4 mx-4 py-2 leading-none border rounded text-white border-blue-500 hover:border-transparent hover:text-blue-500 hover:bg-blue-700 mt-4 lg:mt-0"
+                        onClick={() => props.history.push(`/story/${userSearchText}`)}>Go!</button>
                 </div>
             </div>
           : 
@@ -57,6 +66,13 @@ const Nav: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
             <button 
               className="inline-block text-sm px-4 mx-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white mt-4 lg:mt-0"
               onClick={() => props.history.push('/signup')}>Signup</button>
+            <UserSearch 
+                placeholder="user search ..."
+                onChange={(e) => setUserSearchText(e.target.value)}
+            />
+            <button 
+              className="inline-block text-sm px-4 mx-4 py-2 leading-none border rounded text-white border-blue-500 hover:border-transparent hover:text-blue-500 hover:bg-blue-700 mt-4 lg:mt-0"
+              onClick={() => props.history.push(`/story/${userSearchText}`)}>Go!</button>
           </div>
         }
       </div>
@@ -70,3 +86,14 @@ const Nav: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
 
 export default withRouter(Nav)
+
+
+const UserSearch = styled.input `
+    height: 2rem;
+    border-radius: .25rem;
+    border: solid .05rem #387CB6;
+    padding-left: .5rem;
+    background-color: #1A202D;
+    color: white; 
+    margin-left: .5rem;
+`

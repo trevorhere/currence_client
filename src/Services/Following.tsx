@@ -20,4 +20,5 @@ export const unfollow = (userID:string, followingID: string) => {
     const user = getUser(userID);
     const following = getUser(followingID);
     user!.removeFollowing(following!)
+    following!.removeFollower(user!);
 }
