@@ -46,9 +46,6 @@ const Nav: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
                    {navButton("story", `/story/${authenticatedUserID}`)}
                    {navButton("following", `/following/${authenticatedUserID}`)}
                    {navButton("followers", `/followers/${authenticatedUserID}`)}
-                  <button
-                    className="inline-block text-sm px-6 mx-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white mt-4 lg:mt-0"
-                    onClick={() => handleSignout(setAuthenticatedUserID)}>Signout</button>
                     <UserSearch 
                         placeholder="user search ..."
                         onChange={(e) => setUserSearchText(e.target.value)}
@@ -61,8 +58,7 @@ const Nav: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
                     onClick={() => handleSignout(setAuthenticatedUserID)}>Signout</button>
                 </div>
             </div>
-          : 
-          <div>
+          :  <div>
             <button 
               className="inline-block text-sm px-6 mx-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white mt-4 lg:mt-0"
               onClick={() => props.history.push('/signin')}>Signin</button>
