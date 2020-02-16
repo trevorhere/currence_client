@@ -56,6 +56,9 @@ const Nav: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
                     <button 
                         className="inline-block text-sm px-4 mx-4 py-2 leading-none border rounded text-white border-blue-500 hover:border-transparent hover:text-blue-500 hover:bg-blue-700 mt-4 lg:mt-0"
                         onClick={() => props.history.push(`/story/${userSearchText}`)}>Go!</button>
+                 <button
+                    className="inline-block text-sm px-6 mx-4 py-2 leading-none float-right border rounded text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white mt-4 lg:mt-0"
+                    onClick={() => handleSignout(setAuthenticatedUserID)}>Signout</button>
                 </div>
             </div>
           : 

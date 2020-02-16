@@ -19,9 +19,9 @@ const Feed: React.FC = () => {
   }
 
   const validStatusLength = ():boolean => {
-  return newStatusMessage.split('').length > 128
-  ? true
-  : false
+    return newStatusMessage.split('').length > 128
+    ? true
+    : false
   }
 
   const renderFeed = () => {
@@ -37,7 +37,7 @@ const Feed: React.FC = () => {
     }
   
   useEffect(() => {
-    const latestFeed =  buildFeed("aliasA");
+    const latestFeed =  buildFeed(authenticatedUserID!);
     setFeed(latestFeed);
   }, [authenticatedUserID])
 
@@ -112,7 +112,7 @@ const StatusField = styled.textarea`
   resize: none; 
   background-color: #1A202D;
   padding: .25rem;
-  color:white;
+  color: white;
   height: 5rem;
   width: 100%;
   font-size: 1rem;

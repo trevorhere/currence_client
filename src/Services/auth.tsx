@@ -1,8 +1,6 @@
 
 import { User } from '../Models/User'
-import { Status } from '../Models/Status'
-
-import { addUser, addStatus, getUsers, getStatuses } from '../API'
+import { addUser, getUsers } from '../API'
 
 let currentUserID; 
 
@@ -12,18 +10,14 @@ export const signup = async (email:string, alias:string, password:string) => {
         return null;
     }
 
-
     const newUser = new User(alias, alias, email, password, "https://i.imgur.com/ylyowqj.png");
     addUser(newUser);
     currentUserID = newUser.getID();
 
-    const StatusX1 = new Status(alias, alias,`this is status 1 for ${alias}`);
-    const StatusX2 = new Status(alias,alias, `this is status 2 for ${alias}`);
-    const StatusX3 = new Status(alias,alias,`this is status 3 for ${alias}`);
+    console.log('followers: ', newUser.getFollowers());
+    console.log('following: ', newUser.getFollowing());
+    console.log('feed: ', newUser.getFeed());
 
-    addStatus(StatusX1);
-    addStatus( StatusX2);
-    addStatus(StatusX3);
 
     return currentUserID;
 }
@@ -50,7 +44,6 @@ export const signout = () => {
     currentUserID = null;
     console.log('signing out');
     console.log('current user ID: ', currentUserID);
-    // window.location.reload();
 }
 
 export const getCurrentUserID = (): string | null => {
