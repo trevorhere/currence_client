@@ -3,7 +3,7 @@ import  { Status } from '../Models'
 import moment from 'moment';
 
 
-export const  buildFeed = ( userID: string | null) => {
+export const  buildFeed = ( userID: string | null, statusCount: number) :Status[] | null => {
 
     if(userID){
         let currUser = getUser(userID);
@@ -21,20 +21,12 @@ export const  buildFeed = ( userID: string | null) => {
             });
         };
 
-
-        return feed.sort((b, a) => moment(a.created_at).diff(b.created_at));
-
+        return feed.sort((b, a) => moment(a.created_at).diff(b.created_at)).slice(0, statusCount);
     } else return null;
 }
 
 export const createStatus = (userID:string, message: string):void => {
     const user = getUser(userID);
     const newStatus = new Status(userID, user!.alias, message);
-    user?.addStatus(newStatus);
-}
-
-export const aliasCStatus = () => {
-    const user = getUser("aliasC");
-    const newStatus = new Status("aliasC", "aliasC", "this is a new status from @aliasC");
     user?.addStatus(newStatus);
 }

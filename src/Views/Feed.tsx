@@ -11,17 +11,24 @@ const Feed: React.FC = () => {
   const { authenticatedUserID } = useContext(authContext);
   const [feed, setFeed] = useState< Status[] | null  >(null);
   const [newStatusMessage, setNewStatusMessage] = useState<string>('');
+  const [statusCount, setstatusCount] = useState<number>(9);
+
     
   const addStatus = (): void   => {
     createStatus(authenticatedUserID!, newStatusMessage);
     setNewStatusMessage('');
-    setFeed(buildFeed(authenticatedUserID!))
+    setFeed(buildFeed(authenticatedUserID!, statusCount))
   }
 
   const validStatusLength = ():boolean => {
     return newStatusMessage.split('').length > 128
     ? true
     : false
+  }
+
+  const reBuildFeed = () => {
+    const latestFeed =  buildFeed(authenticatedUserID!, statusCount);
+    setFeed(latestFeed);
   }
 
   const renderFeed = () => {
@@ -37,13 +44,12 @@ const Feed: React.FC = () => {
     }
   
   useEffect(() => {
-    const latestFeed =  buildFeed(authenticatedUserID!);
+    const latestFeed =  buildFeed(authenticatedUserID!, statusCount);
     setFeed(latestFeed);
-  }, [authenticatedUserID])
-
+  }, [authenticatedUserID, statusCount])
 
   return (
-    <div className="flex pt-32 flex-col items-center content-center justify-center  text-white text-xl">
+    <div className="flex pt-32 flex-col items-center content-center justify-center mb-10 text-white text-xl">
         <div className=" w-1/4 ">
         <div className=" w-full flex-row">
             <div>
@@ -92,7 +98,21 @@ const Feed: React.FC = () => {
             </ StatusContainer>
         </div>
         {renderFeed()}
+    
       </div>
+      <button 
+              className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2 mb-5  rounded focus:outline-none focus:shadow-outline" 
+              type="button"
+              onClick={() =>  { 
+                    let currentCount = statusCount + 10;
+                    console.log('cc: ', currentCount)
+
+                    setstatusCount(currentCount);
+                    console.log('sc: ', statusCount)
+                    reBuildFeed();
+                  }} >
+                more
+            </button>
       </div>
   );
 }

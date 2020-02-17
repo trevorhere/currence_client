@@ -26,10 +26,17 @@ export const seedDB = () => {
     const  StatusB1 = new Status("aliasB","aliasB","this is status B1");
     const  StatusB2 = new Status("aliasB","aliasB","this is status B2");
     const  StatusB3 = new Status("aliasB","aliasB","this is status B3");
+    const  StatusB4 = new Status("aliasB","aliasB","this is status B4");
+    const  StatusB5 = new Status("aliasB","aliasB","this is status B5");
+    const  StatusB6 = new Status("aliasB","aliasB","this is status B6");
 
     const  StatusC1 = new Status("aliasC","aliasC","this is status C1");
     const  StatusC2 = new Status("aliasC","aliasC","this is status C2");
     const  StatusC3 = new Status("aliasC","aliasC","this is status C3");
+    const  StatusC4 = new Status("aliasC","aliasC","this is status C4");
+    const  StatusC5 = new Status("aliasC","aliasC","this is status C5");
+    const  StatusC6 = new Status("aliasC","aliasC","this is status C6");
+
 
     DB_Statuses.push(
         StatusA1,
@@ -38,9 +45,15 @@ export const seedDB = () => {
         StatusB1, 
         StatusB2, 
         StatusB3, 
+        StatusB4, 
+        StatusB5, 
+        StatusB6, 
         StatusC1, 
         StatusC2,
-        StatusC3
+        StatusC3,
+        StatusC4, 
+        StatusC5,
+        StatusC6
     )
 
     // add followers for every user
@@ -71,9 +84,15 @@ export const seedDB = () => {
     UserB.addStatus(StatusB1);
     UserB.addStatus(StatusB2);
     UserB.addStatus(StatusB3);
+    UserB.addStatus(StatusB5);
+    UserB.addStatus(StatusB4);
+    UserB.addStatus(StatusB6);
 
     UserC.addStatus(StatusC1);
     UserC.addStatus(StatusC2);
     UserC.addStatus(StatusC3);
+    UserC.addStatus(StatusC4);
+    UserC.addStatus(StatusC5);
+    UserC.addStatus(StatusC6);
 }
 
