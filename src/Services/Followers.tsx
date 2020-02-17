@@ -1,8 +1,8 @@
 import { getUser } from '../API'
-import * as util from 'util';
+import { follow, unFollow, isFollowing  } from './util';
+
 
 export const  buildFollowers = ( userID:string | null) => {
-
     if(userID){
 
         let currUser = getUser(userID);
@@ -16,3 +16,5 @@ export const  buildFollowers = ( userID:string | null) => {
 
     } else return null;
 }
+
+export { follow, unFollow, isFollowing }

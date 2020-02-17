@@ -22,7 +22,7 @@ const renderStatusMessage = (msg:string) => {
         <Link 
             to={`/story/${word.slice(1, word.length)}`}
             className="text-blue-500 hover:underline"
-            >{word}</Link>
+            >{` ${word} `}</Link>
         )} else {
         return ` ${word} `;
         }

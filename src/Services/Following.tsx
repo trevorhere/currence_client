@@ -1,5 +1,7 @@
 import { getUser } from '../API'
 import * as util from 'util' // has no default export
+import { unFollow  } from './util';
+
 
 export const  buildFollowing = ( userID:string | null) => {
     if(userID){
@@ -15,10 +17,4 @@ export const  buildFollowing = ( userID:string | null) => {
     } else return null;
 }
 
-export const unfollow = (userID:string, followingID: string) => {
-    console.log('unfollow');
-    const user = getUser(userID);
-    const following = getUser(followingID);
-    user!.removeFollowing(following!)
-    following!.removeFollower(user!);
-}
+export { unFollow }

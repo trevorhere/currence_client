@@ -2,12 +2,7 @@ import React, { useContext, useState, useEffect} from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { User } from '../Models'
 import { authContext } from "../Context/authContext";
-import { follow, unFollow, isFollowing} from '../Services/Story';
-
-
-import  { buildFollowers } from '../Services/Followers'
-
-import  {unfollow } from '../Services/Following'
+import { follow, unFollow, isFollowing, buildFollowers} from '../Services/Followers';
 
 
 
@@ -16,11 +11,8 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
 
   const [currUserID, setCurrUserID] = useState<string| null>(null);
   const [followers, setFollowers] = useState< User[] | null  >(null);
-  const [isAFollower, setIsAFollower] = useState<boolean | null>(null);
   const { authenticatedUserID } = useContext(authContext);
-
   
-
   useEffect(() => {
     setCurrUserID(props.match.params.userID)
     const latestFollowers =  buildFollowers(currUserID);
@@ -29,7 +21,7 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
 
 
   const handleUnfollow = ( followeeID:string) => {
-    unfollow(currUserID!, followeeID);
+    unFollow(currUserID!, followeeID);
     const latestFollowers =  buildFollowers(currUserID);
     setFollowers(latestFollowers);
   }

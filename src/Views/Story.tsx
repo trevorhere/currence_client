@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {withRouter, RouteComponentProps} from "react-router";
 import { Status, User } from '../Models';
-import { loadStatuses, follow, unFollow, isFollowing} from '../Services/Story';
+import { loadStatuses, isFollowing} from '../Services/Story';
 import { authContext } from "../Context/authContext";
 import  StatusBox from "./Components/StatusBox"
 import  ProfileBox  from './Components/ProfileBox'
@@ -13,9 +13,7 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   const [userStory, setUserStory] = useState<Status[] | null>(null);
   const [storyOwnerID, setStoryOwnerID] = useState<string>('');
   const [storyUser, setStoryUser] = useState<User|null>(null);
-
   const [isAFollower, setIsAFollower] = useState<boolean | null>(null);
-
 
   const renderStory = () => {
     if(userStory != null){
@@ -28,7 +26,6 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
         return <p>feed not found</p>
       }
   }
-
 
   useEffect(() => {
     setStoryOwnerID(props.match.params.userID!);

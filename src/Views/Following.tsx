@@ -2,8 +2,7 @@ import React, { useContext, useState, useEffect} from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { User } from '../Models'
 import { authContext } from "../Context/authContext";
-import  { unFollow } from '../Services/Story'
-import  { buildFollowing } from '../Services/Following'
+import  { unFollow, buildFollowing } from '../Services/Following'
 
 const Following: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
