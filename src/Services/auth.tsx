@@ -1,10 +1,11 @@
 
 import { User } from '../Models/User'
-import { addUser, getUsers } from '../API'
+import { addUser, getUsers, setCurrentUser } from '../API'
+import { authContext } from '../Context/authContext';
 
 let currentUserID; 
 
-export const signup = async (email:string, alias:string, password:string) => {
+export const signup = async (email:string, alias:string, password:string, setAuthenticatedUserIDCallback) => {
 
     if(!goodAlias(alias)){
         return null;
@@ -12,17 +13,18 @@ export const signup = async (email:string, alias:string, password:string) => {
 
     const newUser = new User(alias, alias, email, password, "https://i.imgur.com/ylyowqj.png");
     addUser(newUser);
-    currentUserID = newUser.getID();
+    currentUserID = await newUser.getID();
 
     console.log('followers: ', newUser.getFollowers());
     console.log('following: ', newUser.getFollowing());
     console.log('feed: ', newUser.getFeed());
 
-
+    setAuthenticatedUserIDCallback(currentUserID);
     return currentUserID;
 }
 
-export const signin =  async (alias:string, password:string) => {
+export const signin =  async (alias:string, password:string, setAuthenticatedUserIDCallback) => {
+
     console.log('signing in');
     let currentUserArr = getUsers().filter(user => {
         return (user.alias === alias && user.password === password)
@@ -31,19 +33,19 @@ export const signin =  async (alias:string, password:string) => {
     if(currentUserArr.length < 1){
         console.log('no user found');
         currentUserID = null;
-        return null;;
-
+        setAuthenticatedUserIDCallback(null);
+        return null;
     } else {
         console.log('returning id: ', currentUserArr[0].getID())
         currentUserID = currentUserArr[0].getID();
+        setAuthenticatedUserIDCallback(currentUserID);
         return currentUserID;
     }
 }
 
-export const signout = () => {
+export const signout = (setAuthenticatedUserIDCallback) => {
     currentUserID = null;
-    console.log('signing out');
-    console.log('current user ID: ', currentUserID);
+    setAuthenticatedUserIDCallback(null);
 }
 
 export const getCurrentUserID = (): string | null => {

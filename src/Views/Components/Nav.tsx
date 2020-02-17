@@ -2,22 +2,16 @@ import React, { useContext, useState } from 'react';
 import {  RouteComponentProps, withRouter, Link } from 'react-router-dom';
 import { signout } from '../../Services/auth';
 import styled from 'styled-components'
-
-
 import { authContext } from "../../Context/authContext";
-
-const handleSignout = (setUserIDCallback) => {
-    signout();
-    setUserIDCallback(null);
-}
-
-
 
 const Nav: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   
   const { authenticatedUserID, setAuthenticatedUserID} = useContext(authContext);
   const [userSearchText, setUserSearchText] = useState<string| null>(null);
 
+  const handleSignout = () => {
+    signout(setAuthenticatedUserID);
+  }
 
   const navButton = (name:string, path:string) => {
     return (
@@ -29,9 +23,7 @@ const Nav: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
     )
   }
 
-
   return ( 
-
   <nav className="fixed w-full flex items-center bg-gray-900 top-0 inset-x-0 z-100 h-16  justify-between  border-b-2 border-gray-600 p-6">
     <div className="flex items-center flex-shrink-0 text-white mr-6">
       <span className="font-semibold text-xl tracking-tight"><Link to="/home">Currence</Link></span>
@@ -55,10 +47,10 @@ const Nav: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
                         onClick={() => props.history.push(`/story/${userSearchText}`)}>Go!</button>
                  <button
                     className="inline-block text-sm px-6 mx-4 py-2 leading-none float-right border rounded text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white mt-4 lg:mt-0"
-                    onClick={() => handleSignout(setAuthenticatedUserID)}>Signout</button>
+                    onClick={() => handleSignout()}>Signout</button>
                 </div>
             </div>
-          :  <div>
+          : <div>
             <button 
               className="inline-block text-sm px-6 mx-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white mt-4 lg:mt-0"
               onClick={() => props.history.push('/signin')}>Signin</button>
@@ -81,11 +73,7 @@ const Nav: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   );
 }
 
-
-
-
 export default withRouter(Nav)
-
 
 const UserSearch = styled.input `
     height: 2rem;

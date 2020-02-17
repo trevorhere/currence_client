@@ -3,30 +3,24 @@ import { signup } from '../Services/auth';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { authContext } from '../Context/authContext';
 
-
-interface ISignupProps extends RouteComponentProps {
-  setUserID: (userID: string) => void;
-  history: any
-}
-
-
-
-const reRoute = (props: RouteComponentProps, authenticatedUserID: string | null):void =>{
+const reRoute = (props: RouteComponentProps):void =>{
   props.history.push(`/home`)
 }
 
-
-const Signup: React.FC<ISignupProps> = (props:ISignupProps) => {
+const Signup: React.FC = (props:RouteComponentProps) => {
 
   const { authenticatedUserID, setAuthenticatedUserID } = useContext(authContext);
   const [email, setEmail] = useState<string>('emailA');
   const [password, setPassword] = useState<string>('passwordA');
   const [alias, setAlias] = useState<string>('aliasA');
-
+  
+  const handleSignup = () => {
+    signup(email, alias, password, setAuthenticatedUserID);
+  }
 
   return ( 
     <div>
-      {authenticatedUserID? reRoute(props, authenticatedUserID) : null }
+      {authenticatedUserID? reRoute(props) : null }
       <div className="bg-gray-900 min-h-screen  flex flex-col items-center justify-center text-white text-2xl">
         <form className="bg-white shadow-md   lg:w-1/4 sm:w-1/2  rounded px-8 pt-6 pb-8 mb-4">
           <h2 className="text-black py-6 font-bold"> Sign Up</h2>
@@ -70,12 +64,9 @@ const Signup: React.FC<ISignupProps> = (props:ISignupProps) => {
             <button 
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
               type="button"
-              onClick={async () => {
-                const newUserID = await signup(email, alias, password);
-                if(setAuthenticatedUserID){
-                  setAuthenticatedUserID(newUserID);
-                }
-              }}
+              onClick={async () => 
+                handleSignup()
+              }
               >
                 Sign Up
             </button>

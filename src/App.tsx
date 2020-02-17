@@ -10,22 +10,15 @@ import { authContext } from "./Context/authContext";
 import Feed from './Views/Feed';
 import Followers from './Views/Followers';
 import Following from './Views/Following';
-
 import { getUser, setCurrentUser} from './API'
+
 
 const App: React.FC = () => {
 
   seedDB();
 
-  const user = getUser("aliasA");
-  setCurrentUser(user!);
-
-
-
   const [authenticatedUserID, setAuthenticatedUserID] = useState(null);
   const value = useMemo(() => ({  authenticatedUserID, setAuthenticatedUserID }), [authenticatedUserID, setAuthenticatedUserID]);
-
-  
 
   const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
@@ -36,7 +29,7 @@ const App: React.FC = () => {
   )
 
   return (
-    <div className="w-full overflow-x-hidden">
+    <div className="w-full overflow-x-hidden" title="currence">
     <authContext.Provider value={value}>
       <Router>
         <Nav />
