@@ -1,8 +1,6 @@
-import { signup, signin } from '../auth'
+import { signup } from '../auth'
 import { getUser } from '../../API'
 import { buildFeed, createStatus } from '../Feed'
-
-
 
 it("handles createStatus properly", () => {
     const testEmail = "test@test.com";
@@ -26,7 +24,6 @@ it("handles createStatus properly", () => {
         expect(newStatus.message).toEqual(statusMessage);
     });
 });
-
 
 it("handles buildFeed properly",() => {
     const testEmail = "test@test.com";

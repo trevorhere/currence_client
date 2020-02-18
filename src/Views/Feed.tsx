@@ -14,11 +14,11 @@ const Feed: React.FC = () => {
   const [statusCount, setstatusCount] = useState<number>(9);
 
     
-  const addStatus = (): void   => {
+  const handleAddStatus = (): void   => {  
     createStatus(authenticatedUserID!, newStatusMessage);
     setNewStatusMessage('');
     setFeed(buildFeed(authenticatedUserID!, statusCount))
-  }
+  } // should be pulled in from API //TODO
 
   const validStatusLength = ():boolean => {
     return newStatusMessage.split('').length > 128
@@ -86,7 +86,7 @@ const Feed: React.FC = () => {
                 onClick={() =>  {
                   validStatusLength()
                   ? console.log('status too long')
-                  : addStatus()
+                  : handleAddStatus()
                 }}
                 >{validStatusLength() 
                   ? `Status too long`
@@ -101,18 +101,18 @@ const Feed: React.FC = () => {
     
       </div>
       <button 
-              className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2 mb-5  rounded focus:outline-none focus:shadow-outline" 
-              type="button"
-              onClick={() =>  { 
-                    let currentCount = statusCount + 10;
-                    console.log('cc: ', currentCount)
+          className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2 mb-5  rounded focus:outline-none focus:shadow-outline" 
+          type="button"
+          onClick={() =>  { 
+                let currentCount = statusCount + 10;
+                console.log('cc: ', currentCount)
 
-                    setstatusCount(currentCount);
-                    console.log('sc: ', statusCount)
-                    reBuildFeed();
-                  }} >
-                more
-            </button>
+                setstatusCount(currentCount);
+                console.log('sc: ', statusCount)
+                reBuildFeed();
+              }} >
+            more
+        </button>
       </div>
   );
 }

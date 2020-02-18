@@ -1,7 +1,8 @@
 import { addUser } from '../../API'
 import { User } from '../../Models'
-import { buildFollowing } from '../Following'
+import { buildFollowers } from '../Followers'
 import { follow } from '../util'
+
 
 it("handles buildFollowing properly",() => {
 
@@ -13,17 +14,17 @@ it("handles buildFollowing properly",() => {
     addUser(user2);
     addUser(user3);
 
-    const preBuiltFollowing = buildFollowing(user1.getID());
+    const preBuiltFollowing = buildFollowers(user1.getID());
     expect(preBuiltFollowing?.length).toEqual(0);
 
-    follow(user1.getID(), user2.getID());
-    follow(user1.getID(), user3.getID());
+    follow(user2.getID(), user1.getID(),);
+    follow(user3.getID(), user1.getID(),);
 
-    const postBuiltFollowing = buildFollowing(user1.getID());
-    expect(postBuiltFollowing?.length).toEqual(2);
+    const postBuiltFollowers = buildFollowers(user1.getID());
+    expect(postBuiltFollowers?.length).toEqual(2);
 });
 
-it("handles userID error properly when buildFollowing runs",() => {
-    const preBuiltFollowing = buildFollowing("badID");
-    expect(preBuiltFollowing).toEqual(null);
+it("handles userID error properly when buildFollowers runs",() => {
+    const preBuiltFollowers= buildFollowers("badID");
+    expect(preBuiltFollowers).toEqual(null);
 });

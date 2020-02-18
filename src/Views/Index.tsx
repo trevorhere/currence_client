@@ -6,9 +6,10 @@ const Index: React.FC<RouteComponentProps> = (props) => {
   return ( 
     <div className="m-auto antialiased font-sans font-serif font-mono text-center">
       <header className="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white  text-2xl">
+    
         <svg>
           <symbol id="s-text">
-            <text text-anchor="middle" x="50%" y="80%">Currence</text>
+            <text textAnchor="middle" x="50%" y="80%">Currence</text>
           </symbol>
           <g className="g-ants">
 

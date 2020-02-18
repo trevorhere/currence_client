@@ -25,8 +25,9 @@ export const  buildFeed = ( userID: string | null, statusCount: number) :Status[
     } else return null;
 }
 
-export const createStatus = (userID:string, message: string):void => {
+export const createStatus = (userID:string, message: string): Status => {
     const user = getUser(userID);
     const newStatus = new Status(userID, user!.alias, message);
     user?.addStatus(newStatus);
+    return newStatus;
 }

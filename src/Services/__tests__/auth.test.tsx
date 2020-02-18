@@ -17,7 +17,6 @@ it("handles signup correctly", () => {
 });
 
 it("handles signin correctly", () => {
-
     const testEmail = "test@test.com";
     const testAlias = "testAlias";
     const testPassword = "testPassword";
