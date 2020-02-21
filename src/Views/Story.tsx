@@ -30,10 +30,13 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   useEffect(() => {
     setStoryOwnerID(props.match.params.userID!);
     setStoryUser(getUser(storyOwnerID));
-    setIsAFollower(isFollowing(authenticatedUserID!, storyOwnerID))
+    isFollowing(authenticatedUserID!, storyOwnerID).then(res => {
+      setIsAFollower(res);
+    })
 
-    const latestStory = loadStatuses(storyOwnerID);
-    setUserStory(latestStory)
+  loadStatuses(storyOwnerID).then(res => {
+      setUserStory(res)
+    })
 
   },[props,storyOwnerID,authenticatedUserID]);
 

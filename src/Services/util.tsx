@@ -1,22 +1,18 @@
-import { getUser } from '../API'
+import ServerFacade from '../API/ServerFacade'
+import { User } from '../Models'
 
-export const follow = (userID: string, followeeID: string): void => {
-    const user = getUser(userID);
-    const followee = getUser(followeeID);
-
-    user?.addFollowing(followee!);
-    followee?.addFollower(user!);
+export const follow =  async (userID: string, followeeID: string): Promise<void> => {
+    return await ServerFacade.follow(userID, followeeID);
 }
 
-export const unFollow = (userID: string, followeeID: string): void => {
-    const user = getUser(userID);
-    const followee = getUser(followeeID);
-
-    user!.removeFollowing(followee!);
-    followee!.removeFollower(user!);
+export const unFollow = async (userID: string, followeeID: string):  Promise<void> => {
+    return await ServerFacade.unFollow(userID, followeeID);
 }
 
-export const isFollowing = (userID: string, followeeID: string): boolean => {
-    const user = getUser(userID);
-    return (user?.getFollowee(followeeID) !== undefined);
+export const isFollowing = async (userID: string, followeeID: string): Promise<boolean> => {
+    return await ServerFacade.isFollowing(userID, followeeID)
+}
+
+export const getUser = async (userID: string): Promise<User | null> => {
+    return await ServerFacade.getUser(userID);
 }

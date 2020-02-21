@@ -39,13 +39,17 @@ const Nav: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
                    {navButton("following", `/following/${authenticatedUserID}`)}
                    {navButton("followers", `/followers/${authenticatedUserID}`)}
                     <UserSearch 
+                        value={userSearchText}
                         placeholder="user search ..."
                         onChange={(e) => setUserSearchText(e.target.value)}
                     />
                     <button 
                         className="inline-block text-sm px-4 mx-4 py-2 leading-none border rounded text-white border-blue-500 hover:border-transparent hover:text-blue-500 hover:bg-blue-700 mt-4 lg:mt-0"
-                        onClick={() => props.history.push(`/story/${userSearchText}`)}>Go!</button>
-                 <button
+                        onClick={() => {
+                        setUserSearchText('');
+                        props.history.push(`/story/${userSearchText}`)
+                      }}>Go!</button>
+                <button
                     className="inline-block text-sm px-6 mx-4 py-2 leading-none float-right border rounded text-white border-white hover:border-transparent hover:text-blue-500 hover:bg-white mt-4 lg:mt-0"
                     onClick={() => handleSignout()}>Signout</button>
                 </div>

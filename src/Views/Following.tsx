@@ -12,21 +12,23 @@ const Following: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
 
   useEffect(() => {
     setCurrUserID(props.match.params.userID)
-    const latestFollowing =  buildFollowing(currUserID);
-    setFollowing(latestFollowing);
+    buildFollowing(currUserID!).then(res => {
+      setFollowing(res!);
+    })
   }, [props.match.params.userID, currUserID])
 
   const handleUnfollow = ( followingID:string) => {
     unFollow(authenticatedUserID!, followingID);
-    const latestFollowing =  buildFollowing(currUserID);
-    setFollowing(latestFollowing);
+    buildFollowing(currUserID!).then(res => {
+      setFollowing(res);
+    })
   }
   
   const renderFollowing = () => {
     if(Following != null){
       return Following.map((user,i) => {
         return (
-          <div className="flex border-b-2 border-gray-600 items-center justify-between py-4">
+          <div key={i} className="flex border-b-2 border-gray-600 items-center justify-between py-4">
             <div className="flex flex-row">
               <div>
                 <img className="w-10 h-10 rounded-full mr-4"  src={user.picture} alt="Avatar of Jonathan Reinink"/>

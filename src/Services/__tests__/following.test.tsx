@@ -13,17 +13,16 @@ it("handles buildFollowing properly",() => {
     addUser(user2);
     addUser(user3);
 
-    const preBuiltFollowing = buildFollowing(user1.getID());
-    expect(preBuiltFollowing?.length).toEqual(0);
-
     follow(user1.getID(), user2.getID());
     follow(user1.getID(), user3.getID());
 
-    const postBuiltFollowing = buildFollowing(user1.getID());
-    expect(postBuiltFollowing?.length).toEqual(2);
+    buildFollowing(user1.getID()).then(res => {
+        expect(res?.length).toEqual(2);
+    }).catch(err => { console.log('ERROR: ', err)})
 });
 
 it("handles userID error properly when buildFollowing runs",() => {
-    const preBuiltFollowing = buildFollowing("badID");
-    expect(preBuiltFollowing).toEqual(null);
+    buildFollowing("badID").then(res => {
+        expect(res).toEqual(null);
+    }).catch(err => { console.log('ERROR: ', err)})
 });

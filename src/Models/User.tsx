@@ -84,12 +84,13 @@ export class User {
     addStatus(status: Status): void {
         this.statuses.push(status);
         this.followers.map(follower => {
+        //    console.log('follower: ',follower.getAlias(), status.getMessage())
             follower.feed.push(status);
         })
-        console.log(this.email,'added status: ', status.id, status.message);
+     //  console.log(this.email,'added status: ', status.id, status.message);
     }
     getStatuses(): Status[] {   
-        console.log('get statuses: ',[...this.statuses])     
+     //   console.log('get statuses: ',[...this.statuses])     
         return this.statuses;
     }
 }

@@ -9,16 +9,20 @@ import '../custom.css'
 
 const Feed: React.FC = () => {
   const { authenticatedUserID } = useContext(authContext);
-  const [feed, setFeed] = useState< Status[] | null  >(null);
+  const [feed, setFeed] = useState< Status[] | null >(null);
   const [newStatusMessage, setNewStatusMessage] = useState<string>('');
   const [statusCount, setstatusCount] = useState<number>(9);
 
     
   const handleAddStatus = (): void   => {  
-    createStatus(authenticatedUserID!, newStatusMessage);
-    setNewStatusMessage('');
-    setFeed(buildFeed(authenticatedUserID!, statusCount))
-  } // should be pulled in from API //TODO
+    createStatus(authenticatedUserID!, newStatusMessage).then(res => {
+      setNewStatusMessage('');
+      buildFeed(authenticatedUserID!, statusCount).then(res => {
+        setFeed(res);
+      })
+    })
+
+  } 
 
   const validStatusLength = ():boolean => {
     return newStatusMessage.split('').length > 128
@@ -27,8 +31,9 @@ const Feed: React.FC = () => {
   }
 
   const reBuildFeed = () => {
-    const latestFeed =  buildFeed(authenticatedUserID!, statusCount);
-    setFeed(latestFeed);
+    buildFeed(authenticatedUserID!, statusCount).then(res => {
+      setFeed(res);
+    })
   }
 
   const renderFeed = () => {
@@ -44,8 +49,9 @@ const Feed: React.FC = () => {
     }
   
   useEffect(() => {
-    const latestFeed =  buildFeed(authenticatedUserID!, statusCount);
-    setFeed(latestFeed);
+    buildFeed(authenticatedUserID!, statusCount).then(res => {
+      setFeed(res);
+    })
   }, [authenticatedUserID, statusCount])
 
   return (
@@ -91,8 +97,6 @@ const Feed: React.FC = () => {
                 >{validStatusLength() 
                   ? `Status too long`
                   : `Submit`}
-            
-                
               </button>
               </div>
             </ StatusContainer>

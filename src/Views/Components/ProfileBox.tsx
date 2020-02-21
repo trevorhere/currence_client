@@ -1,8 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { RouteComponentProps} from "react-router";
-import { follow, unFollow, isFollowing} from '../../Services/Story';
+import { follow, unFollow, isFollowing, getUser} from '../../Services/Story';
 import { authContext } from "../../Context/authContext";
-import { getUser } from '../../API'
 import { User } from '../../Models';
 
 
@@ -11,19 +10,29 @@ interface IProfileBox extends RouteComponentProps {
   authenticatedUserID: string,
 }
 
-
-
-
-
 const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
   const { authenticatedUserID } = useContext(authContext);
   const [isAFollower, setIsAFollower] = useState<boolean | null>(null);
   const [storyUser, setStoryUser] = useState<User|null>(null);
+  const [followers, setFollowers] = useState<number|null>(null);
+  const [following, setFollowing] = useState<number |null>(null);
 
+
+  const refetchNumbers = () => {
+    setFollowers(storyUser?.getFollowers().length!);
+    setFollowing(storyUser?.getFollowing().length!);
+  }
 
   useEffect(() => {
-    setIsAFollower(isFollowing(props.authenticatedUserID!, props.storyOwnerID));
-    setStoryUser(getUser(props.storyOwnerID));
+    isFollowing(props.authenticatedUserID!, props.storyOwnerID).then(res => {
+      setIsAFollower(res);
+    })
+
+    getUser(props.storyOwnerID!).then(user => {
+      setStoryUser(user);
+      setFollowers(user?.getFollowers().length!);
+      setFollowing(user?.getFollowing().length!);
+    })
   },[props]);
 
 
@@ -34,8 +43,10 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
         className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2  rounded focus:outline-none focus:shadow-outline" 
         type="button"
         onClick={() => {
-          unFollow(props.authenticatedUserID!, props.storyOwnerID);
+          unFollow(props.authenticatedUserID!, props.storyOwnerID).then(res => {
+          refetchNumbers();
           setIsAFollower(false);
+          })
         }}
       >
         unfollow
@@ -47,10 +58,12 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
         className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2  rounded focus:outline-none focus:shadow-outline" 
         type="button"
         onClick={() => {
-        follow(props.authenticatedUserID!, props.storyOwnerID);
-        setIsAFollower(true);
-        }
-        }>
+        follow(props.authenticatedUserID!, props.storyOwnerID).then(res => {
+          setIsAFollower(true);
+          refetchNumbers();
+        })
+
+        }}>
         follow
       </button>
       </div>
@@ -64,8 +77,8 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
         </div>
         <div className="flex flex-col my-auto h-100 text-left align-middle align-middle p-4">
           <div className="text-lg text-left underline pt-2">{props.storyOwnerID}</div>
-          <div className="text-sm font-extrabold text-blue-500">Followers: {storyUser?.getFollowers().length!}</div>
-          <div className="text-sm font-extrabold text-blue-500">Following: {storyUser?.getFollowing().length!}</div>
+          <div className="text-sm font-extrabold text-blue-500">Followers: {followers}</div>
+          <div className="text-sm font-extrabold text-blue-500">Following: {following}</div>
           <div>
             {(authenticatedUserID && authenticatedUserID !== props.storyOwnerID)? renderFollowActionButton(): <div></div>}
             </div>

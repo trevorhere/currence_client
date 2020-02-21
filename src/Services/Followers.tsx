@@ -1,20 +1,9 @@
-import { getUser } from '../API'
+import  { User } from '../Models'
+import ServerFacade from '../API/ServerFacade'
 import { follow, unFollow, isFollowing  } from './util';
 
-
-export const  buildFollowers = ( userID:string | null) => {
-    if(userID){
-
-        let currUser = getUser(userID);
-       // console.log('followers: \n', util.inspect(currUser?.getFollowers()));
-
-        if(!currUser)
-            return null;
-
-        let followers = currUser.getFollowers();
-        return [...followers];
-
-    } else return null;
+export const  buildFollowers = async ( userID:string): Promise< User[] | null> => {
+    return await ServerFacade.buildFollowers(userID)
 }
 
 export { follow, unFollow, isFollowing }

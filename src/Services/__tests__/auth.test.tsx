@@ -1,50 +1,49 @@
-import { signup, signin } from '../auth'
-import { getUser } from '../../API'
+
+import { signup, signin, signout } from '../auth'
+import { getUser, addUser } from '../../API'
 
 it("handles signup correctly", () => {
     const testEmail = "test@test.com";
     const testAlias = "testAlias";
     const testPassword = "testPassword";
-    let expectedUserID = null;
 
     signup(testEmail, testAlias, testPassword, () => {}).then(res => {
-        expectedUserID = res;
-        const user = getUser(expectedUserID!);
+        const user = getUser(res!);
         expect(user!.getEmail()).toEqual(testEmail);
         expect(user!.getAlias()).toEqual(testAlias);
         expect(user!.getPassword()).toEqual(testPassword);
-    })
+    }).catch(err => {console.log('ERROR: ', err)})
 });
 
 it("handles signin correctly", () => {
     const testEmail = "test@test.com";
     const testAlias = "testAlias";
     const testPassword = "testPassword";
-    let expectedUserIDSignup = null;
-    let expectedUserIDSignin = null;
 
     signup(testEmail, testAlias, testPassword, () => {}).then(res => {
-        expectedUserIDSignup = res;
-        const user = getUser(expectedUserIDSignup!);
+        const user = getUser(res!);
         expect(user!.getEmail()).toEqual(testEmail);
         expect(user!.getAlias()).toEqual(testAlias);
         expect(user!.getPassword()).toEqual(testPassword);
-    })
+    }).catch(err => {console.log('ERROR: ', err)})
 
     signin(testAlias, testPassword, () => {}).then(res => {
-        expectedUserIDSignin = res;
-        expect(testAlias).toEqual(expectedUserIDSignin);
-    })
+        expect(testAlias).toEqual(res!);
+    }).catch(err => {console.log(err)})
 });
 
 it("handles signin error correctly", () => {
     const testBadAlias = "bad";
     const testBadPassword = "bad";
 
-    let expectedUserIDSignin = null;
-
     signin(testBadAlias, testBadPassword, () => {}).then(res => {
-        expectedUserIDSignin = res;
-        expect(expectedUserIDSignin).toEqual(null);
-    })
+        expect(res!).toEqual(null);
+    }).catch(err => {console.log(err)})
 });
+
+it("handles signout properly", () => {
+    signout(() => {}).then(res => {
+        expect(res!).toEqual(null);
+    }).catch(err => {console.log(err)})
+});
+
