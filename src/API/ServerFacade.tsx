@@ -3,11 +3,9 @@ import { User, Status } from '../Models'
 import { addUser, getUsers, getUser  } from '../DB'
 import moment from 'moment';
 
-const SigninURL = 'https://6d33ubfvvj.execute-api.us-east-1.amazonaws.com/dev/signup'
+const URL = 'https://6d33ubfvvj.execute-api.us-east-1.amazonaws.com/dev'
 
 // Auth 
-
-let currentUserID; 
 
 export default class ServerFacade {
 
@@ -15,19 +13,19 @@ export default class ServerFacade {
 
 public static signup = async (email:string, alias:string, password:string) => {
 
-    if(!ServerFacade.goodAlias(alias)){
-        return null;
-    }
+    // if(!ServerFacade.goodAlias(alias)){
+    //     return null;
+    // }
 
-    const newUser = new User(alias, alias, email, password, "https://i.imgur.com/ylyowqj.png");
-    addUser(newUser);
-    currentUserID = await newUser.getID();
+    // const newUser = new User(alias, alias, email, password, "https://i.imgur.com/ylyowqj.png");
+    // addUser(newUser);
+    // currentUserID = await newUser.getID();
 
-    return  currentUserID;
+    // return  currentUserID;
 }
 
 public static signin =  async (alias:string, password:string): Promise< {message:string,alias:string, authenticated: boolean, token:string | null } | null> => {
-    return await fetch(SigninURL,{
+    return await fetch(`${URL}/signin`,{
         method: "POST",
         mode: "cors",
         headers: {
@@ -52,40 +50,22 @@ public static signin =  async (alias:string, password:string): Promise< {message
         })
 }
 
-
- public static signout = async (): Promise<void> => {
-    currentUserID = null;
-    return await currentUserID;
-}
-
- public static getCurrentUserID = async (): Promise<string | null> => {
-    if(currentUserID != null){
-        return  currentUserID;
-    } else {
-        return null;
-    }
-}
- public static goodAlias = async (alias): Promise<boolean> => {
+public static goodAlias = async (alias): Promise<boolean> => {
 
     let result = true;
 
-    if(!alias.match(/^[a-z]+$/i)){
-      //  console.log('failed on 2');
-        result = false;
-    }
+    if(!alias.match(/^[a-z]+$/i)) result = false;
+    
 
-    if(alias.length > 50){
-      //  console.log('failed on 3');
-        result = false;
-    }
+    if(alias.length > 50) result = false;
+    
 
     let existing_aliases = getUsers().filter(user => {
         return(alias === user.alias)
     });
 
-    if(existing_aliases.length > 0){
-        result = false;
-    }
+    if(existing_aliases.length > 0) result = false;
+    
 
     return await result;
 }
@@ -96,10 +76,10 @@ public static signin =  async (alias:string, password:string): Promise< {message
 // =====================
 
 
-public static buildFeed = async ( userID: string | null, statusCount: number) : Promise<Status[] | null> => {
+public static buildFeed = async ( alias: string | null,  statusCount: number,  authToken: string,) : Promise<Status[] | null> => {
 
-    if(userID){
-        let currUser = await getUser(userID);
+    if(alias){
+        let currUser = await getUser(alias);
 
         if(!currUser)
             return null;

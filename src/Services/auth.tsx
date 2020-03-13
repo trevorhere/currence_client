@@ -2,13 +2,15 @@
 import ServerFacade  from '../API/ServerFacade'
 
 const signup = async (email:string, alias:string, password:string, setAuthenticatedUserIDCallback): Promise<string | null> => {
-   return await ServerFacade.signup(email, alias, password).then( res => {
-        setAuthenticatedUserIDCallback(res);
-        return res;
-    }).catch(err => {
-        // console.log(err);
-        return null
-    })
+//    return await ServerFacade.signup(email, alias, password).then( res => {
+//         setAuthenticatedUserIDCallback(res);
+//         return res;
+//     }).catch(err => {
+//         // console.log(err);
+//         return null
+//     })
+
+ return await null;
 }
 
 const signin =  async (alias:string, password:string, setAuthToken): Promise<{message: string, token: string |null} | null > => {
@@ -24,16 +26,13 @@ const signin =  async (alias:string, password:string, setAuthToken): Promise<{me
         }
 
     }).catch(err => {
-        console.log(err);
+        console.log('error', err);
         return null;
     })
 }
 
-const signout = async (setAuthenticatedUserIDCallback): Promise<void> => {
-    
-    setAuthenticatedUserIDCallback(null);
-    return await ServerFacade.signout();
-
+const signout = async (setAuthToken): Promise<void> => {
+    setAuthToken(null);
 }
 
 export { signup, signin, signout}

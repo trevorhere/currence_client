@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import '../custom.css'
 
 const Feed: React.FC = () => {
-  const { authenticationToken } = useContext(authContext);
+  const {authenticationToken } = useContext(authContext);
   const [feed, setFeed] = useState< Status[] | null >(null);
   const [newStatusMessage, setNewStatusMessage] = useState<string>('');
   const [statusCount, setstatusCount] = useState<number>(9);
@@ -19,7 +19,7 @@ const Feed: React.FC = () => {
   const handleAddStatus = (): void   => {  
     createStatus(alias!, newStatusMessage).then(res => {
       setNewStatusMessage('');
-      buildFeed(alias!, statusCount).then(res => {
+      buildFeed(alias!, statusCount, token).then(res => {
         setFeed(res);
       })
     })
@@ -33,7 +33,7 @@ const Feed: React.FC = () => {
   }
 
   const reBuildFeed = () => {
-    buildFeed(alias!, statusCount).then(res => {
+    buildFeed(alias!, statusCount, token).then(res => {
       setFeed(res);
     })
   }
@@ -51,10 +51,10 @@ const Feed: React.FC = () => {
     }
   
   useEffect(() => {
-    buildFeed(alias!, statusCount).then(res => {
+    buildFeed(alias!, statusCount, token).then(res => {
       setFeed(res);
     })
-  }, [alias, statusCount])
+  }, [alias, statusCount, token])
 
   return (
     <div className="flex pt-32 flex-col items-center content-center justify-center mb-10 text-white text-xl">
