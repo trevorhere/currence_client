@@ -15,14 +15,14 @@ import { getUser, setCurrentUser} from './API'
 
 const App: React.FC = () => {
 
-  seedDB();
+  // seedDB();
 
-  const [authenticatedUserID, setAuthenticatedUserID] = useState(null);
-  const value = useMemo(() => ({  authenticatedUserID, setAuthenticatedUserID }), [authenticatedUserID, setAuthenticatedUserID]);
+  const [authenticationToken, setAuthenticationToken] = useState(null);
+  const value = useMemo(() => ({  authenticationToken, setAuthenticationToken }), [authenticationToken, setAuthenticationToken]);
 
   const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
-        authenticatedUserID
+      authenticationToken
         ? <Component {...props} />
         : <Redirect to='/' />
     )} />

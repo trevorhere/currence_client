@@ -13,7 +13,7 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
   const [followers, setFollowers] = useState< User[] | null  >(null);
 
   const [ isLoading, setIsLoading ] = useState(false)
-  const { authenticatedUserID } = useContext(authContext);
+  const { authenticationToken } = useContext(authContext);
   
   useEffect(() => {
     setCurrUserID(props.match.params.userID);
@@ -54,7 +54,7 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
         }
      })
     }
-    console.log( isFollowingVal());
+    console.log(  isFollowingVal());
     console.log('end');
 
 

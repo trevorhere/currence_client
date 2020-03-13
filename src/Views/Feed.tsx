@@ -8,16 +8,18 @@ import styled from 'styled-components';
 import '../custom.css'
 
 const Feed: React.FC = () => {
-  const { authenticatedUserID } = useContext(authContext);
+  const { authenticationToken } = useContext(authContext);
   const [feed, setFeed] = useState< Status[] | null >(null);
   const [newStatusMessage, setNewStatusMessage] = useState<string>('');
   const [statusCount, setstatusCount] = useState<number>(9);
 
+  const {token, alias} = authenticationToken!
+
     
   const handleAddStatus = (): void   => {  
-    createStatus(authenticatedUserID!, newStatusMessage).then(res => {
+    createStatus(alias!, newStatusMessage).then(res => {
       setNewStatusMessage('');
-      buildFeed(authenticatedUserID!, statusCount).then(res => {
+      buildFeed(alias!, statusCount).then(res => {
         setFeed(res);
       })
     })
@@ -31,7 +33,7 @@ const Feed: React.FC = () => {
   }
 
   const reBuildFeed = () => {
-    buildFeed(authenticatedUserID!, statusCount).then(res => {
+    buildFeed(alias!, statusCount).then(res => {
       setFeed(res);
     })
   }
@@ -49,10 +51,10 @@ const Feed: React.FC = () => {
     }
   
   useEffect(() => {
-    buildFeed(authenticatedUserID!, statusCount).then(res => {
+    buildFeed(alias!, statusCount).then(res => {
       setFeed(res);
     })
-  }, [authenticatedUserID, statusCount])
+  }, [alias, statusCount])
 
   return (
     <div className="flex pt-32 flex-col items-center content-center justify-center mb-10 text-white text-xl">
@@ -60,8 +62,8 @@ const Feed: React.FC = () => {
         <div className=" w-full flex-row">
             <div>
               < ProfileBox  
-              storyOwnerID = {authenticatedUserID!}
-              authenticatedUserID = {authenticatedUserID!}
+              storyOwnerID = {alias!}
+              alias = {alias!}
               /> 
             </div>
             <StatusContainer 
@@ -74,7 +76,6 @@ const Feed: React.FC = () => {
               <StatusField
                 id="status" 
                 className={``}
-              
                 value={newStatusMessage}
                 type="text" 
                 placeholder="status"

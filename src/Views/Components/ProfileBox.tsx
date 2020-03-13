@@ -7,11 +7,11 @@ import { User } from '../../Models';
 
 interface IProfileBox extends RouteComponentProps {
   storyOwnerID: string,
-  authenticatedUserID: string,
+  alias: string
 }
 
 const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
-  const { authenticatedUserID } = useContext(authContext);
+  const { authenticationToken } = useContext(authContext);
   const [isAFollower, setIsAFollower] = useState<boolean | null>(null);
   const [storyUser, setStoryUser] = useState<User|null>(null);
   const [followers, setFollowers] = useState<number|null>(null);
@@ -24,7 +24,7 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
   }
 
   useEffect(() => {
-    isFollowing(props.authenticatedUserID!, props.storyOwnerID).then(res => {
+    isFollowing(props.alias!, props.storyOwnerID).then(res => {
       setIsAFollower(res);
     })
 
@@ -43,7 +43,7 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
         className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2  rounded focus:outline-none focus:shadow-outline" 
         type="button"
         onClick={() => {
-          unFollow(props.authenticatedUserID!, props.storyOwnerID).then(res => {
+          unFollow(props.alias!, props.storyOwnerID).then(res => {
           refetchNumbers();
           setIsAFollower(false);
           })
@@ -58,7 +58,7 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
         className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2  rounded focus:outline-none focus:shadow-outline" 
         type="button"
         onClick={() => {
-        follow(props.authenticatedUserID!, props.storyOwnerID).then(res => {
+        follow(props.alias!, props.storyOwnerID).then(res => {
           setIsAFollower(true);
           refetchNumbers();
         })
@@ -80,7 +80,7 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
           <div className="text-sm font-extrabold text-blue-500">Followers: {followers}</div>
           <div className="text-sm font-extrabold text-blue-500">Following: {following}</div>
           <div>
-            {(authenticatedUserID && authenticatedUserID !== props.storyOwnerID)? renderFollowActionButton(): <div></div>}
+            {(props.alias && props.alias !== props.storyOwnerID)? renderFollowActionButton(): <div></div>}
             </div>
         </div>
       </div>

@@ -8,7 +8,9 @@ const Following: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
 
   const [currUserID, setCurrUserID] = useState<string| null>(null);
   const [Following, setFollowing] = useState< User[] | null  >(null);
-  const { authenticatedUserID } = useContext(authContext);
+  const { authenticationToken } = useContext(authContext);
+
+  const {alias} = authenticationToken!
 
   useEffect(() => {
     setCurrUserID(props.match.params.userID)
@@ -18,7 +20,7 @@ const Following: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
   }, [props.match.params.userID, currUserID])
 
   const handleUnfollow = ( followingID:string) => {
-    unFollow(authenticatedUserID!, followingID);
+    unFollow(alias!, followingID);
     buildFollowing(currUserID!).then(res => {
       setFollowing(res);
     })

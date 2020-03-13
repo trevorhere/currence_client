@@ -26,7 +26,6 @@ it("handles createStatus properly", () => {
 
 it("handles buildFeed properly",() => {
    
-
     const UserA = new User("aliasA", "aliasA", "emailA","passwordA", "url1");
 
     addUser(UserA);
@@ -49,7 +48,6 @@ it("handles buildFeed properly",() => {
 
     buildFeed(UserA.getID(), 5).then(feed => {
       //  console.log('feed', feed)
-
         expect(feed!.length).toEqual(3);
     }).catch(err => {console.log('ERROR: ', err)})
 

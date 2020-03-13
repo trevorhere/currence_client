@@ -9,11 +9,13 @@ import { getUser } from '../API'
 
 const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   
-  const { authenticatedUserID } = useContext(authContext);
+  const { authenticationToken } = useContext(authContext);
   const [userStory, setUserStory] = useState<Status[] | null>(null);
   const [storyOwnerID, setStoryOwnerID] = useState<string>('');
   const [storyUser, setStoryUser] = useState<User|null>(null);
   const [isAFollower, setIsAFollower] = useState<boolean | null>(null);
+
+  const { alias } = authenticationToken!;
 
   const renderStory = () => {
     if(userStory != null){
@@ -30,7 +32,7 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   useEffect(() => {
     setStoryOwnerID(props.match.params.userID!);
     setStoryUser(getUser(storyOwnerID));
-    isFollowing(authenticatedUserID!, storyOwnerID).then(res => {
+    isFollowing(alias!, storyOwnerID).then(res => {
       setIsAFollower(res);
     })
 
@@ -38,7 +40,7 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
       setUserStory(res)
     })
 
-  },[props,storyOwnerID,authenticatedUserID]);
+  },[props,storyOwnerID,alias]);
 
   return (
     <div>
@@ -53,7 +55,7 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
           <div>
             < ProfileBox  
             storyOwnerID = {storyOwnerID}
-            authenticatedUserID = {authenticatedUserID!}
+            alias = {alias!}
           /> 
         </div>
         </div>

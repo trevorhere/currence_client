@@ -3,6 +3,8 @@ import { User, Status } from '../Models'
 import { addUser, getUsers, getUser  } from '../DB'
 import moment from 'moment';
 
+const SigninURL = 'https://6d33ubfvvj.execute-api.us-east-1.amazonaws.com/dev/signup'
+
 // Auth 
 
 let currentUserID; 
@@ -24,24 +26,32 @@ public static signup = async (email:string, alias:string, password:string) => {
     return  currentUserID;
 }
 
-public static signin =  async (alias:string, password:string) => {
+public static signin =  async (alias:string, password:string): Promise< {message:string,alias:string, authenticated: boolean, token:string | null } | null> => {
+    return await fetch(SigninURL,{
+        method: "POST",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+        }, 
+        body: JSON.stringify({
+            alias,
+            password,
+            })
+        })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            const {message, alias, authenticated, token} = data;
+            return {message, alias, authenticated, token};
 
-    let currentUserArr = getUsers().filter(user => {
-        return (user.alias === alias && user.password === password)
-    });
-
-    if(currentUserArr.length < 1){
-     //   console.log('no user found');
-        currentUserID = null;
-      //  setAuthenticatedUserIDCallback(null);
-        return null;
-    } else {
-       // console.log('returning id: ', currentUserArr[0].getID())
-        currentUserID = currentUserArr[0].getID();
-      //  setAuthenticatedUserIDCallback(currentUserID);
-        return currentUserID;
-    }
+        }).catch(e => {
+            console.log('error: ', e.message)
+            return null;
+        })
 }
+
 
  public static signout = async (): Promise<void> => {
     currentUserID = null;

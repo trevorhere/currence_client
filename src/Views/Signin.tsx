@@ -9,17 +9,17 @@ const reRoute = (props: RouteComponentProps):void =>{
 
 const Signin: React.FC = (props: RouteComponentProps) => {
 
-  const { authenticatedUserID, setAuthenticatedUserID } = useContext(authContext);
+  const { authenticationToken, setAuthenticationToken } = useContext(authContext);
   const [alias, setAlias] = useState<string | null >(null);
   const [password, setPassword] = useState<string | null >(null);
 
   const handleSignin = () => {
-    signin(alias!, password!, setAuthenticatedUserID);
+    signin(alias!, password!, setAuthenticationToken);
   }
 
   return ( 
     <div>
-      {authenticatedUserID? reRoute(props) : null }
+      {authenticationToken? reRoute(props) : null }
       <div className="bg-gray-900 min-h-screen flex flex-col items-center justify-center text-white text-2xl">
         <form className="bg-white shadow-md  lg:w-1/4 sm:w-1/2 rounded px-8 pt-6 pb-8 mb-4">
           <h2 className="text-black py-6 font-bold">Sign In</h2>

@@ -6,11 +6,11 @@ import { authContext } from "../../Context/authContext";
 
 const Nav: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   
-  const { authenticatedUserID, setAuthenticatedUserID} = useContext(authContext);
+  const { authenticationToken, setAuthenticationToken} = useContext(authContext);
   const [userSearchText, setUserSearchText] = useState<string| null>(null);
 
   const handleSignout = () => {
-    signout(setAuthenticatedUserID);
+    signout(setAuthenticationToken);
   }
 
   const navButton = (name:string, path:string) => {
@@ -31,13 +31,13 @@ const Nav: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
     <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
       <div className="text-sm lg:flex-grow">
 
-        {(authenticatedUserID)? 
+        {(authenticationToken?.token)? 
           <div className="antialiased font-sans font-serif font-mono text-center">
               <div className=" justify-between mx-auto">
-                   {navButton("home", `/home/${authenticatedUserID}`)}
-                   {navButton("story", `/story/${authenticatedUserID}`)}
-                   {navButton("following", `/following/${authenticatedUserID}`)}
-                   {navButton("followers", `/followers/${authenticatedUserID}`)}
+                    {navButton("home", `/home/${authenticationToken!.alias}`)}
+                    {navButton("story", `/story/${authenticationToken!.alias}`)}
+                    {navButton("following", `/following/${authenticationToken!.alias}`)}
+                    {navButton("followers", `/followers/${authenticationToken!.alias}`)}
                     <UserSearch 
                         value={userSearchText}
                         placeholder="user search ..."
