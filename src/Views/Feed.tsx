@@ -15,6 +15,8 @@ const Feed: React.FC = () => {
 
   const {token, alias} = authenticationToken!
 
+
+  
     
   const handleAddStatus = (): void   => {  
     createStatus(alias!, newStatusMessage).then(res => {
