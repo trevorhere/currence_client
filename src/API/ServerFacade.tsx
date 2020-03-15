@@ -39,7 +39,6 @@ public static signin =  async ( alias: string, password: string ): Promise< {mes
             return response.json();
         })
         .then((data) => {
-            console.log(data);
             const {message, alias, authenticated, token} = data;
             return {message, alias, authenticated, token};
 
@@ -146,7 +145,6 @@ public static buildFeed = async ( alias: string | null,  statusCount: number,  t
                 return response.json();
             })
             .then((data) => {
-               // console.log(data);
                 const { followers } = data;
                 return followers;
     
@@ -176,7 +174,6 @@ public static  buildFollowing = async ( alias: string, token: string): Promise<U
             return response.json();
         })
         .then((data) => {
-            console.log(data);
             const { following } = data;
             return following;
 
@@ -206,8 +203,6 @@ public static loadStatuses = async ( alias: string ): Promise<Status[] | null> =
             return response.json();
         })
         .then((data) => {
-            console.log(data?.status)
-            console.log('data: ', data);
             const {story} = data;
             return story;
 
@@ -293,7 +288,6 @@ public static loadStatuses = async ( alias: string ): Promise<Status[] | null> =
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
                 const {user} = data;
                 return user;
     

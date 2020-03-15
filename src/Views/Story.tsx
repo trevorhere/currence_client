@@ -30,15 +30,8 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   }
 
   useEffect(() => {
-    console.log('alias: ',props.match.params.alias)
     setStoryOwnerAlias(props.match.params.alias!);
-    // setStoryUser(getUser(storyOwnerAlias));
-    // isFollowing(alias!, storyOwnerAlias).then(res => {
-    //   setIsAFollower(res);
-    // })
-
-  loadStatuses(storyOwnerAlias).then(res => {
-    console.log('stories: ', res);
+    loadStatuses(storyOwnerAlias).then(res => {
       setUserStory(res)
     })
 
