@@ -23,7 +23,7 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
 
 
   const handleUnfollow = ( followeeAlias: string ) => {
-    unFollow(alias!, followeeAlias).then(res => {
+    unFollow(alias!, followeeAlias, token).then(res => {
       // buildFollowers(alias!).then(res => {
       //   setFollowers(res);
       // })

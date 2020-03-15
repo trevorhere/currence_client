@@ -5,8 +5,8 @@ export const follow =  async (userID: string, followeeID: string, token: string 
     return await ServerFacade.follow(userID, followeeID, token);
 }
 
-export const unFollow = async (userID: string, followeeID: string):  Promise<void> => {
-    return await ServerFacade.unFollow(userID, followeeID);
+export const unFollow = async (userID: string, followeeID: string, token: string ):  Promise<void> => {
+    return await ServerFacade.unFollow(userID, followeeID, token);
 }
 
 export const isFollowing = async (userID: string, followeeID: string): Promise<boolean> => {

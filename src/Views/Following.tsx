@@ -19,7 +19,7 @@ const Following: React.FC = () => {
   }, [alias, token])
 
   const handleUnfollow = ( followingAlias: string ) => {
-    unFollow(alias!, followingAlias);
+    unFollow(alias!, followingAlias, token);
     buildFollowing(alias, token).then(following => {
       setFollowing(following!);
     })

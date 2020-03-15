@@ -247,12 +247,30 @@ public static loadStatuses = async ( alias: string ): Promise<Status[] | null> =
             })
     }
 
-    public static unFollow = async (alias: string, followeeAlias: string): Promise<void> => {
-        const user = getUser(alias);
-        const followee = getUser(followeeAlias);
-
-        await user!.removeFollowing(followee!);
-        await followee!.removeFollower(user!);
+    public static unFollow = async (alias: string, followeeAlias: string, token:string ): Promise<void> => {
+        return await fetch(`${URL}/unfollow`,{
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            }, 
+            body: JSON.stringify({
+                alias,
+                followeeAlias, 
+                token
+                })
+            })
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                const { user } = data;
+                return user;
+    
+            }).catch(e => {
+                console.log('error: ', e.message)
+                return null;
+            })
     }
 
     public static  isFollowing = async (alias: string, followeeAlias: string): Promise<boolean> => {

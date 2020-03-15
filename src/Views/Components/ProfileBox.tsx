@@ -48,7 +48,7 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
         className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2  rounded focus:outline-none focus:shadow-outline" 
         type="button"
         onClick={() => {
-          unFollow(props.alias!, props.storyOwnerID).then(res => {
+          unFollow(alias!, props.storyOwnerID, token).then(res => {
           refetchNumbers();
           setIsAFollower(false);
           })
@@ -63,7 +63,7 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
         className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2  rounded focus:outline-none focus:shadow-outline" 
         type="button"
         onClick={() => {
-        follow(alias, props.storyOwnerID, token).then(res => {
+        follow(alias!, props.storyOwnerID, token).then(res => {
           setIsAFollower(true);
           refetchNumbers();
         })
