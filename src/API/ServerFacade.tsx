@@ -3,7 +3,7 @@ import { User, Status } from '../Models'
 import { addUser, getUsers, getUser  } from '../DB'
 import moment from 'moment';
 
-const local = true;
+const local = false;
 const URL = local?  'http://localhost:3000/dev':  'https://6d33ubfvvj.execute-api.us-east-1.amazonaws.com/dev'
 
 // Auth 

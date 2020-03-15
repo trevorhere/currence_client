@@ -15,9 +15,7 @@ const Feed: React.FC = () => {
 
   const {token, alias} = authenticationToken!
 
-
   
-    
   const handleAddStatus = (): void   => {  
     createStatus(alias!, newStatusMessage).then(res => {
       setNewStatusMessage('');
@@ -64,7 +62,7 @@ const Feed: React.FC = () => {
         <div className=" w-full flex-row">
             <div>
               < ProfileBox  
-              storyOwnerID = {alias!}
+              storyOwnerAlias = {alias!}
               alias = {alias!}
               /> 
             </div>

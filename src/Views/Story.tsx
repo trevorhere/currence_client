@@ -57,7 +57,7 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
         {/* <div className=" lg:w-1/4 sm:w-1/2 px-2 py-2  flex-row border-b-2 border-gray-600"> */}
           <div>
             < ProfileBox  
-            storyOwnerID = {storyOwnerAlias}
+            storyOwnerAlias = {storyOwnerAlias}
             alias = {storyOwnerAlias!}
           /> 
         </div>
