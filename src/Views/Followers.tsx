@@ -5,93 +5,55 @@ import { authContext } from "../Context/authContext";
 import { follow, unFollow, isFollowing, buildFollowers} from '../Services/Followers';
 
 
-
-
 const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
-  const [currUserID, setCurrUserID] = useState<string| null>(null);
   const [followers, setFollowers] = useState< User[] | null  >(null);
 
   const [ isLoading, setIsLoading ] = useState(false)
   const { authenticationToken } = useContext(authContext);
+
+  const { alias, token } = authenticationToken!;
   
   useEffect(() => {
-    setCurrUserID(props.match.params.userID);
-    buildFollowers(currUserID!).then(res => {
-      setFollowers(res!);
+    buildFollowers(alias, token).then(followers => {
+      setFollowers(followers!);
     });
     
-  }, [props.match.params.userID, currUserID])
+  }, [ alias, token ])
 
 
-  const handleUnfollow = ( followeeID:string) => {
-    unFollow(currUserID!, followeeID).then(res => {
-      // buildFollowers(currUserID!).then(res => {
+  const handleUnfollow = ( followeeAlias: string ) => {
+    unFollow(alias!, followeeAlias).then(res => {
+      // buildFollowers(alias!).then(res => {
       //   setFollowers(res);
       // })
     })
   }
 
-  const handleFollow = (followeeID:string) => {
-    follow(currUserID!, followeeID).then(res => {
-      // buildFollowers(currUserID!).then(res => {
+  const handleFollow = (followeeAlias:string) => {
+    follow(alias!, followeeAlias, token).then(res => {
+      // buildFollowers(alias!).then(res => {
       //   setFollowers(res);
       // })
     })
   }
 
-  const renderFollowActionButton = ( followeeID: string) => {
-    // console.log('isFollowing' ,  isFollowing(currUserID!, followeeID))
-    // return (isFollowing(currUserID!, followeeID)) ?
+  const renderFollowActionButton = ( followeeAlias: string) => {
+    // console.log('isFollowing' ,  isFollowing(alias!, followeeID))
+    // return (isFollowing(alias!, followeeID)) ?
 
-   const isFollowingVal = async () => { await isFollowing(currUserID!, followeeID).then(res => {
-       if(res){
-         console.log(true);
-         return '1'
-       } else {
+  const isFollowingVal = async () => { await isFollowing(alias!, followeeAlias).then(res => {
+        if(res){
+          console.log(true);
+          return '1'
+      } else {
         console.log(false);
-         return '2'       
+          return '2'       
         }
-     })
+      })
     }
     console.log(  isFollowingVal());
     console.log('end');
-
-
-
-     
-
-    //  return <div>test</div>
-    // return isFollowing(currUserID!, followeeID).then(res => {
-
-    //   const button = (res) ? 
-    //    ( <div>
-    //       <button 
-    //         className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2  rounded focus:outline-none focus:shadow-outline" 
-    //         type="button"
-    //         onClick={() => {
-    //           handleUnfollow(followeeID);
-    //         }}
-    //       >
-    //         unfollow
-    //       </button>
-    //     </div>)
-    //     :
-    //    ( <div>
-    //       <button 
-    //         className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2  rounded focus:outline-none focus:shadow-outline" 
-    //         type="button"
-    //         onClick={() => {
-    //           handleFollow(followeeID);
-    //         }}>
-    //         follow
-    //       </button>
-    //     </div>)
-
-    //     setIsLoading(false);
-    //     return button
-    //   });
-
   }
 
   
@@ -112,16 +74,14 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
                   <p className="text-gray-600">Aug 18</p>
               </div>
           </div> 
-        { renderFollowActionButton(user.getID()!)}
+        { renderFollowActionButton(user.alias!)}
           </div>
         )})
       } else {
-        return <p>followers not found</p>
+        return <p>Followers not found</p>
       }
   }
-    
-
-
+  
   return (
       <div className="flex pt-32 flex-col items-center content-center justify-center  text-white text-xl">
         <div className=" w-1/4 ">
@@ -129,15 +89,6 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
         </div>
       </div>
   )
-
-  // return (
-  //   <div className="flex pt-32 flex-col items-center content-center justify-center  text-white text-xl">
-  //       <div className=" w-1/4 ">
-  //       {renderFollowers()}
-  //       </div>
-  //   </div>
-
-  // );
 }
 
 export default Followers;

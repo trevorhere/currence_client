@@ -1,28 +1,27 @@
 import React, { useContext, useState, useEffect} from 'react';
-import { RouteComponentProps, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { User } from '../Models'
 import { authContext } from "../Context/authContext";
 import  { unFollow, buildFollowing } from '../Services/Following'
 
-const Following: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
+const Following: React.FC = () => {
 
-  const [currUserID, setCurrUserID] = useState<string| null>(null);
   const [Following, setFollowing] = useState< User[] | null  >(null);
   const { authenticationToken } = useContext(authContext);
 
-  const {alias} = authenticationToken!
+  const { alias, token } = authenticationToken!
 
   useEffect(() => {
-    setCurrUserID(props.match.params.userID)
-    buildFollowing(currUserID!).then(res => {
-      setFollowing(res!);
+    buildFollowing(alias, token).then(following => {
+      console.log('following: ', following)
+      setFollowing(following!);
     })
-  }, [props.match.params.userID, currUserID])
+  }, [alias, token])
 
-  const handleUnfollow = ( followingID:string) => {
-    unFollow(alias!, followingID);
-    buildFollowing(currUserID!).then(res => {
-      setFollowing(res);
+  const handleUnfollow = ( followingAlias: string ) => {
+    unFollow(alias!, followingAlias);
+    buildFollowing(alias, token).then(following => {
+      setFollowing(following!);
     })
   }
   
@@ -47,7 +46,7 @@ const Following: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
               className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2  rounded focus:outline-none focus:shadow-outline" 
 
               type="button"
-              onClick={() =>  handleUnfollow(user.id)}
+              onClick={() =>  handleUnfollow(user.alias)}
               >
                 unfollow
             </button>

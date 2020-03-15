@@ -1,8 +1,8 @@
 import ServerFacade from '../API/ServerFacade'
 import { User } from '../Models'
 
-export const follow =  async (userID: string, followeeID: string): Promise<void> => {
-    return await ServerFacade.follow(userID, followeeID);
+export const follow =  async (userID: string, followeeID: string, token: string ): Promise<User | null> => {
+    return await ServerFacade.follow(userID, followeeID, token);
 }
 
 export const unFollow = async (userID: string, followeeID: string):  Promise<void> => {

@@ -21,8 +21,8 @@ const signin =  async (alias:string, password:string, setAuthToken): Promise<{me
             setAuthToken({message, alias, token});
             return {message: message, token:token};
         } else {
-            setAuthToken({message, alias, token: null});
-            return {message, token:null};
+            setAuthToken(null);
+            return {message, token: null};
         }
 
     }).catch(err => {

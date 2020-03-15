@@ -5,17 +5,13 @@ import Signin from './Views/Signin'
 import Signup from './Views/Signup'
 import Story from './Views/Story'
 import Nav from './Views/Components/Nav'
-import { seedDB } from './DB/db_Builder';
 import { authContext } from "./Context/authContext";
 import Feed from './Views/Feed';
 import Followers from './Views/Followers';
 import Following from './Views/Following';
-import { getUser, setCurrentUser} from './API'
 
 
 const App: React.FC = () => {
-
-  // seedDB();
 
   const [authenticationToken, setAuthenticationToken] = useState(null);
   const value = useMemo(() => ({  authenticationToken, setAuthenticationToken }), [authenticationToken, setAuthenticationToken]);
@@ -36,9 +32,9 @@ const App: React.FC = () => {
         <Switch>
           <Route path="/signup" exact component={Signup}/>
           <Route path="/signin" exact component={Signin}/>
-          <Route path='/story/:userID' exact component={Story} />
-          <PrivateRoute path='/followers/:userID' component={Followers} />
-          <PrivateRoute path='/following/:userID' component={Following} />
+          <Route path='/story/:alias' exact component={Story} />
+          <PrivateRoute path='/followers/:alias' component={Followers} />
+          <PrivateRoute path='/following/:alias' component={Following} />
           <PrivateRoute path='/home' component={Feed} />
           <Route path="/" exact component={Index}/>
           <Route render={() => <Redirect to="/" />} />
