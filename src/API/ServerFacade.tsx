@@ -1,26 +1,45 @@
 
 import { User, Status } from '../Models'
-import { addUser, getUsers, getUser  } from '../DB'
-import moment from 'moment';
+import { getUsers, getUser  } from '../DB'
 
 const local = true;
 const URL = local?  'http://localhost:3000/dev':  'https://6d33ubfvvj.execute-api.us-east-1.amazonaws.com/dev'
 
 // Auth 
 
+
+// signup
+// createStatus
+
+// goodAlias
+
+
 export default class ServerFacade {
 
-public static signup = async ( email: string, alias: string, password: string) => {
+public static signup = async (alias: string, password: string, picture: string) => {
+    return await fetch(`${URL}/signup`,{
+        method: "POST",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+        }, 
+        body: JSON.stringify({
+            alias,
+            password,
+            picture
+            })
+        })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            const {message, alias, authenticated, token} = data;
+            return {message, alias, authenticated, token};
 
-    // if(!ServerFacade.goodAlias(alias)){
-    //     return null;
-    // }
-
-    // const newUser = new User(alias, alias, email, password, "https://i.imgur.com/ylyowqj.png");
-    // addUser(newUser);
-    // currentUserID = await newUser.getID();
-
-    // return  currentUserID;
+        }).catch(e => {
+            console.log('error: ', e.message)
+            return null;
+        })
 }
 
 public static signin =  async ( alias: string, password: string ): Promise< {message:string,alias:string, authenticated: boolean, token:string | null } | null> => {
@@ -49,23 +68,23 @@ public static signin =  async ( alias: string, password: string ): Promise< {mes
 }
 
 public static goodAlias = async ( alias: string ): Promise<boolean> => {
+    return await fetch(`${URL}/alias/?alias=${alias}`,{
+        method: "GET",
+        mode: "cors",
+        headers: { "Content-Type": "application/json" }
+    })
+    .then((response) => {
+        return response.json();
+    })
+    .then((data) => {
+       // console.log(data);
+        const { result } = data;
+        return result;
 
-    let result = true;
-
-    if(!alias.match(/^[a-z]+$/i)) result = false;
-    
-
-    if(alias.length > 50) result = false;
-    
-
-    let existing_aliases = getUsers().filter(user => {
-        return(alias === user.alias)
-    });
-
-    if(existing_aliases.length > 0) result = false;
-    
-
-    return await result;
+    }).catch(e => {
+        console.log('error: ', e.message)
+        return null;
+    })
 }
 
 
@@ -74,17 +93,11 @@ public static goodAlias = async ( alias: string ): Promise<boolean> => {
 // =====================
 
 
-public static buildFeed = async ( alias: string | null,  statusCount: number,  token: string ) : Promise<Status[] | null> => {
-    return await fetch(`${URL}/getFeed`,{
-        method: "POST",
-        mode: "cors",
-        headers: {
-            "Content-Type": "application/json",
-        }, 
-        body: JSON.stringify({
-            alias,
-            token
-            })
+public static getFeed = async ( alias: string | null,  statusCount: number,  token: string ) : Promise<Status[] | null> => {
+    return await fetch(`${URL}/feed/?alias=${alias}&token=${token}`,{
+            method: "GET",
+            mode: "cors",
+            headers: { "Content-Type": "application/json" }
         })
         .then((response) => {
             return response.json();
@@ -98,48 +111,44 @@ public static buildFeed = async ( alias: string | null,  statusCount: number,  t
             console.log('error: ', e.message)
             return null;
         })
-
-    // if(alias){
-    //     let currUser = await getUser(alias);
-
-    //     if(!currUser)
-    //         return null;
-
-    //     let statuses = await [...currUser.getStatuses()];
-    //     let feed = await [...currUser.getFeed()];
-
-    //     if(statuses.length > 0){
-    //         statuses.map(status => {
-    //             feed.push(status);
-    //         });
-    //     };
-
-    //         return await [...feed.sort((b, a) => moment(a.created_at).diff(b.created_at)).slice(0, statusCount)]
-    //     } else return null;
     }
 
-    public static createStatus = async ( alias: string, message: string ): Promise<Status> => {
-        const user = await getUser(alias);
-        const newStatus = new Status(alias, user!.alias, message);
-        user?.addStatus(newStatus);
-        return await newStatus;
-    }
+public static createStatus = async ( alias: string, message: string, token: string ): Promise<Status> => {
+    return await fetch(`${URL}/status/?token=${token}`,{
+        method: "POST",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+        }, 
+        body: JSON.stringify({
+            alias,
+            message
+            })
+        })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            const { status } = data;
+            return status;
+
+        }).catch(e => {
+            console.log('error: ', e.message)
+            return null;
+        })
+}
 
 // =====================
 //        Followers 
 // =====================
 
-    public static  buildFollowers = async ( alias: string, token: string ): Promise<User[] | null> => {
-        return await fetch(`${URL}/getFollowers`,{
-            method: "POST",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-            }, 
-            body: JSON.stringify({
-                alias,
-                token
-                })
+    public static  getFollowers = async ( alias: string, token: string ): Promise<User[] | null> => {
+        return await fetch(`${URL}/followers/?alias=${alias}&token=${token}`,{
+                method: "GET",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                }, 
             })
             .then((response) => {
                 return response.json();
@@ -158,17 +167,12 @@ public static buildFeed = async ( alias: string | null,  statusCount: number,  t
 //        Following
 // =====================
 
-public static  buildFollowing = async ( alias: string, token: string): Promise<User[] | null> => {
-    return await fetch(`${URL}/getFollowing`,{
-        method: "POST",
+public static  getFollowing = async ( alias: string, token: string): Promise<User[] | null> => {
+    return await fetch(`${URL}/following/?alias=${alias}&token=${token}`,{
+        method: "GET",
         mode: "cors",
         headers: {
-            "Content-Type": "application/json",
-        }, 
-        body: JSON.stringify({
-            alias,
-            token
-            })
+            "Content-Type": "application/json" }
         })
         .then((response) => {
             return response.json();
@@ -212,7 +216,7 @@ public static getStory = async ( alias: string ): Promise<Status[] | null> => {
 // =====================
 
     public static follow = async (alias: string, followeeAlias: string, token: string ): Promise<User | null> => {
-        return await fetch(`${URL}/follow`,{
+        return await fetch(`${URL}/follow/?token=${token}`,{
             method: "POST",
             mode: "cors",
             headers: {
@@ -220,8 +224,7 @@ public static getStory = async ( alias: string ): Promise<Status[] | null> => {
             }, 
             body: JSON.stringify({
                 alias,
-                followeeAlias, 
-                token
+                followeeAlias
                 })
             })
             .then((response) => {
@@ -238,7 +241,7 @@ public static getStory = async ( alias: string ): Promise<Status[] | null> => {
     }
 
     public static unFollow = async (alias: string, followeeAlias: string, token:string ): Promise<void> => {
-        return await fetch(`${URL}/unfollow`,{
+        return await fetch(`${URL}/unfollow/?token=${token}`,{
             method: "POST",
             mode: "cors",
             headers: {
@@ -246,8 +249,7 @@ public static getStory = async ( alias: string ): Promise<Status[] | null> => {
             }, 
             body: JSON.stringify({
                 alias,
-                followeeAlias, 
-                token
+                followeeAlias
                 })
             })
             .then((response) => {
@@ -263,9 +265,24 @@ public static getStory = async ( alias: string ): Promise<Status[] | null> => {
             })
     }
 
-    public static  isFollowing = async (alias: string, followeeAlias: string): Promise<boolean> => {
-        const user = await getUser(alias);
-        return (user?.getFollowee(followeeAlias) !== undefined);
+    public static  isFollowing = async (alias: string, followeeAlias: string, token: string ): Promise<boolean> => {
+        return await fetch(`${URL}/isfollowing/?alias=${alias}&token=${token}&followeeAlias=${followeeAlias}`,{
+            method: "GET",
+            mode: "cors",
+            headers: { "Content-Type": "application/json" }
+        })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+           // console.log(data);
+            const { result } = data;
+            return result;
+
+        }).catch(e => {
+            console.log('error: ', e.message)
+            return null;
+        })
     }
 
     public static  getUser = async (alias: string): Promise<User | null> => {

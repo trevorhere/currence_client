@@ -28,7 +28,7 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
   }
 
   useEffect(() => {
-    isFollowing(alias!, props.ownerAlias).then(res => {
+    isFollowing(alias!, props.ownerAlias, token!).then(res => {
       setIsAFollower(res);
     })
 

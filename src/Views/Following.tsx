@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { User } from '../Models'
 import { authContext } from "../Context/authContext";
-import  { unFollow, buildFollowing } from '../Services/Following'
+import  { unFollow, getFollowing } from '../Services/Following'
 
 const Following: React.FC = () => {
 
@@ -12,7 +12,7 @@ const Following: React.FC = () => {
   const { alias, token } = authenticationToken!
 
   useEffect(() => {
-    buildFollowing(alias, token).then(following => {
+    getFollowing(alias, token).then(following => {
       console.log('following: ', following)
       setFollowing(following!);
     })
@@ -20,7 +20,7 @@ const Following: React.FC = () => {
 
   const handleUnfollow = ( followingAlias: string ) => {
     unFollow(alias!, followingAlias, token);
-    buildFollowing(alias, token).then(following => {
+    getFollowing(alias, token).then(following => {
       setFollowing(following!);
     })
   }

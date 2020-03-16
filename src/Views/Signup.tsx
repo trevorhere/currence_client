@@ -10,14 +10,14 @@ const reRoute = (props: RouteComponentProps):void =>{
 const Signup: React.FC = (props:RouteComponentProps) => {
 
   const { authenticationToken, setAuthenticationToken } = useContext(authContext);
-  const [email, setEmail] = useState<string>('emailA');
   const [password, setPassword] = useState<string>('passwordA');
   const [alias, setAlias] = useState<string>('aliasA');
+  const [picture, setPicture] = useState<string>('https://i.imgur.com/oo67PIH.jpg');
   const [file, setFile] = useState<string |  null>(null);
 
   
   const handleSignup = () => {
-    signup(email, alias, password, authenticationToken);
+    signup(alias, password, picture, setAuthenticationToken);
   }
 
   return ( 
@@ -26,18 +26,6 @@ const Signup: React.FC = (props:RouteComponentProps) => {
       <div className="bg-gray-900 min-h-screen  flex flex-col items-center justify-center text-white text-2xl">
         <form className="bg-white shadow-md   lg:w-1/4 sm:w-1/2  rounded px-8 pt-6 pb-8 mb-4">
           <h2 className="text-black py-6 font-bold"> Sign Up</h2>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Email
-            </label>
-            <input 
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-              id="email" 
-              type="text" 
-              placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Profile Image

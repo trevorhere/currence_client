@@ -1,16 +1,22 @@
 
 import ServerFacade  from '../API/ServerFacade'
 
-const signup = async (email:string, alias:string, password:string, setAuthenticatedUserIDCallback): Promise<string | null> => {
-//    return await ServerFacade.signup(email, alias, password).then( res => {
-//         setAuthenticatedUserIDCallback(res);
-//         return res;
-//     }).catch(err => {
-//         // console.log(err);
-//         return null
-//     })
+const signup = async (alias:string, password:string, picture: string, setAuthToken):  Promise<{message: string, token: string |null} | null > => {
+    return await ServerFacade.signup(alias, password ,picture).then(data => {
+        const { message, alias, authenticated, token } = data!;
 
- return await null;
+        if(authenticated){
+            setAuthToken({message, alias, token});
+            return {message: message, token:token};
+        } else {
+            setAuthToken(null);
+            return {message, token: null};
+        }
+
+    }).catch(err => {
+        console.log('error', err);
+        return null;
+    })
 }
 
 const signin =  async (alias:string, password:string, setAuthToken): Promise<{message: string, token: string |null} | null > => {

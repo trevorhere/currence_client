@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect} from 'react';
 import { authContext } from '../Context/authContext';
-import { buildFeed, createStatus } from '../Services/Feed'
+import { getFeed, createStatus } from '../Services/Feed'
 import {Status } from '../Models'
 import StatusBox  from './Components/StatusBox'
 import  ProfileBox  from './Components/ProfileBox'
@@ -17,9 +17,9 @@ const Feed: React.FC = () => {
 
   
   const handleAddStatus = (): void   => {  
-    createStatus(alias!, newStatusMessage).then(res => {
+    createStatus(alias!, newStatusMessage, token!).then(res => {
       setNewStatusMessage('');
-      buildFeed(alias!, statusCount, token).then(res => {
+      getFeed(alias!, statusCount, token).then(res => {
         setFeed(res);
       })
     })
@@ -33,7 +33,7 @@ const Feed: React.FC = () => {
   }
 
   const reBuildFeed = () => {
-    buildFeed(alias!, statusCount, token).then(res => {
+    getFeed(alias!, statusCount, token).then(res => {
       setFeed(res);
     })
   }
@@ -51,10 +51,10 @@ const Feed: React.FC = () => {
     }
   
   useEffect(() => {
-    buildFeed(alias!, statusCount, token).then(res => {
+    getFeed(alias!, statusCount, token).then(res => {
       setFeed(res);
     })
-  }, [alias, statusCount, token])
+  }, [alias, statusCount, token, setNewStatusMessage])
 
   return (
     <div className="flex pt-32 flex-col items-center content-center justify-center mb-10 text-white text-xl">

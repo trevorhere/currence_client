@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect} from 'react';
 import { RouteComponentProps, Link } from 'react-router-dom';
 import { User } from '../Models'
 import { authContext } from "../Context/authContext";
-import { follow, unFollow, isFollowing, buildFollowers} from '../Services/Followers';
+import { follow, unFollow, isFollowing, getFollowers} from '../Services/Followers';
 
 
 const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
@@ -15,7 +15,7 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
   const { alias, token } = authenticationToken!;
   
   useEffect(() => {
-    buildFollowers(alias, token).then(followers => {
+    getFollowers(alias, token).then(followers => {
       setFollowers(followers!);
     });
     
@@ -24,37 +24,36 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
 
   const handleUnfollow = ( followeeAlias: string ) => {
     unFollow(alias!, followeeAlias, token).then(res => {
-      // buildFollowers(alias!).then(res => {
-      //   setFollowers(res);
-      // })
+      getFollowers(alias!, token!).then(res => {
+        setFollowers(res);
+      })
     })
   }
 
   const handleFollow = (followeeAlias:string) => {
     follow(alias!, followeeAlias, token).then(res => {
-      // buildFollowers(alias!).then(res => {
-      //   setFollowers(res);
-      // })
+      getFollowers(alias!, token!).then(res => {
+        setFollowers(res);
+      })
     })
   }
-
   const renderFollowActionButton = ( followeeAlias: string) => {
-    // console.log('isFollowing' ,  isFollowing(alias!, followeeID))
-    // return (isFollowing(alias!, followeeID)) ?
-
-  const isFollowingVal = async () => { await isFollowing(alias!, followeeAlias).then(res => {
-        if(res){
-          console.log(true);
-          return '1'
-      } else {
-        console.log(false);
-          return '2'       
-        }
-      })
-    }
-    console.log(  isFollowingVal());
-    console.log('end');
+    return (isFollowing(alias!, followeeAlias, token!));
   }
+
+  // const isFollowingVal = async () => { await isFollowing(alias!, followeeAlias, token).then(res => {
+  //       if(res){
+  //         console.log(true);
+  //         return '1'
+  //     } else {
+  //       console.log(false);
+  //         return '2'       
+  //       }
+  //     })
+  //   }
+  //   console.log(  isFollowingVal());
+  //   console.log('end');
+  // }
 
   
   const renderFollowers = () => {
@@ -74,7 +73,7 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
                   <p className="text-gray-600">Aug 18</p>
               </div>
           </div> 
-        { renderFollowActionButton(user.alias!)}
+        {/* { renderFollowActionButton(user.alias!)} */}
           </div>
         )})
       } else {

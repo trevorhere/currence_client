@@ -9,8 +9,8 @@ export const unFollow = async (userID: string, followeeID: string, token: string
     return await ServerFacade.unFollow(userID, followeeID, token);
 }
 
-export const isFollowing = async (userID: string, followeeID: string): Promise<boolean> => {
-    return await ServerFacade.isFollowing(userID, followeeID)
+export const isFollowing = async (userID: string, followeeAlias: string, token: string ): Promise<boolean> => {
+    return await ServerFacade.isFollowing(userID, followeeAlias, token)
 }
 
 export const getUser = async (userID: string): Promise<User | null> => {
