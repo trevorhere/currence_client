@@ -3,7 +3,7 @@ import { User, Status } from '../Models'
 import { addUser, getUsers, getUser  } from '../DB'
 import moment from 'moment';
 
-const local = false;
+const local = true;
 const URL = local?  'http://localhost:3000/dev':  'https://6d33ubfvvj.execute-api.us-east-1.amazonaws.com/dev'
 
 // Auth 
@@ -76,7 +76,7 @@ public static goodAlias = async ( alias: string ): Promise<boolean> => {
 
 public static buildFeed = async ( alias: string | null,  statusCount: number,  token: string ) : Promise<Status[] | null> => {
     return await fetch(`${URL}/getFeed`,{
-        method: "GET",
+        method: "POST",
         mode: "cors",
         headers: {
             "Content-Type": "application/json",
@@ -131,7 +131,7 @@ public static buildFeed = async ( alias: string | null,  statusCount: number,  t
 
     public static  buildFollowers = async ( alias: string, token: string ): Promise<User[] | null> => {
         return await fetch(`${URL}/getFollowers`,{
-            method: "GET",
+            method: "POST",
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
@@ -160,7 +160,7 @@ public static buildFeed = async ( alias: string | null,  statusCount: number,  t
 
 public static  buildFollowing = async ( alias: string, token: string): Promise<User[] | null> => {
     return await fetch(`${URL}/getFollowing`,{
-        method: "GET",
+        method: "POST",
         mode: "cors",
         headers: {
             "Content-Type": "application/json",
@@ -187,16 +187,11 @@ public static  buildFollowing = async ( alias: string, token: string): Promise<U
 //        Story
 // =====================
 
-public static loadStatuses = async ( alias: string ): Promise<Status[] | null> => {
-    return await fetch(`${URL}/getStory`,{
+public static getStory = async ( alias: string ): Promise<Status[] | null> => {
+    return await fetch(`${URL}/story/?alias=${alias}`,{
         method: "GET",
         mode: "cors",
-        headers: {
-            "Content-Type": "application/json",
-        }, 
-        body: JSON.stringify({
-            alias
-            })
+            headers: { "Content-Type": "application/json" }, 
         })
         .then((response) => {
             if(response.status !== 200) throw new Error(response['message']);
@@ -274,15 +269,10 @@ public static loadStatuses = async ( alias: string ): Promise<Status[] | null> =
     }
 
     public static  getUser = async (alias: string): Promise<User | null> => {
-        return await fetch(`${URL}/getUser`,{
-            method: "GET",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-            }, 
-            body: JSON.stringify({
-                alias,
-                })
+        return await fetch(`${URL}/user/?alias=${alias}`,{
+                method: "GET",
+                mode: "cors",
+                headers: { "Content-Type": "application/json", }
             })
             .then((response) => {
                 return response.json();

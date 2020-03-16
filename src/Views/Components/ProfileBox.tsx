@@ -1,27 +1,26 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { RouteComponentProps} from "react-router";
 import { follow, unFollow, isFollowing, getUser} from '../../Services/util';
-import { authContext } from "../../Context/authContext";
 import { User } from '../../Models';
+import { authContext } from '../../Context/authContext';
+
+
+
 
 
 interface IProfileBox extends RouteComponentProps {
-  storyOwnerAlias: string,
-  alias: string
+  ownerAlias: string,
 }
 
 const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
-
-
-
   const [isAFollower, setIsAFollower] = useState<boolean | null>(null);
   const [storyUser, setStoryUser] = useState<User|null>(null);
   const [followers, setFollowers] = useState<number|null>(null);
   const [following, setFollowing] = useState<number |null>(null);
   const { authenticationToken } = useContext(authContext);
 
-  const { alias, token } = authenticationToken!
-
+  const alias = authenticationToken?.alias ? authenticationToken?.alias : null;
+  const token = authenticationToken?.token ? authenticationToken?.token : null;
 
   const refetchNumbers = () => {
     setFollowers(storyUser?.followers.length!);
@@ -29,11 +28,11 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
   }
 
   useEffect(() => {
-    isFollowing(props.alias!, props.storyOwnerAlias).then(res => {
+    isFollowing(alias!, props.ownerAlias).then(res => {
       setIsAFollower(res);
     })
 
-    getUser(props.storyOwnerAlias!).then(user => {
+    getUser(props.ownerAlias!).then(user => {
       setStoryUser(user);
       setFollowers(user?.followers.length!);
       setFollowing(user?.following.length!);
@@ -48,7 +47,7 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
         className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2  rounded focus:outline-none focus:shadow-outline" 
         type="button"
         onClick={() => {
-          unFollow(alias!, props.storyOwnerAlias, token).then(res => {
+          unFollow(alias!, props.ownerAlias, token!).then(res => {
           refetchNumbers();
           setIsAFollower(false);
           })
@@ -63,7 +62,7 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
         className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2  rounded focus:outline-none focus:shadow-outline" 
         type="button"
         onClick={() => {
-        follow(alias!, props.storyOwnerAlias, token).then(res => {
+        follow(alias!, props.ownerAlias, token!).then(res => {
           setIsAFollower(true);
           refetchNumbers();
         })
@@ -75,19 +74,36 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
   }
 
     return (
-      <div className="flex text-left justify-center py-20 ">
+
+      (alias) 
+      ? (
+        <div className="flex text-left justify-center py-20 ">
         <div className="p-2">
           <img  className="rounded-full h-32 w-32" alt="profile" src={storyUser?.picture!} />
         </div>
         <div className="flex flex-col my-auto h-100 text-left align-middle align-middle p-4">
-          <div className="text-lg text-left underline pt-2">{props.storyOwnerAlias}</div>
+          <div className="text-lg text-left underline pt-2">{props.ownerAlias}</div>
           <div className="text-sm font-extrabold text-blue-500">Followers: {followers}</div>
           <div className="text-sm font-extrabold text-blue-500">Following: {following}</div>
           <div>
-            {(props.alias && props.alias !== props.storyOwnerAlias)? renderFollowActionButton(): <div></div>}
+            {(alias && alias !== props.ownerAlias)? renderFollowActionButton(): <div></div>}
             </div>
         </div>
       </div>
+      ) 
+      : (
+        <div className="flex text-left justify-center py-20 ">
+        <div className="p-2">
+          <img  className="rounded-full h-32 w-32" alt="profile" src={storyUser?.picture!} />
+        </div>
+        <div className="flex flex-col my-auto h-100 text-left align-middle align-middle p-4">
+          <div className="text-lg text-left underline pt-2">{props.ownerAlias}</div>
+          <div className="text-sm font-extrabold text-blue-500">Followers: {followers}</div>
+          <div className="text-sm font-extrabold text-blue-500">Following: {following}</div>
+        </div>
+      </div>
+      )
+
     )
 }
 

@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {withRouter, RouteComponentProps} from "react-router";
 import { Status, User } from '../Models';
-import { loadStatuses, isFollowing} from '../Services/Story';
+import { getStory, isFollowing} from '../Services/Story';
 import { authContext } from "../Context/authContext";
 import  StatusBox from "./Components/StatusBox"
 import  ProfileBox  from './Components/ProfileBox'
@@ -31,7 +31,7 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
   useEffect(() => {
     setStoryOwnerAlias(props.match.params.alias!);
-    loadStatuses(storyOwnerAlias).then(res => {
+    getStory(storyOwnerAlias).then(res => {
       setUserStory(res)
     })
 
@@ -50,8 +50,7 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
         {/* <div className=" lg:w-1/4 sm:w-1/2 px-2 py-2  flex-row border-b-2 border-gray-600"> */}
           <div>
             < ProfileBox  
-            storyOwnerAlias = {storyOwnerAlias}
-            alias = {storyOwnerAlias!}
+            ownerAlias = {storyOwnerAlias}
           /> 
         </div>
         </div>

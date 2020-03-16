@@ -62,8 +62,7 @@ const Feed: React.FC = () => {
         <div className=" w-full flex-row">
             <div>
               < ProfileBox  
-              storyOwnerAlias = {alias!}
-              alias = {alias!}
+              ownerAlias = {alias!}
               /> 
             </div>
             <StatusContainer 
