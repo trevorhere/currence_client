@@ -76,7 +76,7 @@ public static goodAlias = async ( alias: string ): Promise<boolean> => {
 
 public static buildFeed = async ( alias: string | null,  statusCount: number,  token: string ) : Promise<Status[] | null> => {
     return await fetch(`${URL}/getFeed`,{
-        method: "POST",
+        method: "GET",
         mode: "cors",
         headers: {
             "Content-Type": "application/json",
@@ -131,7 +131,7 @@ public static buildFeed = async ( alias: string | null,  statusCount: number,  t
 
     public static  buildFollowers = async ( alias: string, token: string ): Promise<User[] | null> => {
         return await fetch(`${URL}/getFollowers`,{
-            method: "POST",
+            method: "GET",
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
@@ -160,7 +160,7 @@ public static buildFeed = async ( alias: string | null,  statusCount: number,  t
 
 public static  buildFollowing = async ( alias: string, token: string): Promise<User[] | null> => {
     return await fetch(`${URL}/getFollowing`,{
-        method: "POST",
+        method: "GET",
         mode: "cors",
         headers: {
             "Content-Type": "application/json",
@@ -189,7 +189,7 @@ public static  buildFollowing = async ( alias: string, token: string): Promise<U
 
 public static loadStatuses = async ( alias: string ): Promise<Status[] | null> => {
     return await fetch(`${URL}/getStory`,{
-        method: "POST",
+        method: "GET",
         mode: "cors",
         headers: {
             "Content-Type": "application/json",
@@ -275,7 +275,7 @@ public static loadStatuses = async ( alias: string ): Promise<Status[] | null> =
 
     public static  getUser = async (alias: string): Promise<User | null> => {
         return await fetch(`${URL}/getUser`,{
-            method: "POST",
+            method: "GET",
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
