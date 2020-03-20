@@ -36,8 +36,10 @@ public static signup = async (alias: string, password: string, picture: string) 
 
 public static signin =  async ( alias: string, password: string ): Promise< {message:string,alias:string, authenticated: boolean, token:string | null } | null> => {
     
-    console.log('test: ', process.env.REACT_TEST);
-    console.log('test: ', process.env.TEST);
+    console.log('test1: ', process.env.REACT_TEST);
+    console.log('test2: ', process.env.TEST);
+    console.log('test3: ', process.env.REACT_APP_TEST);
+
 
     return await fetch(`${URL}/signin`,{
         method: "POST",
