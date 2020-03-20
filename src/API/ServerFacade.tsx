@@ -3,7 +3,8 @@ import { User, Status } from '../Models'
 require('dotenv').config()
 
 const local = false;
-const URL = local?  'http://localhost:3000/dev':  ' https://pfgdmwka20.execute-api.us-east-1.amazonaws.com/dev'
+const URL = local?  'http://localhost:3000/dev':  process.env.REACT_APP_AWS_URL
+console.log('url: ', URL)
 
 export default class ServerFacade {
 
@@ -36,9 +37,7 @@ public static signup = async (alias: string, password: string, picture: string) 
 
 public static signin =  async ( alias: string, password: string ): Promise< {message:string,alias:string, authenticated: boolean, token:string | null } | null> => {
     
-    console.log('test1: ', process.env.REACT_TEST);
-    console.log('test2: ', process.env.TEST);
-    console.log('test3: ', process.env.REACT_APP_TEST);
+    console.log('test2: ', process.env.NODE_ENV);
 
 
     return await fetch(`${URL}/signin`,{
