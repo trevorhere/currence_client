@@ -52,7 +52,6 @@ const Feed: React.FC = () => {
     }
   
   useEffect(() => {
-    console.log('use effect run')
     getFeed(alias!, statusCount, token).then(res => {
       setFeed(res);
     })

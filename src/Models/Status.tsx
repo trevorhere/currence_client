@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 export class Status {
     id: string;
     message: string;
@@ -9,7 +7,7 @@ export class Status {
 
     constructor(user_id: string, user_alias:string, message: string){
         this.id = Math.random().toString();
-        this.created_at = moment().format();     
+        this.created_at = ''   
         this.user_alias = user_alias  
         this.user_id = user_id;
         this.message = message;
