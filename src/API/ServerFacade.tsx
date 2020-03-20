@@ -8,7 +8,8 @@ export default class ServerFacade {
 
 public static signup = async (alias: string, password: string, picture: string) => {
 
-    console.log('test: ', process.env.TEST);
+
+
 
     return await fetch(`${URL}/signup`,{
         method: "POST",
@@ -36,6 +37,10 @@ public static signup = async (alias: string, password: string, picture: string) 
 }
 
 public static signin =  async ( alias: string, password: string ): Promise< {message:string,alias:string, authenticated: boolean, token:string | null } | null> => {
+    
+    console.log('test: ', process.env.REACT_TEST);
+    console.log('test: ', process.env.TEST);
+
     return await fetch(`${URL}/signin`,{
         method: "POST",
         mode: "cors",
