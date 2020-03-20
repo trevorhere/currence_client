@@ -37,7 +37,7 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
       setFollowers(user?.followers.length!);
       setFollowing(user?.following.length!);
     })
-  },[props]);
+  },[alias, props.ownerAlias, token]);
 
 
   const renderFollowActionButton = () => {

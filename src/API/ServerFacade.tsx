@@ -4,15 +4,6 @@ import { User, Status } from '../Models'
 const local = false;
 const URL = local?  'http://localhost:3000/dev':  'https://6d33ubfvvj.execute-api.us-east-1.amazonaws.com/dev'
 
-// Auth 
-
-
-// signup
-// createStatus
-
-// goodAlias
-
-
 export default class ServerFacade {
 
 public static signup = async (alias: string, password: string, picture: string) => {

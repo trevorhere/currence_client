@@ -8,9 +8,10 @@ import styled from 'styled-components';
 import '../custom.css'
 
 const Feed: React.FC = () => {
-  const {authenticationToken } = useContext(authContext);
-  const [feed, setFeed] = useState< Status[] | null >(null);
+
   const [newStatusMessage, setNewStatusMessage] = useState<string>('');
+  const {authenticationToken } = useContext(authContext);
+  const [feed, setFeed] = useState< {}[] | null >(null);
   const [statusCount, setstatusCount] = useState<number>(9);
 
   const {token, alias} = authenticationToken!
@@ -51,17 +52,18 @@ const Feed: React.FC = () => {
     }
   
   useEffect(() => {
+    console.log('use effect run')
     getFeed(alias!, statusCount, token).then(res => {
       setFeed(res);
     })
-  }, [alias, statusCount, token, setNewStatusMessage])
+  }, [alias, statusCount, token])
 
   return (
     <div className="flex pt-32 flex-col items-center content-center justify-center mb-10 text-white text-xl">
         <div className=" w-1/4 ">
         <div className=" w-full flex-row">
             <div>
-              < ProfileBox  
+              <ProfileBox  
               ownerAlias = {alias!}
               /> 
             </div>
@@ -74,11 +76,12 @@ const Feed: React.FC = () => {
             >
               <StatusField
                 id="status" 
-                className={``}
                 value={newStatusMessage}
                 type="text" 
                 placeholder="status"
-                onChange={(e) => {setNewStatusMessage(e.target.value)}}
+                onChange={(e) => { 
+                  setNewStatusMessage(e.target.value)
+                }}
               />
               <div style={{marginLeft: 'auto'}}>
               <button 
