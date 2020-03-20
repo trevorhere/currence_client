@@ -2,11 +2,14 @@
 import { User, Status } from '../Models'
 
 const local = false;
-const URL = local?  'http://localhost:3000/dev':  'https://6d33ubfvvj.execute-api.us-east-1.amazonaws.com/dev'
+const URL = local?  'http://localhost:3000/dev':  ' https://pfgdmwka20.execute-api.us-east-1.amazonaws.com/dev'
 
 export default class ServerFacade {
 
 public static signup = async (alias: string, password: string, picture: string) => {
+
+    console.log('test: ', process.env.TEST);
+
     return await fetch(`${URL}/signup`,{
         method: "POST",
         mode: "cors",
