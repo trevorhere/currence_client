@@ -2,8 +2,8 @@
 import { User, Status } from '../Models'
 require('dotenv').config()
 
-const local = false;
-const URL = local?  'http://localhost:3000/dev':  process.env.REACT_APP_AWS_URL
+const URL = process.env.NODE_ENV === "production" ? process.env.REACT_APP_AWS_URL: 'http://localhost:3000/dev'
+
 console.log('url: ', URL)
 console.log('raau: ',  process.env.REACT_APP_AWS_URL)
 
