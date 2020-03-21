@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect} from 'react';
 import { authContext } from '../Context/authContext';
-import { getFeed, createStatus } from '../Services/Feed'
+import FeedService from '../Services/Feed'
 import {Status } from '../Models'
 import StatusBox  from './Components/StatusBox'
 import  ProfileBox  from './Components/ProfileBox'
@@ -10,17 +10,20 @@ import '../custom.css'
 const Feed: React.FC = () => {
 
   const [newStatusMessage, setNewStatusMessage] = useState<string>('');
-  const {authenticationToken } = useContext(authContext);
+  const {authenticationToken, setAuthenticationToken } = useContext(authContext);
   const [feed, setFeed] = useState< {}[] | null >(null);
   const [statusCount, setstatusCount] = useState<number>(9);
+  const [loading, setLoading] = useState<boolean | null>(false);
+  const feedService = new FeedService(setAuthenticationToken);
+
 
   const {token, alias} = authenticationToken!
 
   
   const handleAddStatus = (): void   => {  
-    createStatus(alias!, newStatusMessage, token!).then(res => {
+    feedService.createStatus(alias!, newStatusMessage, token!).then(res => {
       setNewStatusMessage('');
-      getFeed(alias!, statusCount, token).then(res => {
+      feedService.getFeed(alias!, statusCount, token).then(res => {
         setFeed(res);
       })
     })
@@ -34,8 +37,10 @@ const Feed: React.FC = () => {
   }
 
   const reBuildFeed = () => {
-    getFeed(alias!, statusCount, token).then(res => {
+    feedService.getFeed(alias!, statusCount, token).then(res => {
+      setLoading(true);
       setFeed(res);
+      setLoading(false);
     })
   }
 
@@ -52,75 +57,83 @@ const Feed: React.FC = () => {
     }
   
   useEffect(() => {
-    getFeed(alias!, statusCount, token).then(res => {
+    feedService.getFeed(alias!, statusCount, token).then(res => {
+      setLoading(true);
       setFeed(res);
+      setLoading(false);
+
     })
-  }, [alias, statusCount, token])
+  }, [alias, statusCount, token, feedService])
 
   return (
-    <div className="flex pt-32 flex-col items-center content-center justify-center mb-10 text-white text-xl">
-        <div className=" w-1/4 ">
-        <div className=" w-full flex-row">
-            <div>
-              <ProfileBox  
-              ownerAlias = {alias!}
-              /> 
-            </div>
-            <StatusContainer 
-              className={
-                validStatusLength() 
-                ?   `border border-red-500`
-                :   `border border-grey-500`
-              }
-            >
-              <StatusField
-                id="status" 
-                value={newStatusMessage}
-                type="text" 
-                placeholder="status"
-                onChange={(e) => { 
-                  setNewStatusMessage(e.target.value)
-                }}
-              />
-              <div style={{marginLeft: 'auto'}}>
-              <button 
-                className={
-                  `text-sm text-white py-1 px-2 mx-2 my-2  rounded  
-                  ${validStatusLength() 
-                    ? `bg-red-700 hover:bg-red-700 cursor-not-allowed`
-                    : `hover:bg-blue-400 bg-blue-700`}
-                  `}
-                type="button"
-                onClick={() =>  {
-                  validStatusLength()
-                  ? console.log('status too long')
-                  : handleAddStatus()
-                }}
-                >{validStatusLength() 
-                  ? `Status too long`
-                  : `Submit`}
-              </button>
-              </div>
-            </ StatusContainer>
+    <div>
+      { 
+      loading ? 
+      <div> Loading </div> : 
+      <div className="flex pt-32 flex-col items-center content-center justify-center mb-10 text-white text-xl">
+      <div className=" w-1/4 ">
+      <div className=" w-full flex-row">
+        <div>
+          <ProfileBox  
+          ownerAlias = {alias!}
+          /> 
         </div>
-        {renderFeed()}
-    
-      </div>
-      <button 
-          className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2 mb-5  rounded focus:outline-none focus:shadow-outline" 
-          type="button"
-          onClick={() =>  { 
-                let currentCount = statusCount + 10;
-                console.log('cc: ', currentCount)
+        <StatusContainer 
+          className={
+            validStatusLength() 
+            ?   `border border-red-500`
+            :   `border border-grey-500`
+          }
+        >
+          <StatusField
+            id="status" 
+            value={newStatusMessage}
+            type="text" 
+            placeholder="status"
+            onChange={(e) => { 
+              setNewStatusMessage(e.target.value)
+            }}
+          />
+          <div style={{marginLeft: 'auto'}}>
+          <button 
+            className={
+              `text-sm text-white py-1 px-2 mx-2 my-2  rounded  
+              ${validStatusLength() 
+                ? `bg-red-700 hover:bg-red-700 cursor-not-allowed`
+                : `hover:bg-blue-400 bg-blue-700`}
+              `}
+            type="button"
+            onClick={() =>  {
+              validStatusLength()
+              ? console.log('status too long')
+              : handleAddStatus()
+            }}
+            >{validStatusLength() 
+              ? `Status too long`
+              : `Submit`}
+          </button>
+          </div>
+        </ StatusContainer>
+    </div>
+    {renderFeed()}
+    </div>
+    <button 
+        className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2 mb-5  rounded focus:outline-none focus:shadow-outline" 
+        type="button"
+        onClick={() =>  { 
+              let currentCount = statusCount + 10;
+              console.log('cc: ', currentCount)
 
-                setstatusCount(currentCount);
-                console.log('sc: ', statusCount)
-                reBuildFeed();
-              }} >
-            more
-        </button>
-      </div>
-  );
+              setstatusCount(currentCount);
+              console.log('sc: ', statusCount)
+              reBuildFeed();
+            }} >
+          more
+      </button>
+    </div>
+    }
+    </div>
+);
 }
 
 export default Feed;

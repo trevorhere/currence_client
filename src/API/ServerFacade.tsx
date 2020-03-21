@@ -2,11 +2,8 @@
 import { User, Status } from '../Models'
 require('dotenv').config()
 
+
 const URL = process.env.NODE_ENV === "production" ? process.env.REACT_APP_AWS_URL: 'http://localhost:3000/dev'
-
-console.log('url: ', URL)
-console.log('raau: ',  process.env.REACT_APP_AWS_URL)
-
 
 export default class ServerFacade {
 
@@ -29,6 +26,7 @@ public static signup = async (alias: string, password: string, picture: string) 
         })
         .then((data) => {
             const {message, alias, authenticated, token} = data;
+            console.log('token: ', token);
             return {message, alias, authenticated, token};
 
         }).catch(e => {
@@ -94,13 +92,18 @@ public static goodAlias = async ( alias: string ): Promise<boolean> => {
 // =====================
 
 
-public static getFeed = async ( alias: string | null,  statusCount: number,  token: string ) : Promise<Status[] | null> => {
+public static getFeed = async ( alias: string | null,  statusCount: number,  token: string, setAuth: (arg:any) => {}  ) : Promise<Status[] | null> => {
     return await fetch(`${URL}/feed/?alias=${alias}&token=${token}`,{
             method: "GET",
             mode: "cors",
             headers: { "Content-Type": "application/json" }
         })
         .then((response) => {
+            if(response.status === 401) {
+                setAuth(null);
+                throw new Error("[401] Unable to authenticate");
+            }
+
             return response.json();
         })
         .then((data) => {
@@ -114,7 +117,7 @@ public static getFeed = async ( alias: string | null,  statusCount: number,  tok
         })
     }
 
-public static createStatus = async ( alias: string, message: string, token: string ): Promise<Status> => {
+public static createStatus = async ( alias: string, message: string, token: string, setAuth: (arg:any) => {}): Promise<Status> => {
     return await fetch(`${URL}/status/?token=${token}`,{
         method: "POST",
         mode: "cors",
@@ -127,6 +130,11 @@ public static createStatus = async ( alias: string, message: string, token: stri
             })
         })
         .then((response) => {
+            if(response.status === 401) {
+                setAuth(null);
+                throw new Error("[401] Unable to authenticate");
+            }
+            
             return response.json();
         })
         .then((data) => {
@@ -143,7 +151,7 @@ public static createStatus = async ( alias: string, message: string, token: stri
 //        Followers 
 // =====================
 
-    public static  getFollowers = async ( alias: string, token: string ): Promise<User[] | null> => {
+    public static  getFollowers = async ( alias: string, token: string, setAuth: (arg:any) => {} ): Promise<User[] | null> => {
         return await fetch(`${URL}/followers/?alias=${alias}&token=${token}`,{
                 method: "GET",
                 mode: "cors",
@@ -152,6 +160,11 @@ public static createStatus = async ( alias: string, message: string, token: stri
                 }, 
             })
             .then((response) => {
+                if(response.status === 401) {
+                    setAuth(null);
+                    throw new Error("[401] Unable to authenticate");
+                }
+
                 return response.json();
             })
             .then((data) => {
@@ -159,7 +172,7 @@ public static createStatus = async ( alias: string, message: string, token: stri
                 return followers;
     
             }).catch(e => {
-                console.log('error: ', e.message)
+                console.log('ServerFacade.getFollowers error: ', e.message)
                 return null;
             })
     }
@@ -168,7 +181,7 @@ public static createStatus = async ( alias: string, message: string, token: stri
 //        Following
 // =====================
 
-public static  getFollowing = async ( alias: string, token: string): Promise<User[] | null> => {
+public static  getFollowing = async ( alias: string, token: string, setAuth: (arg:any) => {} ): Promise<User[] | null> => {
     return await fetch(`${URL}/following/?alias=${alias}&token=${token}`,{
         method: "GET",
         mode: "cors",
@@ -176,6 +189,10 @@ public static  getFollowing = async ( alias: string, token: string): Promise<Use
             "Content-Type": "application/json" }
         })
         .then((response) => {
+            if(response.status === 401) {
+                setAuth(null);
+                throw new Error("[401] Unable to authenticate");
+            }
             return response.json();
         })
         .then((data) => {

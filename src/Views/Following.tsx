@@ -2,25 +2,27 @@ import React, { useContext, useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { User } from '../Models'
 import { authContext } from "../Context/authContext";
-import  { unFollow, getFollowing } from '../Services/Following'
+import  { unFollow } from '../Services/Following'
+import FollowingService from '../Services/Following';
 
 const Following: React.FC = () => {
 
   const [Following, setFollowing] = useState< User[] | null  >(null);
-  const { authenticationToken } = useContext(authContext);
-
+  const { authenticationToken, setAuthenticationToken } = useContext(authContext);
   const { alias, token } = authenticationToken!
+  let followingService = new FollowingService(setAuthenticationToken);
+
 
   useEffect(() => {
-    getFollowing(alias, token).then(following => {
+    followingService.getFollowing(alias, token).then(following => {
       console.log('following: ', following)
       setFollowing(following!);
     })
-  }, [alias, token])
+  }, [alias, token, followingService])
 
   const handleUnfollow = ( followingAlias: string ) => {
     unFollow(alias!, followingAlias, token);
-    getFollowing(alias, token).then(following => {
+    followingService.getFollowing(alias, token).then(following => {
       setFollowing(following!);
     })
   }

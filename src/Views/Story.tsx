@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {withRouter, RouteComponentProps} from "react-router";
 import { Status, User } from '../Models';
 import { getStory, isFollowing} from '../Services/Story';
@@ -9,11 +9,12 @@ import { getUser } from '../Services/util'
 
 const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   
-  const { authenticationToken } = useContext(authContext);
   const [userStory, setUserStory] = useState<Status[] | null>(null);
   const [storyOwnerAlias, setStoryOwnerAlias] = useState<string>('');
   const [storyUser, setStoryUser] = useState<User|null>(null);
   const [isAFollower, setIsAFollower] = useState<boolean | null>(null);
+  const [loading, setLoading] = useState<boolean | null>(false);
+
 
   // const { alias } = authenticationToken!;
 
@@ -32,16 +33,28 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   useEffect(() => {
     setStoryOwnerAlias(props.match.params.alias!);
     getStory(storyOwnerAlias).then(res => {
+      setLoading(true);
       setUserStory(res)
+      setLoading(false);
     })
 
   },[props,storyOwnerAlias]);
 
   return (
     <div>
+
+    { 
+    loading 
+    ? 
+    <div className="flex pt-32 flex-col items-center content-center justify-center  text-white text-xl">
+        <p>Story Not Found</p>
+      </div>
+    : 
+    <div>
+      {console.log('loading: ', loading)}
     {!userStory
     ? <div className="flex pt-32 flex-col items-center content-center justify-center  text-white text-xl">
-        <p>User Not Found</p>
+        <p>loading</p>
       </div>
     : 
     <div className="flex pt-32 flex-col items-center content-center justify-center  text-white text-xl">
@@ -57,8 +70,13 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
       {renderStory()}
       </div>
     </div>
+
+
     } 
+  </div> }
   </div>
+
+    
   );
 }
 
