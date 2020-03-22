@@ -134,7 +134,7 @@ public static createStatus = async ( alias: string, message: string, token: stri
                 setAuth(null);
                 throw new Error("[401] Unable to authenticate");
             }
-            
+
             return response.json();
         })
         .then((data) => {
@@ -284,7 +284,7 @@ public static getStory = async ( alias: string ): Promise<Status[] | null> => {
     }
 
     public static  isFollowing = async (alias: string, followeeAlias: string, token: string ): Promise<boolean> => {
-        return await fetch(`${URL}/isfollowing/?alias=${alias}&token=${token}&followeeAlias=${followeeAlias}`,{
+        return await fetch(`${URL}/isFollowing/?alias=${alias}&token=${token}&followeeAlias=${followeeAlias}`,{
             method: "GET",
             mode: "cors",
             headers: { "Content-Type": "application/json" }
