@@ -3,7 +3,6 @@ import { RouteComponentProps, Link } from 'react-router-dom';
 import { User } from '../Models'
 import { authContext } from "../Context/authContext";
 import { follow, unFollow, isFollowing } from '../Services/Followers';
-
 import FollowersService from '../Services/Followers';
 
 const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
@@ -12,15 +11,14 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
   const [ isLoading, setIsLoading ] = useState(false)
   const { authenticationToken, setAuthenticationToken } = useContext(authContext);
   const { alias, token } = authenticationToken!;
-
-  let followersService = new FollowersService(setAuthenticationToken);
+  const [ followersService, setFollowersService] = useState<FollowersService>( new FollowersService(setAuthenticationToken))
   
   useEffect(() => {
     followersService.getFollowers(alias, token).then(followers => {
       setFollowers(followers!);
     });
     
-  }, [ alias, token ])
+  }, [ alias, token, followersService ])
 
 
   const handleUnfollow = ( followeeAlias: string ) => {

@@ -1,22 +1,20 @@
 import React, { useContext, useState, useEffect} from 'react';
 import { authContext } from '../Context/authContext';
 import FeedService from '../Services/Feed'
-import {Status } from '../Models'
 import StatusBox  from './Components/StatusBox'
 import  ProfileBox  from './Components/ProfileBox'
 import styled from 'styled-components';
 import '../custom.css'
 
+
 const Feed: React.FC = () => {
 
-  const [newStatusMessage, setNewStatusMessage] = useState<string>('');
   const {authenticationToken, setAuthenticationToken } = useContext(authContext);
+  const [newStatusMessage, setNewStatusMessage] = useState<string>('');
   const [feed, setFeed] = useState< {}[] | null >(null);
   const [statusCount, setstatusCount] = useState<number>(9);
   const [loading, setLoading] = useState<boolean | null>(false);
-  const feedService = new FeedService(setAuthenticationToken);
-
-
+  const [feedService, setFeedService] = useState<FeedService>(new FeedService(setAuthenticationToken));
   const {token, alias} = authenticationToken!
 
   

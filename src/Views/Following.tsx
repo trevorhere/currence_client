@@ -10,8 +10,7 @@ const Following: React.FC = () => {
   const [Following, setFollowing] = useState< User[] | null  >(null);
   const { authenticationToken, setAuthenticationToken } = useContext(authContext);
   const { alias, token } = authenticationToken!
-  let followingService = new FollowingService(setAuthenticationToken);
-
+  const [followingService, setFollowingService] = useState< FollowingService >(new FollowingService(setAuthenticationToken));
 
   useEffect(() => {
     followingService.getFollowing(alias, token).then(following => {
