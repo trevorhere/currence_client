@@ -13,10 +13,11 @@ const Following: React.FC = () => {
   const [followingService, setFollowingService] = useState< FollowingService >(new FollowingService(setAuthenticationToken));
 
   const handleUnfollow = ( followingAlias: string ) => {
-    unFollow(alias!, followingAlias, token!);
-    followingService.getFollowing(alias!, token!).then(following => {
-      setFollowing(following!);
-    })
+    unFollow(alias!, followingAlias, token!).then(res => {
+      followingService.getFollowing(alias!, token!).then(following => {
+        setFollowing(following!);
+      })
+    } )
   }
 
 
@@ -28,6 +29,11 @@ const Following: React.FC = () => {
 
   const renderFollowing = () => {
     if(Following != null){
+
+      if(!Following.length)
+        return <p>User isn't following anyone!</p>
+
+
       return Following.map((user,i) => {
         return (
           <div key={i} className="flex border-b-2 border-gray-600 items-center justify-between py-4">
@@ -54,7 +60,7 @@ const Following: React.FC = () => {
           </div>
         )})
       } else {
-        return <p>Following not found</p>
+        return <p>Loading</p>
       }
   }
     

@@ -26,7 +26,7 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
         )}
       )} 
       else {
-        return <p>feed not found</p>
+        return <p>Loading</p>
       }
   }
 
@@ -47,14 +47,14 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
     loading 
     ? 
     <div className="flex pt-32 flex-col items-center content-center justify-center  text-white text-xl">
-        <p>Story Not Found</p>
+        <p>Loading</p>
       </div>
     : 
     <div>
       {console.log('loading: ', loading)}
     {!userStory
     ? <div className="flex pt-32 flex-col items-center content-center justify-center  text-white text-xl">
-        <p>loading</p>
+        <p>Loading</p>
       </div>
     : 
     <div className="flex pt-32 flex-col items-center content-center justify-center  text-white text-xl">

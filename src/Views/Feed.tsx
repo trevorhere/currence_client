@@ -50,7 +50,7 @@ const Feed: React.FC = () => {
           )}
         )} 
         else {
-          return <p>feed not found</p>
+          return <p>Loading</p>
         }
     }
   

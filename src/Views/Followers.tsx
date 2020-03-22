@@ -57,6 +57,9 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
   
   const renderFollowers = () => {
     if(followers != null){
+      if(!followers.length)
+        return <p>User has no followers!</p>
+
       return followers.map((user, i) => {
         return (
           <div key={i} className="flex border-b-2  border-gray-600 items-center justify-between py-4">
@@ -76,7 +79,7 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
           </div>
         )})
       } else {
-        return <p>Followers not found</p>
+        return <p>Loading</p>
       }
   }
   
