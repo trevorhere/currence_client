@@ -23,8 +23,10 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
   const token = authenticationToken?.token ? authenticationToken?.token : null;
 
   const refetchNumbers = () => {
-    setFollowers(storyUser?.followers.length!);
-    setFollowing(storyUser?.following.length!);
+    getUser(props.ownerAlias!).then(user => {
+      setFollowers(user?.followers.length!);
+      setFollowing(user?.following.length!);
+    })
   }
 
   useEffect(() => {

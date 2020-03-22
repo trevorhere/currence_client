@@ -12,20 +12,20 @@ const Following: React.FC = () => {
   const { alias, token } = authenticationToken!
   const [followingService, setFollowingService] = useState< FollowingService >(new FollowingService(setAuthenticationToken));
 
+  const handleUnfollow = ( followingAlias: string ) => {
+    unFollow(alias!, followingAlias, token!);
+    followingService.getFollowing(alias!, token!).then(following => {
+      setFollowing(following!);
+    })
+  }
+
+
   useEffect(() => {
     followingService.getFollowing(alias, token).then(following => {
-      console.log('following: ', following)
       setFollowing(following!);
     })
   }, [alias, token, followingService])
 
-  const handleUnfollow = ( followingAlias: string ) => {
-    unFollow(alias!, followingAlias, token);
-    followingService.getFollowing(alias, token).then(following => {
-      setFollowing(following!);
-    })
-  }
-  
   const renderFollowing = () => {
     if(Following != null){
       return Following.map((user,i) => {
