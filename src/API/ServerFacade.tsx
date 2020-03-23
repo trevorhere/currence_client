@@ -93,7 +93,7 @@ public static goodAlias = async ( alias: string ): Promise<boolean> => {
 
 
 public static getFeed = async ( alias: string | null,  statusCount: number,  token: string, setAuth: (arg:any) => {}  ) : Promise<Status[] | null> => {
-    return await fetch(`${URL}/feed/?alias=${alias}&token=${token}`,{
+    return await fetch(`${URL}/feed/?alias=${alias}&token=${token}&count=${statusCount}`,{
             method: "GET",
             mode: "cors",
             headers: { "Content-Type": "application/json" }
@@ -151,31 +151,31 @@ public static createStatus = async ( alias: string, message: string, token: stri
 //        Followers 
 // =====================
 
-    public static  getFollowers = async ( alias: string, token: string, setAuth: (arg:any) => {} ): Promise<User[] | null> => {
-        return await fetch(`${URL}/followers/?alias=${alias}&token=${token}`,{
-                method: "GET",
-                mode: "cors",
-                headers: {
-                    "Content-Type": "application/json",
-                }, 
-            })
-            .then((response) => {
-                if(response.status === 401) {
-                    setAuth(null);
-                    throw new Error("[401] Unable to authenticate");
-                }
+public static  getFollowers = async ( alias: string, token: string, setAuth: (arg:any) => {} ): Promise<User[] | null> => {
+    return await fetch(`${URL}/followers/?alias=${alias}&token=${token}`,{
+            method: "GET",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            }, 
+        })
+        .then((response) => {
+            if(response.status === 401) {
+                setAuth(null);
+                throw new Error("[401] Unable to authenticate");
+            }
 
-                return response.json();
-            })
-            .then((data) => {
-                const { followers } = data;
-                return followers;
-    
-            }).catch(e => {
-                console.log('ServerFacade.getFollowers error: ', e.message)
-                return null;
-            })
-    }
+            return response.json();
+        })
+        .then((data) => {
+            const { followers } = data;
+            return followers;
+
+        }).catch(e => {
+            console.log('ServerFacade.getFollowers error: ', e.message)
+            return null;
+        })
+}
 
 // =====================
 //        Following
@@ -233,92 +233,92 @@ public static getStory = async ( alias: string ): Promise<Status[] | null> => {
 //        util
 // =====================
 
-    public static follow = async (alias: string, followeeAlias: string, token: string ): Promise<User | null> => {
-        return await fetch(`${URL}/follow/?token=${token}`,{
-            method: "POST",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-            }, 
-            body: JSON.stringify({
-                alias,
-                followeeAlias
-                })
+public static follow = async (alias: string, followeeAlias: string, token: string ): Promise<User | null> => {
+    return await fetch(`${URL}/follow/?token=${token}`,{
+        method: "POST",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+        }, 
+        body: JSON.stringify({
+            alias,
+            followeeAlias
             })
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                const { user } = data;
-                return user;
-    
-            }).catch(e => {
-                console.log('error: ', e.message)
-                return null;
-            })
-    }
-
-    public static unFollow = async (alias: string, followeeAlias: string, token:string ): Promise<void> => {
-        return await fetch(`${URL}/unfollow/?token=${token}`,{
-            method: "POST",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-            }, 
-            body: JSON.stringify({
-                alias,
-                followeeAlias
-                })
-            })
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                const { user } = data;
-                return user;
-    
-            }).catch(e => {
-                console.log('error: ', e.message)
-                return null;
-            })
-    }
-
-    public static  isFollowing = async (alias: string, followeeAlias: string, token: string ): Promise<boolean> => {
-        return await fetch(`${URL}/isFollowing/?alias=${alias}&token=${token}&followeeAlias=${followeeAlias}`,{
-            method: "GET",
-            mode: "cors",
-            headers: { "Content-Type": "application/json" }
         })
         .then((response) => {
             return response.json();
         })
         .then((data) => {
-           // console.log(data);
-            const { result } = data;
-            return result;
+            const { user } = data;
+            return user;
 
         }).catch(e => {
             console.log('error: ', e.message)
             return null;
         })
-    }
+}
 
-    public static  getUser = async (alias: string): Promise<User | null> => {
-        return await fetch(`${URL}/user/?alias=${alias}`,{
-                method: "GET",
-                mode: "cors",
-                headers: { "Content-Type": "application/json", }
+public static unFollow = async (alias: string, followeeAlias: string, token:string ): Promise<void> => {
+    return await fetch(`${URL}/unfollow/?token=${token}`,{
+        method: "POST",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+        }, 
+        body: JSON.stringify({
+            alias,
+            followeeAlias
             })
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                const {user} = data;
-                return user;
-    
-            }).catch(e => {
-                console.log('error: ', e.message)
-                return null;
-            })
-    }
+        })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            const { user } = data;
+            return user;
+
+        }).catch(e => {
+            console.log('error: ', e.message)
+            return null;
+        })
+}
+
+public static  isFollowing = async (alias: string, followeeAlias: string, token: string ): Promise<boolean> => {
+    return await fetch(`${URL}/isFollowing/?alias=${alias}&token=${token}&followeeAlias=${followeeAlias}`,{
+        method: "GET",
+        mode: "cors",
+        headers: { "Content-Type": "application/json" }
+    })
+    .then((response) => {
+        return response.json();
+    })
+    .then((data) => {
+        // console.log(data);
+        const { result } = data;
+        return result;
+
+    }).catch(e => {
+        console.log('error: ', e.message)
+        return null;
+    })
+}
+
+public static  getUser = async (alias: string): Promise<User | null> => {
+    return await fetch(`${URL}/user/?alias=${alias}`,{
+            method: "GET",
+            mode: "cors",
+            headers: { "Content-Type": "application/json", }
+        })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            const {user} = data;
+            return user;
+
+        }).catch(e => {
+            console.log('error: ', e.message)
+            return null;
+        })
+}
 }
