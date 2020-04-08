@@ -5,9 +5,11 @@ import { authContext } from "../Context/authContext";
 import { follow, unFollow, isFollowing } from '../Services/Followers';
 import FollowersService from '../Services/Followers';
 
+
+
 const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
-  const [followers, setFollowers] = useState< User[] | null  >(null);
+  const [followers, setFollowers] = useState< any[] | null  >(null);
   const [ isLoading, setIsLoading ] = useState(false)
   const { authenticationToken, setAuthenticationToken } = useContext(authContext);
   const { alias, token } = authenticationToken!;
@@ -60,18 +62,19 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
       if(!followers.length)
         return <p>User has no followers!</p>
 
-      return followers.map((user, i) => {
+      return followers.map((follow, i) => {
+        console.log('follow: ', follow)
         return (
           <div key={i} className="flex border-b-2  border-gray-600 items-center justify-between py-4">
             <div className="flex flex-row">
               <div>
-                <img className="w-10 h-10 rounded-full mr-4"  src={user.picture} alt="Avatar of Jonathan Reinink"/>
+                <img className="w-10 h-10 rounded-full mr-4"  src={follow.followerPicture} alt="Avatar of Jonathan Reinink"/>
               </div>
               <div className="text-sm">
                 <Link 
-                  to={`/story/${user.alias}`}
+                  to={`/story/${follow.followerAlias}`}
                   className="leading-none text-blue-500 hover:underline"
-                  >{user.alias}</Link>
+                  >{follow.followerAlias}</Link>
                   <p className="text-gray-600">Aug 18</p>
               </div>
           </div> 

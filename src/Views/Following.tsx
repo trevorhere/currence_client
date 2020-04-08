@@ -7,7 +7,7 @@ import FollowingService from '../Services/Following';
 
 const Following: React.FC = () => {
 
-  const [Following, setFollowing] = useState< User[] | null  >(null);
+  const [Following, setFollowing] = useState< any[] | null  >(null);
   const { authenticationToken, setAuthenticationToken } = useContext(authContext);
   const { alias, token } = authenticationToken!
   const [followingService, setFollowingService] = useState< FollowingService >(new FollowingService(setAuthenticationToken));
@@ -34,18 +34,18 @@ const Following: React.FC = () => {
         return <p>User isn't following anyone!</p>
 
 
-      return Following.map((user,i) => {
+      return Following.map((follow,i) => {
         return (
           <div key={i} className="flex border-b-2 border-gray-600 items-center justify-between py-4">
             <div className="flex flex-row">
               <div>
-                <img className="w-10 h-10 rounded-full mr-4"  src={user.picture} alt="Avatar of Jonathan Reinink"/>
+                <img className="w-10 h-10 rounded-full mr-4"  src={follow.followeePicture} alt="Avatar of Jonathan Reinink"/>
               </div>
               <div className="text-sm">
               <Link 
-                to={`/story/${user.alias}`}
+                to={`/story/${follow.followeeAlias}`}
                 className="leading-none text-blue-500 hover:underline"
-                >{user.alias}</Link>
+                >{follow.followeeAlias}</Link>
                 <p className="text-gray-600">Aug 18</p>
               </div>
             </div>
@@ -53,7 +53,7 @@ const Following: React.FC = () => {
               className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2  rounded focus:outline-none focus:shadow-outline" 
 
               type="button"
-              onClick={() =>  handleUnfollow(user.alias)}
+              onClick={() =>  handleUnfollow(follow.followeeAlias)}
               >
                 unfollow
             </button>

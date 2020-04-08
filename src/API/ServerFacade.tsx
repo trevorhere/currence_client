@@ -4,6 +4,7 @@ require('dotenv').config()
 
 
 const URL = process.env.NODE_ENV === "production" ? process.env.REACT_APP_AWS_URL: 'http://localhost:3000/dev'
+console.log('URL: ', URL);
 
 export default class ServerFacade {
 
