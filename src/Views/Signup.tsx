@@ -13,11 +13,11 @@ const Signup: React.FC = (props:RouteComponentProps) => {
   const [password, setPassword] = useState<string>('passwordA');
   const [alias, setAlias] = useState<string>('aliasA');
   const [picture, setPicture] = useState<string>('https://i.imgur.com/oo67PIH.jpg');
-  const [file, setFile] = useState<string |  null>(null);
+  const [file, setFile] = useState< File |  null>(null);
 
   
   const handleSignup = () => {
-    signup(alias, password, picture, setAuthenticationToken);
+    signup(alias, password, file! , setAuthenticationToken);
   }
 
   return ( 
@@ -35,7 +35,7 @@ const Signup: React.FC = (props:RouteComponentProps) => {
               id="alias" 
               type="file" 
               placeholder="file"
-              onChange={(e) => setFile(e.target.value)}
+              onChange={(e) => setFile(e.target.files![0] )}
             />
           </div>
 

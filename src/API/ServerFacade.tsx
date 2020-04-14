@@ -8,7 +8,8 @@ console.log('URL: ', URL);
 
 export default class ServerFacade {
 
-public static signup = async (alias: string, password: string, picture: string) => {
+public static signup = async (alias: string, password: string, base64: any) => {
+
 
     return await fetch(`${URL}/signup`,{
         method: "POST",
@@ -19,7 +20,7 @@ public static signup = async (alias: string, password: string, picture: string) 
         body: JSON.stringify({
             alias,
             password,
-            picture
+            picture: base64
             })
         })
         .then((response) => {
