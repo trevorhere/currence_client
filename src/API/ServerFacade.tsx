@@ -94,8 +94,8 @@ public static goodAlias = async ( alias: string ): Promise<boolean> => {
 // =====================
 
 
-public static getFeed = async ( alias: string | null,  statusCount: number,  token: string, setAuth: (arg:any) => {}  ) : Promise<Status[] | null> => {
-    return await fetch(`${URL}/feed/?alias=${alias}&token=${token}&count=${statusCount}`,{
+public static getFeed = async ( alias: string | null,  statusCount: number,  token: string, key:string, setAuth: (arg:any) => {}  ) : Promise< {feed:any, key: any} | null> => {
+    return await fetch(`${URL}/feed_page/?alias=${alias}&token=${token}&count=${statusCount}&key=${key}`,{
             method: "GET",
             mode: "cors",
             headers: { "Content-Type": "application/json" }
@@ -110,8 +110,8 @@ public static getFeed = async ( alias: string | null,  statusCount: number,  tok
         })
         .then((data) => {
            // console.log(data);
-            const { feed } = data;
-            return feed;
+            const { feed, key } = data;
+            return { feed, key };
 
         }).catch(e => {
             console.log('error: ', e.message)
@@ -153,8 +153,8 @@ public static createStatus = async ( alias: string, message: string, token: stri
 //        Followers 
 // =====================
 
-public static  getFollowers = async ( alias: string, token: string, setAuth: (arg:any) => {} ): Promise<User[] | null> => {
-    return await fetch(`${URL}/followers/?alias=${alias}&token=${token}`,{
+public static  getFollowers = async ( alias: string, token: string, key: string, setAuth: (arg:any) => {} ): Promise< {followers: any, key: any} | null> => {
+    return await fetch(`${URL}/followers/?alias=${alias}&token=${token}&key=${key}`,{
             method: "GET",
             mode: "cors",
             headers: {
@@ -170,8 +170,8 @@ public static  getFollowers = async ( alias: string, token: string, setAuth: (ar
             return response.json();
         })
         .then((data) => {
-            const { followers } = data;
-            return followers;
+            const { followers, key } = data;
+            return { followers, key };
 
         }).catch(e => {
             console.log('ServerFacade.getFollowers error: ', e.message)
@@ -183,8 +183,8 @@ public static  getFollowers = async ( alias: string, token: string, setAuth: (ar
 //        Following
 // =====================
 
-public static  getFollowing = async ( alias: string, token: string, setAuth: (arg:any) => {} ): Promise<User[] | null> => {
-    return await fetch(`${URL}/following/?alias=${alias}&token=${token}`,{
+public static  getFollowing = async ( alias: string, token: string, key: string, setAuth: (arg:any) => {} ): Promise<  {following: any, key: any} | null> => {
+    return await fetch(`${URL}/following/?alias=${alias}&token=${token}&key=${key}`,{
         method: "GET",
         mode: "cors",
         headers: {
@@ -198,8 +198,8 @@ public static  getFollowing = async ( alias: string, token: string, setAuth: (ar
             return response.json();
         })
         .then((data) => {
-            const { following } = data;
-            return following;
+            const { following, key } = data;
+            return { following, key };
 
         }).catch(e => {
             console.log('error: ', e.message)
@@ -211,8 +211,8 @@ public static  getFollowing = async ( alias: string, token: string, setAuth: (ar
 //        Story
 // =====================
 
-public static getStory = async ( alias: string ): Promise<Status[] | null> => {
-    return await fetch(`${URL}/story/?alias=${alias}`,{
+public static getStory = async ( alias: string, key: string ): Promise< {story:any, key:any} | null> => {
+    return await fetch(`${URL}/story/?alias=${alias}&key=${key}`,{
         method: "GET",
         mode: "cors",
             headers: { "Content-Type": "application/json" }, 
@@ -222,8 +222,8 @@ public static getStory = async ( alias: string ): Promise<Status[] | null> => {
             return response.json();
         })
         .then((data) => {
-            const {story} = data;
-            return story;
+            const {story, key } = data;
+            return { story, key };
 
         }).catch(e => {
             console.log('error: ', e.message)
@@ -297,6 +297,7 @@ public static  isFollowing = async (alias: string, followeeAlias: string, token:
     .then((data) => {
         // console.log(data);
         const { result } = data;
+        console.log('result: ', result)
         return result;
 
     }).catch(e => {

@@ -22,6 +22,18 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
     
   }, [ alias, token, followersService ])
 
+  const reBuildFollowers = () => {
+    followersService.getFollowers(alias!, token).then(res => {
+      setIsLoading(true);
+      if(res){
+        setFollowers([...followers!].concat(res));
+      } else {
+        alert('all outta status updates')
+      }
+      setIsLoading(false);
+    })
+  }
+
 
   const handleUnfollow = ( followeeAlias: string ) => {
     unFollow(alias!, followeeAlias, token).then(res => {
@@ -91,6 +103,14 @@ const Followers: React.FC<RouteComponentProps> = (props: RouteComponentProps) =>
         <div className=" w-1/4 ">
         {renderFollowers()}
         </div>
+        <button 
+        className="hover:bg-blue-700 border text-sm text-blue-500 py-1 my-5 px-2 mb-5  rounded focus:outline-none focus:shadow-outline" 
+        type="button"
+        onClick={() =>  { 
+              reBuildFollowers();
+            }} >
+          more
+      </button>
       </div>
   )
 }

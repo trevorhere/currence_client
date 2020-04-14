@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {withRouter, RouteComponentProps} from "react-router";
 import { Status, User } from '../Models';
-import { getStory, isFollowing} from '../Services/Story';
+import StoryService, { isFollowing } from '../Services/Story';
 import { authContext } from "../Context/authContext";
 import  StatusBox from "./Components/StatusBox"
 import  ProfileBox  from './Components/ProfileBox'
@@ -11,12 +11,24 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   
   const [userStory, setUserStory] = useState<Status[] | null>(null);
   const [storyOwnerAlias, setStoryOwnerAlias] = useState<string>('');
+  const [storyService, setStoryService] = useState<StoryService>(new StoryService());
   const [storyUser, setStoryUser] = useState<User|null>(null);
   const [isAFollower, setIsAFollower] = useState<boolean | null>(null);
   const [loading, setLoading] = useState<boolean | null>(false);
 
 
   // const { alias } = authenticationToken!;
+  const reBuildStory = () => {
+    storyService.getStory(storyOwnerAlias).then(res => {
+      setLoading(true);
+      if(res){
+        setUserStory([...userStory!].concat(res));
+      } else {
+        alert('all outta status updates')
+      }
+      setLoading(false);
+    })
+  }
 
   const renderStory = () => {
     if(userStory != null){
@@ -32,7 +44,7 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
   useEffect(() => {
     setStoryOwnerAlias(props.match.params.alias!);
-    getStory(storyOwnerAlias).then(res => {
+    storyService.getStory(storyOwnerAlias).then(res => {
       setLoading(true);
       setUserStory(res)
       setLoading(false);
@@ -69,6 +81,14 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
         </div>
       {renderStory()}
       </div>
+      <button 
+        className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2 mb-5  rounded focus:outline-none focus:shadow-outline" 
+        type="button"
+        onClick={() =>  { 
+              reBuildStory();
+            }} >
+          more
+      </button>
     </div>
 
 

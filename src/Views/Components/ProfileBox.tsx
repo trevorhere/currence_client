@@ -32,6 +32,7 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
   useEffect(() => {
     isFollowing(alias!, props.ownerAlias, token!).then(res => {
       setIsAFollower(res);
+      console.log('is a follower: ', res)
     })
 
     getUser(props.ownerAlias!).then(user => {
@@ -76,7 +77,6 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
   }
 
     return (
-
       (alias) 
       ? (
         <div className="flex text-left justify-center py-20 ">
@@ -85,8 +85,8 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
         </div>
         <div className="flex flex-col my-auto h-100 text-left align-middle align-middle p-4">
           <div className="text-lg text-left underline pt-2">{props.ownerAlias}</div>
-          <div className="text-sm font-extrabold text-blue-500">Followers: {followers}</div>
-          <div className="text-sm font-extrabold text-blue-500">Following: {following}</div>
+          {/* <div className="text-sm font-extrabold text-blue-500">Followers: {followers}</div>
+          <div className="text-sm font-extrabold text-blue-500">Following: {following}</div> */}
           <div>
             {(alias && alias !== props.ownerAlias)? renderFollowActionButton(): <div></div>}
             </div>
@@ -100,8 +100,8 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
         </div>
         <div className="flex flex-col my-auto h-100 text-left align-middle align-middle p-4">
           <div className="text-lg text-left underline pt-2">{props.ownerAlias}</div>
-          <div className="text-sm font-extrabold text-blue-500">Followers: {followers}</div>
-          <div className="text-sm font-extrabold text-blue-500">Following: {following}</div>
+          {/* <div className="text-sm font-extrabold text-blue-500">Followers: {followers}</div>
+          <div className="text-sm font-extrabold text-blue-500">Following: {following}</div> */}
         </div>
       </div>
       )

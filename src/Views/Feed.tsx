@@ -16,16 +16,11 @@ const Feed: React.FC = () => {
   const [loading, setLoading] = useState<boolean | null>(false);
   const [feedService, setFeedService] = useState<FeedService>(new FeedService(setAuthenticationToken));
   const {token, alias} = authenticationToken!
-
   
   const handleAddStatus = (): void   => {  
     feedService.createStatus(alias!, newStatusMessage, token!).then(res => {
       setNewStatusMessage('');
-      feedService.getFeed(alias!, statusCount, token).then(res => {
-        setFeed(res);
-      })
     })
-
   } 
 
   const validStatusLength = ():boolean => {
@@ -37,7 +32,11 @@ const Feed: React.FC = () => {
   const reBuildFeed = () => {
     feedService.getFeed(alias!, statusCount, token).then(res => {
       setLoading(true);
-      setFeed(res);
+      if(res){
+        setFeed([...feed!].concat(res));
+      } else {
+        alert('all outta status updates')
+      }
       setLoading(false);
     })
   }
@@ -119,11 +118,6 @@ const Feed: React.FC = () => {
         className="hover:bg-blue-700 border text-sm text-blue-500 py-1 px-2 mb-5  rounded focus:outline-none focus:shadow-outline" 
         type="button"
         onClick={() =>  { 
-              let currentCount = statusCount + 10;
-              console.log('cc: ', currentCount)
-
-              setstatusCount(currentCount);
-              console.log('sc: ', statusCount)
               reBuildFeed();
             }} >
           more
