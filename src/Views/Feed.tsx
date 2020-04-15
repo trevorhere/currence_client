@@ -32,7 +32,7 @@ const Feed: React.FC = () => {
   }
 
   const reBuildFeed = () => {
-    feedService.getFeed(alias!, statusCount, token).then(res => {
+    feedService.getFeed(alias!, token).then(res => {
       setLoading(true);
       if(res){
         setFeed([...feed!].concat(res!.feed));
@@ -57,7 +57,7 @@ const Feed: React.FC = () => {
     }
   
   useEffect(() => {
-    feedService.getFeed(alias!, statusCount, token).then(res => {
+    feedService.getFeed(alias!, token).then(res => {
       setLoading(true);
       if(res){
         console.log('loading feed: ', res)
