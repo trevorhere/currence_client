@@ -97,7 +97,7 @@ public static goodAlias = async ( alias: string ): Promise<boolean> => {
 // =====================
 
 
-public static getFeed = async ( alias: string | null,  statusCount: number,  token: string, key:string, setAuth: (arg:any) => {}  ) : Promise< {feed:any, key: any} | null> => {
+public static getFeed = async ( alias: string | null,  statusCount: number,  token: string, key:string, setAuth: (arg:any) => {}  ) : Promise< {feed:any, key: any, user:any} | null> => {
     return await fetch(`${URL}/feed_page/?alias=${alias}&token=${token}&count=${statusCount}&key=${key}`,{
             method: "GET",
             mode: "cors",

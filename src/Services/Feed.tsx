@@ -30,14 +30,14 @@ export default class FeedService {
         this.key = "";
     }
 
-    getFeed = async ( alias: string | null, statusCount: number, token: string): Promise<Status[] | null | any> => {
+    getFeed = async ( alias: string | null, statusCount: number, token: string): Promise<{feed:any, user:any} | null | any> => {
         console.log(`before: \n ${this.key}`)
         let res = await ServerFacade.getFeed(alias, statusCount, token, this.key, this.setAuth)
         console.log('res: ', res);
         this.key =  JSON.stringify(res?.key);
         console.log(`after: \n ${this.key}`)
 
-        return res!.feed;
+        return { feed: res!.feed, user: res!.user } ;
     }   
 
     createStatus = async (alias:string, message: string, token:string ): Promise<Status | null> => {

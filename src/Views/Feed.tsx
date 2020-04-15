@@ -60,7 +60,8 @@ const Feed: React.FC = () => {
     feedService.getFeed(alias!, statusCount, token).then(res => {
       setLoading(true);
       if(res){
-        setFeed(res!.feed);
+        console.log('loading feed: ', res)
+        setFeed(res!.feed!);
         setFeedUser(res!.user)
       } else {
         alert('all outta status updates')
