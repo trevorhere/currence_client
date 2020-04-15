@@ -215,7 +215,7 @@ public static  getFollowing = async ( alias: string, token: string, key: string,
 //        Story
 // =====================
 
-public static getStory = async ( alias: string, key: string ): Promise< any | null> => {
+public static getStory = async ( alias: string, key: string | null ): Promise< any | null> => {
     return await fetch(`${URL}/story/?alias=${alias}&key=${key}`,{
         method: "GET",
         mode: "cors",
@@ -321,7 +321,7 @@ public static  getUser = async (alias: string): Promise<User | null> => {
         })
         .then((data) => {
             const {user} = data;
-            console.log('user: ',user)
+            // console.log('user: ',user)
             return user;
 
         }).catch(e => {

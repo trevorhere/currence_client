@@ -5,6 +5,7 @@ import { follow, unFollow, isFollowing, getUser } from './util';
 export default class StoryService {
 
     key;
+    currAlias;
 
     constructor(){
         this.key = "";
@@ -12,8 +13,14 @@ export default class StoryService {
 
     getStory = async ( alias:string):  Promise< any | null> => {
         if(alias){
+            if(this.currAlias !== alias){
+                this.currAlias = alias;
+                this.key = ""
+            }
+
+            console.log(`before: \n ${this.key}`)
             let res = await ServerFacade.getStory(alias, this.key);
-            console.log('res: ', res);
+            console.log('getStory res: ', res);
             this.key =  JSON.stringify(res?.key);
             if(res){
                 return { 

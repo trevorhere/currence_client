@@ -20,7 +20,7 @@ const renderStatusMessage = (msg:string) => {
 }
 
 const StatusBox = (status ) => {
-    console.log('status: ', status)
+    // console.log('status: ', status)
     return(
         <div key={status.id} className="cStatus flex border-b border-gray-600  px-2 py-2 items-stretch mb-5 w-full  text-sm">
         <img 

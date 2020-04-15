@@ -49,7 +49,9 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
     storyService.getStory(storyOwnerAlias!).then(res => {
       if(res){
         setLoading(true);
-        setUserStory(res!.story)
+        if(res!.story.length){
+          setUserStory(res!.story)
+        }
         setStoryUser(res!.user)
         setLoading(false);
       }
@@ -68,7 +70,6 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
       </div>
     : 
     <div>
-      {console.log('loading: ', loading)}
     {!userStory
     ? <div className="flex pt-32 flex-col items-center content-center justify-center  text-white text-xl">
         <p>Loading</p>
