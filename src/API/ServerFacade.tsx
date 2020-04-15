@@ -187,8 +187,8 @@ public static  getFollowers = async ( alias: string, token: string, cursor: stri
 //        Following
 // =====================
 
-public static  getFollowing = async ( alias: string, token: string, key: string, setAuth: (arg:any) => {} ): Promise<  {following: any, key: any} | null> => {
-    return await fetch(`${URL}/following/?alias=${alias}&token=${token}&key=${key}`,{
+public static  getFollowing = async ( alias: string, token: string, cursor: string, setAuth: (arg:any) => {} ): Promise<  {following: any, key: any} | null> => {
+    return await fetch(`${URL}/following/${alias}/${token}/${cursor}`,{
         method: "GET",
         mode: "cors",
         headers: {

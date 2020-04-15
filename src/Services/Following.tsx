@@ -5,17 +5,29 @@ import { follow, unFollow, isFollowing  } from './util';
 export default class FollowingService {
 
     setAuth;
-    key;
+    cursor;
+
 
     constructor( setAuth){
         this.setAuth = setAuth;
-        this.key = "";
+        this.cursor = "none";
+
     }
 
     getFollowing = async ( alias: string, token: string): Promise< User[] | null> => {
         // return await ServerFacade.getFollowing(alias, token, this.setAuth);
-        let res = await ServerFacade.getFollowing(alias, token, this.key, this.setAuth);
-        this.key =  JSON.stringify(res?.key);
+        if(this.cursor === "end"){
+            return null;
+        }
+
+        let res = await ServerFacade.getFollowing(alias, token, this.cursor, this.setAuth);
+              
+        if(res?.key){
+            this.cursor = res?.key?.followeeAlias
+        } else {
+            this.cursor = "end"
+        }
+
         console.log('resres: ', res);
         if(res){
             return res!.following;
