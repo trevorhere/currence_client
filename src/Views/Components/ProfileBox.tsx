@@ -82,7 +82,7 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
           <img  className="rounded-full h-32 w-32" alt="profile" src={user?.picture!} />
         </div>
         <div className="flex flex-col my-auto h-100 text-left align-middle align-middle p-4">
-          <div className="text-lg text-left underline pt-2">{props.ownerAlias}</div>
+          <div className="text-lg text-left underline pt-2">{user?.alias}</div>
           {/* <div className="text-sm font-extrabold text-blue-500">Followers: {followers}</div>
           <div className="text-sm font-extrabold text-blue-500">Following: {following}</div> */}
           <div>
@@ -97,7 +97,7 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
           <img  className="rounded-full h-32 w-32" alt="profile" src={user?.picture!} />
         </div>
         <div className="flex flex-col my-auto h-100 text-left align-middle align-middle p-4">
-          <div className="text-lg text-left underline pt-2">{props.ownerAlias}</div>
+          <div className="text-lg text-left underline pt-2">{user?.alias}</div>
           {/* <div className="text-sm font-extrabold text-blue-500">Followers: {followers}</div>
           <div className="text-sm font-extrabold text-blue-500">Following: {following}</div> */}
         </div>
