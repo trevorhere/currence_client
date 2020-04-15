@@ -13,7 +13,7 @@ export default class StoryService {
 
     getStory = async ( alias:string):  Promise< any | null> => {
         if(alias){
-            console.log('alias: ', alias, " curr: ", this.currAlias)
+            console.log('alias: ', alias, " \ncurr: ", this.currAlias)
             if(this.currAlias !== alias){
                 this.currAlias = alias;
                 this.key = ""

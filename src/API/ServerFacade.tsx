@@ -227,10 +227,11 @@ public static getStory = async ( alias: string, key: string | null ): Promise< a
         })
         .then((data) => {
             const {story, key, user } = data;
+            console.log('data: ', data)
             return { story, key, user };
 
         }).catch(e => {
-            console.log('error: ', e.message)
+            console.log('error: ', e)
             return null;
         })
 } 
