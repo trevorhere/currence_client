@@ -11,17 +11,19 @@ export default class StoryService {
     }
 
     getStory = async ( alias:string):  Promise< any | null> => {
-        let res = await ServerFacade.getStory(alias, this.key);
-        console.log('res: ', res);
-        this.key =  JSON.stringify(res?.key);
-        if(res){
-            return { 
-                story: res!.story,
-                user: res!.user
+        if(alias){
+            let res = await ServerFacade.getStory(alias, this.key);
+            console.log('res: ', res);
+            this.key =  JSON.stringify(res?.key);
+            if(res){
+                return { 
+                    story: res!.story,
+                    user: res!.user
+                }
+            } else {
+                return null;
             }
-        } else {
-            return null;
-        }
-    } 
+        } 
+    }
 }
 export { follow, unFollow, isFollowing, getUser }
