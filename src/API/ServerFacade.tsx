@@ -215,8 +215,8 @@ public static  getFollowing = async ( alias: string, token: string, key: string,
 //        Story
 // =====================
 
-public static getStory = async ( alias: string, key: string | null ): Promise< any | null> => {
-    return await fetch(`${URL}/story/?alias=${alias}&key=${key}`,{
+public static getStory = async ( alias: string, cursor: string ): Promise< any | null> => {
+    return await fetch(`${URL}/story/${encodeURIComponent(alias)}/${encodeURIComponent(cursor)}`,{
         method: "GET",
         mode: "cors",
             headers: { "Content-Type": "application/json" }, 
@@ -232,6 +232,8 @@ public static getStory = async ( alias: string, key: string | null ): Promise< a
 
         }).catch(e => {
             console.log('error: ', e)
+            console.log('error: ', e.message)
+
             return null;
         })
 } 

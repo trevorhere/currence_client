@@ -4,11 +4,11 @@ import { follow, unFollow, isFollowing, getUser } from './util';
 
 export default class StoryService {
 
-    key;
+    cursor;
     currAlias;
 
     constructor(){
-        this.key = "";
+        this.cursor = "none";
     }
 
     getStory = async ( alias:string):  Promise< any | null> => {
@@ -16,18 +16,21 @@ export default class StoryService {
             console.log('alias: ', alias, " \ncurr: ", this.currAlias)
             if(this.currAlias !== alias){
                 this.currAlias = alias;
-                this.key = ""
             }
 
-            console.log(`before: \n ${this.key}`)
-            let res = await ServerFacade.getStory(alias, this.key);
+            let res = await ServerFacade.getStory(alias, this.cursor);
             console.log('getStory res: ', res);
 
             if(res?.key){
                 this.currAlias = res?.key?.alias;
+                this.cursor = res?.key?.id
                 console.log('ca: ', this.currAlias)
+
+            } else {
+                this.cursor = "none"
             }
-            this.key =  JSON.stringify(res?.key);
+
+            console.log('getStory settings: ', this.currAlias, this.cursor)
 
             if(res){
                 return { 
