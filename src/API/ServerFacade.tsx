@@ -317,6 +317,7 @@ public static  getUser = async (alias: string): Promise<User | null> => {
         })
         .then((data) => {
             const {user} = data;
+            console.log('user: ',user)
             return user;
 
         }).catch(e => {
