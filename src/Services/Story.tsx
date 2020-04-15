@@ -13,10 +13,19 @@ export default class StoryService {
 
     getStory = async ( alias:string):  Promise< any | null> => {
         if(alias){
-            console.log('alias: ', alias, " \ncurr: ", this.currAlias)
+            console.log('getStory pre settings: ', this.currAlias, this.cursor)
+
             if(this.currAlias !== alias){
                 this.currAlias = alias;
+                this.cursor = "none"
             }
+
+            if(this.currAlias === alias && this.cursor === "end"){
+                return null;
+            }
+
+            console.log('getStory mid settings: ', this.currAlias, this.cursor)
+
 
             let res = await ServerFacade.getStory(alias, this.cursor);
             console.log('getStory res: ', res);
@@ -27,10 +36,10 @@ export default class StoryService {
                 console.log('ca: ', this.currAlias)
 
             } else {
-                this.cursor = "none"
+                this.cursor = "end"
             }
 
-            console.log('getStory settings: ', this.currAlias, this.cursor)
+            console.log('getStory post settings: ', this.currAlias, this.cursor)
 
             if(res){
                 return { 
