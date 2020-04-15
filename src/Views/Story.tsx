@@ -44,13 +44,13 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
   useEffect(() => {
     setStoryOwnerAlias(props.match.params.alias!);
-    storyService.getStory(storyOwnerAlias).then(res => {
+    storyService.getStory(storyOwnerAlias!).then(res => {
       setLoading(true);
       setUserStory(res)
       setLoading(false);
     })
 
-  },[props,storyOwnerAlias]);
+  },[props,storyOwnerAlias, storyService]);
 
   return (
     <div>

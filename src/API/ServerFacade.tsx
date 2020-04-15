@@ -3,7 +3,11 @@ import { User, Status } from '../Models'
 require('dotenv').config()
 
 
-const URL = process.env.NODE_ENV === "production" ? process.env.REACT_APP_AWS_URL: 'http://localhost:3000/dev'
+// const URL = process.env.NODE_ENV === "production" ? process.env.REACT_APP_AWS_URL: 'http://localhost:3000/dev'
+const URL = "https://pfgdmwka20.execute-api.us-east-1.amazonaws.com/dev";
+
+
+
 console.log('URL: ', URL);
 
 export default class ServerFacade {

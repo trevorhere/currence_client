@@ -4,10 +4,6 @@ import { follow, unFollow, isFollowing, getUser} from '../../Services/util';
 import { User } from '../../Models';
 import { authContext } from '../../Context/authContext';
 
-
-
-
-
 interface IProfileBox extends RouteComponentProps {
   ownerAlias: string,
 }
@@ -22,12 +18,12 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
   const alias = authenticationToken?.alias ? authenticationToken?.alias : null;
   const token = authenticationToken?.token ? authenticationToken?.token : null;
 
-  const refetchNumbers = () => {
-    getUser(props.ownerAlias!).then(user => {
-      setFollowers(user?.followers.length!);
-      setFollowing(user?.following.length!);
-    })
-  }
+  // const refetchNumbers = () => {
+  //   getUser(props.ownerAlias!).then(user => {
+  //     setFollowers(user?.followers.length!);
+  //     setFollowing(user?.following.length!);
+  //   })
+  // }
 
   useEffect(() => {
     isFollowing(alias!, props.ownerAlias, token!).then(res => {
@@ -51,7 +47,7 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
         type="button"
         onClick={() => {
           unFollow(alias!, props.ownerAlias, token!).then(res => {
-          refetchNumbers();
+          // refetchNumbers();
           setIsAFollower(false);
           })
         }}
@@ -67,7 +63,7 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
         onClick={() => {
         follow(alias!, props.ownerAlias, token!).then(res => {
           setIsAFollower(true);
-          refetchNumbers();
+          // refetchNumbers();
         })
 
         }}>
