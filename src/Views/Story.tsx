@@ -22,7 +22,9 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
     storyService.getStory(storyOwnerAlias).then(res => {
       setLoading(true);
       if(res){
-        setUserStory([...userStory!].concat(res));
+        console.log('res: ', res);
+        setUserStory([...userStory!].concat(res!.story));
+        setStoryUser(res!.user)
       } else {
         alert('all outta status updates')
       }
@@ -45,9 +47,12 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   useEffect(() => {
     setStoryOwnerAlias(props.match.params.alias!);
     storyService.getStory(storyOwnerAlias!).then(res => {
-      setLoading(true);
-      setUserStory(res)
-      setLoading(false);
+      if(res){
+        setLoading(true);
+        setUserStory(res!.story)
+        setStoryUser(res!.user)
+        setLoading(false);
+      }
     })
 
   },[props,storyOwnerAlias, storyService]);
@@ -76,6 +81,7 @@ const Story: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
           <div>
             < ProfileBox  
             ownerAlias = {storyOwnerAlias}
+            owner={storyUser!}
           /> 
         </div>
         </div>

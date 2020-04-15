@@ -3,9 +3,8 @@ import { User, Status } from '../Models'
 require('dotenv').config()
 
 
-// const URL = process.env.NODE_ENV === "production" ? process.env.REACT_APP_AWS_URL: 'http://localhost:3000/dev'
-const URL = "https://pfgdmwka20.execute-api.us-east-1.amazonaws.com/dev";
-
+const URL = process.env.NODE_ENV === "production" ? process.env.REACT_APP_AWS_URL: 'http://localhost:3000/dev'
+// const URL = "https://pfgdmwka20.execute-api.us-east-1.amazonaws.com/dev";
 
 
 console.log('URL: ', URL);
@@ -114,8 +113,9 @@ public static getFeed = async ( alias: string | null,  statusCount: number,  tok
         })
         .then((data) => {
            // console.log(data);
-            const { feed, key } = data;
-            return { feed, key };
+            const { feed, key, user } = data;
+            console.log('feed user: ', user)
+            return { feed, key, user };
 
         }).catch(e => {
             console.log('error: ', e.message)
@@ -215,7 +215,7 @@ public static  getFollowing = async ( alias: string, token: string, key: string,
 //        Story
 // =====================
 
-public static getStory = async ( alias: string, key: string ): Promise< {story:any, key:any} | null> => {
+public static getStory = async ( alias: string, key: string ): Promise< any | null> => {
     return await fetch(`${URL}/story/?alias=${alias}&key=${key}`,{
         method: "GET",
         mode: "cors",
@@ -226,8 +226,8 @@ public static getStory = async ( alias: string, key: string ): Promise< {story:a
             return response.json();
         })
         .then((data) => {
-            const {story, key } = data;
-            return { story, key };
+            const {story, key, user } = data;
+            return { story, key, user };
 
         }).catch(e => {
             console.log('error: ', e.message)

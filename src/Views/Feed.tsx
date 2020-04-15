@@ -3,6 +3,7 @@ import { authContext } from '../Context/authContext';
 import FeedService from '../Services/Feed'
 import StatusBox  from './Components/StatusBox'
 import  ProfileBox  from './Components/ProfileBox'
+import { Status, User } from '../Models';
 import styled from 'styled-components';
 import '../custom.css'
 
@@ -14,6 +15,7 @@ const Feed: React.FC = () => {
   const [feed, setFeed] = useState< {}[] | null >(null);
   const [statusCount, setstatusCount] = useState<number>(9);
   const [loading, setLoading] = useState<boolean | null>(false);
+  const [feedUser, setFeedUser] = useState<User|null>(null);
   const [feedService, setFeedService] = useState<FeedService>(new FeedService(setAuthenticationToken));
   const {token, alias} = authenticationToken!
   
@@ -33,7 +35,8 @@ const Feed: React.FC = () => {
     feedService.getFeed(alias!, statusCount, token).then(res => {
       setLoading(true);
       if(res){
-        setFeed([...feed!].concat(res));
+        setFeed([...feed!].concat(res!.feed));
+        setFeedUser(res!.user)
       } else {
         alert('all outta status updates')
       }
@@ -56,7 +59,12 @@ const Feed: React.FC = () => {
   useEffect(() => {
     feedService.getFeed(alias!, statusCount, token).then(res => {
       setLoading(true);
-      setFeed(res);
+      if(res){
+        setFeed(res!.feed);
+        setFeedUser(res!.user)
+      } else {
+        alert('all outta status updates')
+      }
       setLoading(false);
 
     })
@@ -73,6 +81,7 @@ const Feed: React.FC = () => {
         <div>
           <ProfileBox  
           ownerAlias = {alias!}
+          owner={feedUser!}
           /> 
         </div>
         <StatusContainer 
