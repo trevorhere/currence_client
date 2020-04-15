@@ -11,7 +11,7 @@ interface IProfileBox extends RouteComponentProps {
 
 const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
   const [isAFollower, setIsAFollower] = useState<boolean | null>(null);
-  const [storyUser, setStoryUser] = useState<User|null>(null);
+  const [user, setUser] = useState<User|null>(null);
   // const [followers, setFollowers] = useState<number|null>(null);
   // const [following, setFollowing] = useState<number |null>(null);
   const { authenticationToken } = useContext(authContext);
@@ -33,7 +33,8 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
     })
 
     getUser(props.ownerAlias!).then(user => {
-      setStoryUser(user);
+      console.log('user: ', user)
+      setUser(user);
       // setFollowers(user?.followers.length!);
       // setFollowing(user?.following.length!);
     })
@@ -48,6 +49,7 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
         type="button"
         onClick={() => {
           unFollow(alias!, props.ownerAlias, token!).then(res => {
+          // refetchNumbers();
           setIsAFollower(false);
           })
         }}
@@ -77,10 +79,10 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
       ? (
         <div className="flex text-left justify-center py-20 ">
         <div className="p-2">
-          <img  className="rounded-full h-32 w-32" alt="profile" src={storyUser?.picture!} />
+          <img  className="rounded-full h-32 w-32" alt="profile" src={user?.picture!} />
         </div>
         <div className="flex flex-col my-auto h-100 text-left align-middle align-middle p-4">
-          <div className="text-lg text-left underline pt-2">{props.owner?.alias}</div>
+          <div className="text-lg text-left underline pt-2">{props.ownerAlias}</div>
           {/* <div className="text-sm font-extrabold text-blue-500">Followers: {followers}</div>
           <div className="text-sm font-extrabold text-blue-500">Following: {following}</div> */}
           <div>
@@ -92,7 +94,7 @@ const ProfileBox: React.FC<IProfileBox> = (props: IProfileBox) => {
       : (
         <div className="flex text-left justify-center py-20 ">
         <div className="p-2">
-          <img  className="rounded-full h-32 w-32" alt="profile" src={props.owner?.picture!} />
+          <img  className="rounded-full h-32 w-32" alt="profile" src={user?.picture!} />
         </div>
         <div className="flex flex-col my-auto h-100 text-left align-middle align-middle p-4">
           <div className="text-lg text-left underline pt-2">{props.ownerAlias}</div>
