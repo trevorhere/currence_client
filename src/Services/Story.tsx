@@ -13,6 +13,7 @@ export default class StoryService {
 
     getStory = async ( alias:string):  Promise< any | null> => {
         if(alias){
+            console.log('alias: ', alias, " curr: ", this.currAlias)
             if(this.currAlias !== alias){
                 this.currAlias = alias;
                 this.key = ""
@@ -21,7 +22,13 @@ export default class StoryService {
             console.log(`before: \n ${this.key}`)
             let res = await ServerFacade.getStory(alias, this.key);
             console.log('getStory res: ', res);
+
+            if(res?.key){
+                this.currAlias = res?.key?.alias;
+                console.log('ca: ', this.currAlias)
+            }
             this.key =  JSON.stringify(res?.key);
+
             if(res){
                 return { 
                     story: res!.story,
