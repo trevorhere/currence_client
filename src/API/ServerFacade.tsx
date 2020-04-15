@@ -157,8 +157,8 @@ public static createStatus = async ( alias: string, message: string, token: stri
 //        Followers 
 // =====================
 
-public static  getFollowers = async ( alias: string, token: string, key: string, setAuth: (arg:any) => {} ): Promise< {followers: any, key: any} | null> => {
-    return await fetch(`${URL}/followers/?alias=${alias}&token=${token}&key=${key}`,{
+public static  getFollowers = async ( alias: string, token: string, cursor: string, setAuth: (arg:any) => {} ): Promise< {followers: any, key: any} | null> => {
+    return await fetch(`${URL}/followers/${alias}/${token}/${cursor}`,{
             method: "GET",
             mode: "cors",
             headers: {
